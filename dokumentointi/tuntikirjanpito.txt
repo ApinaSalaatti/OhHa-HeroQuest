@@ -1,0 +1,2 @@
+29.10.2012: 1,5 tuntia
+ - ensimmäisen viikon tehtävät: dokumentoinnin aloittaminen, Git-versionhallinnan käyttöönotto
