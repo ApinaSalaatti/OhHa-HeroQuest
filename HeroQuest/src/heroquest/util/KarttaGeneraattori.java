@@ -2,25 +2,31 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package heroquest.domain;
+
+package heroquest.util;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import heroquest.util.KarttaGeneraattori;
+import heroquest.domain.Kartta;
+import heroquest.domain.Karttapala;
+import heroquest.domain.Ilmansuunta;
 /**
  *
- * @author merioksa
+ * @author Merioksan Mikko
  */
-public class Kartta {
+public class KarttaGeneraattori {
     private ArrayList<Karttapala> palat;
     private Random random;
     
-    public Kartta(int koko) {
-        random = new Random();
+    public KarttaGeneraattori() {
         palat = new ArrayList<Karttapala>();
-        KarttaGeneraattori generaattori = new KarttaGeneraattori();
-        palat = generaattori.luoKartta(koko);
+        random = new Random();
+    }
+    
+    public ArrayList<Karttapala> luoKartta(int koko) {
+        luoPalat(koko);
+        return palat;
     }
     
     public void luoPalat(int koko) {
@@ -51,32 +57,6 @@ public class Kartta {
         }
         else {
             uusi.setSijainti(0, 0);
-        }
-    }
-    
-    public Karttapala getAloituspala() {
-        return palat.get(0);
-    }
-    
-    public Karttapala getPalanNaapuri(Karttapala pala, Ilmansuunta suunta) {
-        return pala.getNaapuri(suunta);
-    }
-    
-    public void tulosta() {
-        for(int y = -palat.size()+1; y < palat.size(); y++) {
-            boolean piirretty = false;
-            for(int x = -palat.size()+1; x < palat.size(); x++) {
-                for(Karttapala k : palat) {
-                    if(k.getX() == x && k.getY() == y) {
-                        System.out.print("#");
-                        piirretty = true;
-                    }
-                }
-                if(!piirretty) {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
         }
     }
 }

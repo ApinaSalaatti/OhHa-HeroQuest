@@ -55,6 +55,8 @@ public class Olento {
         sijainti = pala;
     }
     public void liiku(Ilmansuunta suunta) {
-        sijainti = sijainti.getNaapuri(suunta);
+        if(sijainti.getNaapuri(suunta) != null) {
+            sijainti = sijainti.getNaapuri(suunta);
+        }
     }
 }

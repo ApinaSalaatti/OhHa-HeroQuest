@@ -4,6 +4,7 @@
  */
 package heroquest.domain;
 
+import java.util.Random;
 /**
  *
  * @author merioksa
@@ -15,6 +16,7 @@ public enum Ilmansuunta {
     LANSI(3);
     
     private int suuntanro;
+    private static Random random = new Random();
     
     private Ilmansuunta(int nro) {
         this.suuntanro = nro;
@@ -22,5 +24,60 @@ public enum Ilmansuunta {
     
     public int getSuuntanro() {
         return suuntanro;
+    }
+    
+    public Ilmansuunta vastakohta() {
+        if(this == POHJOINEN) {
+            return ETELA;
+        }
+        else if(this == ITA) {
+            return LANSI;
+        }
+        else if(this == ETELA) {
+            return POHJOINEN;
+        }
+        else {
+            return ITA;
+        }
+    }
+    
+    public int xMuutos() {
+        switch(this) {
+            case POHJOINEN:
+                return 0;
+            case ITA:
+                return 1;
+            case ETELA:
+                return 0;
+            default:
+                return -1;
+        }
+    }
+    
+    public int yMuutos() {
+        switch(this) {
+            case POHJOINEN:
+                return -1;
+            case ITA:
+                return 0;
+            case ETELA:
+                return 1;
+            default:
+                return 0;
+        }
+    }
+    
+    public static Ilmansuunta satunnainen() {
+        int suunta = random.nextInt(4);
+        switch(suunta) {
+            case 0:
+                return POHJOINEN;
+            case 1:
+                return ITA;
+            case 2:
+                return ETELA;
+            default:
+                return LANSI;
+        }
     }
 }
