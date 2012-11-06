@@ -67,8 +67,7 @@ public enum Ilmansuunta {
         }
     }
     
-    public static Ilmansuunta satunnainen() {
-        int suunta = random.nextInt(4);
+    public static Ilmansuunta annaNumeronSuunta(int suunta) {
         switch(suunta) {
             case 0:
                 return POHJOINEN;
@@ -79,5 +78,10 @@ public enum Ilmansuunta {
             default:
                 return LANSI;
         }
+    }
+    
+    public static Ilmansuunta satunnainen() {
+        int suunta = random.nextInt(4);
+        return annaNumeronSuunta(suunta);
     }
 }

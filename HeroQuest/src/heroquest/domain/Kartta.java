@@ -13,49 +13,27 @@ import heroquest.util.KarttaGeneraattori;
  * @author merioksa
  */
 public class Kartta {
-    private ArrayList<Karttapala> palat;
+    private Karttapala[][] kartta;
     private Random random;
     
     public Kartta(int koko) {
+        kartta = new Karttapala[koko][koko];
         random = new Random();
-        palat = new ArrayList<Karttapala>();
+        luoKartta(koko);
+    }
+    
+    private void luoKartta(int koko) {
         KarttaGeneraattori generaattori = new KarttaGeneraattori();
-        palat = generaattori.luoKartta(koko);
-    }
-    
-    public void luoPalat(int koko) {
-        for(int i = 0; i < koko; i++) {
-            Karttapala uusi = new Karttapala();
-            lisaaKarttaan(uusi);
-            palat.add(uusi);
-        }
-    }
-    
-    public void lisaaKarttaan(Karttapala uusi) {
-        if(!palat.isEmpty()) {
-            Karttapala nykyinen = palat.get(0);
-            Karttapala edellinen = null;
-            Ilmansuunta suunta = null;
-            
-            while(nykyinen != null) {
-                edellinen = nykyinen;
-                suunta = Ilmansuunta.satunnainen();
-                nykyinen = nykyinen.getNaapuri(suunta);
-            }
-            
-            edellinen.setNaapuri(uusi, suunta);
-            uusi.setNaapuri(uusi, suunta.vastakohta());
-            int uusiX = edellinen.getX() + suunta.xMuutos();
-            int uusiY = edellinen.getY() + suunta.yMuutos();
-            uusi.setSijainti(uusiX, uusiY);
-        }
-        else {
-            uusi.setSijainti(0, 0);
-        }
+        generaattori.luoKartta(koko);
+        kartta = generaattori.getKartta();
     }
     
     public Karttapala getAloituspala() {
-        return palat.get(0);
+        return kartta[0][0];
+    }
+    
+    public Karttapala[][] getKartta() {
+        return kartta;
     }
     
     public Karttapala getPalanNaapuri(Karttapala pala, Ilmansuunta suunta) {
@@ -63,17 +41,13 @@ public class Kartta {
     }
     
     public void tulosta() {
-        for(int y = -palat.size()+1; y < palat.size(); y++) {
-            boolean piirretty = false;
-            for(int x = -palat.size()+1; x < palat.size(); x++) {
-                for(Karttapala k : palat) {
-                    if(k.getX() == x && k.getY() == y) {
-                        System.out.print("#");
-                        piirretty = true;
-                    }
-                }
-                if(!piirretty) {
+        for(int y = 0; y < kartta.length; y++) {
+            for(int x = 0; x < kartta[0].length; x++) {
+                if(kartta[y][x] == null) {
                     System.out.print(" ");
+                }
+                else {
+                    System.out.print("#");
                 }
             }
             System.out.println();

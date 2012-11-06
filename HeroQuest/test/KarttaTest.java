@@ -11,11 +11,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import heroquest.domain.Kartta;
+import heroquest.domain.Karttapala;
 /**
  *
  * @author merioksa
  */
 public class KarttaTest {
+    private Kartta kartta;
     
     public KarttaTest() {
     }
@@ -30,6 +32,7 @@ public class KarttaTest {
     
     @Before
     public void setUp() {
+        kartta = new Kartta(6);
     }
     
     @After
@@ -40,4 +43,11 @@ public class KarttaTest {
     //
     // @Test
     // public void hello() {}
+    
+    @Test
+    public void aloitusPalanKoordinaatitOikein() {
+        Karttapala aloituspala = kartta.getAloituspala();
+        assertEquals(aloituspala.getX(), 0);
+        assertEquals(aloituspala.getY(), 0);
+    }
 }
