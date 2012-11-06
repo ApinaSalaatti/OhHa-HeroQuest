@@ -16,20 +16,26 @@ public class Kartta {
     private Karttapala[][] kartta;
     private Random random;
     
+    // luodaan satunnainen "koko" kokoinen kartta
     public Kartta(int koko) {
         kartta = new Karttapala[koko][koko];
         random = new Random();
-        luoKartta(koko);
-    }
-    
-    private void luoKartta(int koko) {
+        
         KarttaGeneraattori generaattori = new KarttaGeneraattori();
         generaattori.luoKartta(koko);
         kartta = generaattori.getKartta();
     }
+    // luodaan kartta valmiina annetun taulukon pohjalta
+    public Kartta(int[][] lahde) {
+        kartta = new Karttapala[lahde.length][lahde[0].length];
+        random = new Random();
+        KarttaGeneraattori generaattori = new KarttaGeneraattori();
+        generaattori.luoKartta(lahde);
+        kartta = generaattori.getKartta();
+    }
     
     public Karttapala getAloituspala() {
-        return kartta[0][0];
+        return kartta[1][1];
     }
     
     public Karttapala[][] getKartta() {
@@ -38,19 +44,5 @@ public class Kartta {
     
     public Karttapala getPalanNaapuri(Karttapala pala, Ilmansuunta suunta) {
         return pala.getNaapuri(suunta);
-    }
-    
-    public void tulosta() {
-        for(int y = 0; y < kartta.length; y++) {
-            for(int x = 0; x < kartta[0].length; x++) {
-                if(kartta[y][x] == null) {
-                    System.out.print(" ");
-                }
-                else {
-                    System.out.print("#");
-                }
-            }
-            System.out.println();
-        }
     }
 }

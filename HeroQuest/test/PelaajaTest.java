@@ -3,20 +3,17 @@
  * and open the template in the editor.
  */
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import static org.junit.Assert.*;
 
+import heroquest.domain.Pelaaja;
 import heroquest.domain.Kartta;
-import heroquest.domain.Karttapala;
+import heroquest.domain.Ilmansuunta;
 /**
  *
- * @author merioksa
+ * @author ApinaSalaatti
  */
-public class KarttaTest {
+public class PelaajaTest {
     private static int[][] testiKartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
                                             {0, 1, 1, 1, 1, 1, 1, 0},
                                             {0, 1, 0, 0, 0, 0, 0, 0},
@@ -25,22 +22,25 @@ public class KarttaTest {
                                             {0, 1, 0, 1, 1, 1, 1, 0},
                                             {0, 1, 1, 1, 0, 0, 1, 0},
                                             {0, 0, 0, 0, 0, 0, 0, 0}};
+    private Pelaaja pelaaja;
     private Kartta kartta;
     
-    public KarttaTest() {
+    public PelaajaTest() {
     }
-    
+
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
     }
-    
+
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws Exception {
     }
     
     @Before
     public void setUp() {
+        pelaaja = new Pelaaja(5, 5, "Maagikko");
         kartta = new Kartta(testiKartta);
+        pelaaja.setSijainti(kartta.getAloituspala());
     }
     
     @After
@@ -53,9 +53,20 @@ public class KarttaTest {
     // public void hello() {}
     
     @Test
-    public void aloitusPalanKoordinaatitOikein() {
-        Karttapala aloituspala = kartta.getAloituspala();
-        assertEquals(aloituspala.getX(), 1);
-        assertEquals(aloituspala.getY(), 1);
+    public void pelaajanLiikkuminenEtelaanToimii() {
+        pelaaja.liiku(Ilmansuunta.ETELA);
+        assertEquals(pelaaja.getSijainti().getY(), 2);
+    }
+    
+    @Test
+    public void seinaaPainLiikkuminenEiLiikutaPelaajaa() {
+        pelaaja.liiku(Ilmansuunta.POHJOINEN);
+        assertEquals(pelaaja.getSijainti().getY(), 1);
+    }
+    
+    @Test
+    public void vahingonOttaminenToimii() {
+        pelaaja.otaVahinkoa(2);
+        assertEquals(pelaaja.getEnergia(), 3);
     }
 }

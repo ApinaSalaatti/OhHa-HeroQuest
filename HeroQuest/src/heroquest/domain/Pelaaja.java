@@ -12,6 +12,10 @@ package heroquest.domain;
 public class Pelaaja extends Olento {
     private String luokka;
     
+    public Pelaaja(String nimi, int voima, int energia, String luokka) {
+        super(nimi, voima, energia);
+        this.luokka = luokka;
+    }
     public Pelaaja(int voima, int energia, String luokka) {
         super(voima, energia);
         this.luokka = luokka;

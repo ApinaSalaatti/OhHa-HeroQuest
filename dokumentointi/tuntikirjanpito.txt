@@ -1,2 +1,11 @@
-29.10.2012: 1,5 tuntia
+﻿29.10.2012: 1,5 tuntia
  - ensimmäisen viikon tehtävät: dokumentoinnin aloittaminen, Git-versionhallinnan käyttöönotto
+
+31.10.2012: 0,5 tuntia
+ - Olento- ja Kartta-luokat luotu, ei vielä varsinaista logiikkaa
+
+5.11.2012: 1 tunti
+ - käyttöliittymän alkua ja testejä
+
+6.11.2012: 1,5 tuntia
+ - kartan generoinnin suunnittelua ja toteutusta, käyttöliittymän säätämistä, testien lisäämistä

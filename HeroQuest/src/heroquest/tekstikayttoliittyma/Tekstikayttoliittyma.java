@@ -28,7 +28,6 @@ public class Tekstikayttoliittyma {
     
     public void kaynnista() {
         boolean lopetus = false;
-        kartta.tulosta();
         while(!lopetus) {
             tulostaPelaajanTiedot();
             System.out.println("Komennot: (p)ohjoinen (i)tä (e)telä (l)änsi e(x)it");

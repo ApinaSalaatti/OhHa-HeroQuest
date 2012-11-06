@@ -16,14 +16,6 @@ import heroquest.domain.Ilmansuunta;
  * @author Merioksan Mikko
  */
 public class KarttaGeneraattori {
-    private static int[][] testiKartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
-                                            {0, 1, 1, 1, 1, 1, 1, 0},
-                                            {0, 1, 0, 0, 0, 0, 0, 0},
-                                            {0, 1, 1, 1, 0, 0, 0, 0},
-                                            {0, 1, 0, 1, 0, 0, 0, 0},
-                                            {0, 1, 0, 1, 1, 1, 1, 0},
-                                            {0, 1, 1, 1, 0, 0, 1, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0}};
     private Karttapala[][] kartta;
     private Random random;
     
@@ -31,14 +23,15 @@ public class KarttaGeneraattori {
         random = new Random();
     }
     
-    // TODO: poista tämä huono versio!!
-    // Kartan satunnaisluonti tulossa, nyt palautetaan aina sama kartta
-    public void luoKartta(int koko) {
-        koko = 8;
-        kartta = new Karttapala[koko][koko];
-        for(int i = 0; i < koko; i++) {
-            for(int j = 0; j < koko; j++) {
-                if(testiKartta[i][j] == 1) {
+    // luo kartta annetun lähdekartan pohjalta. 0 = seinä, 1 = käytävä
+    public void luoKartta(int[][] lahde) {
+        int y = lahde.length;
+        int x = lahde[0].length;
+        kartta = new Karttapala[y][x];
+        
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                if(lahde[i][j] == 1) {
                     Karttapala pala = new Karttapala();
                     pala.setSijainti(j, i);
                     kartta[i][j] = pala;
@@ -61,6 +54,11 @@ public class KarttaGeneraattori {
                 }
             }
         }
+    }
+    
+    // luodaan annetun kokoinen kartta satunnaisesti
+    public void luoKartta(int koko) {
+        // TODO: toteuta tämä :-)
     }
     
     public Karttapala[][] getKartta() {

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import java.awt.Container;
@@ -25,12 +26,20 @@ import heroquest.domain.Pelaaja;
  * @author Merioksan Mikko
  */
 public class Kayttoliittyma implements Runnable {
+    // valmis kartta testitarkoituksiin
+    private static int[][] testiKartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
+                                            {0, 1, 1, 1, 1, 1, 1, 0},
+                                            {0, 1, 0, 0, 0, 0, 0, 0},
+                                            {0, 1, 1, 1, 0, 0, 0, 0},
+                                            {0, 1, 0, 1, 0, 0, 0, 0},
+                                            {0, 1, 0, 1, 1, 1, 1, 0},
+                                            {0, 1, 1, 1, 0, 0, 1, 0},
+                                            {0, 0, 0, 0, 0, 0, 0, 0}};
     private Kartta kartta;
     private Pelaaja pelaaja;
     private JFrame frame;
     
     public Kayttoliittyma() {
-        this.kartta = new Kartta(6);
     }
     
     @Override
@@ -39,7 +48,10 @@ public class Kayttoliittyma implements Runnable {
         frame.setPreferredSize(new Dimension(800, 500));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
-        pelaaja = new Pelaaja(5, 5, "Taikamaagivelho");
+        // luodaan pelaaja kokeeksi. Tämä toteutetaan myöhemmin kysymällä pelaajalta ensin tietoja
+        this.kartta = new Kartta(testiKartta);
+        pelaaja = new Pelaaja("Julle", 5, 5, "Taikamaagivelho");
+        pelaaja.setSijainti(kartta.getAloituspala());
         
         luoKomponentit(frame.getContentPane());
         
@@ -54,34 +66,12 @@ public class Kayttoliittyma implements Runnable {
         
         container.setLayout(layout);
         
-        // siirrä omaan karttapaneeli-luokkaan
-        JPanel karttaPanel = new JPanel(karttaLayout);
-        
-        BufferedImage lattia = lataaKuva("lattia.png");
-        ImageIcon lattiaIcon = new ImageIcon(lattia);
-        BufferedImage seina = lataaKuva("seina.png");
-        ImageIcon seinaIcon = new ImageIcon(seina);
-        
-        for(int y = 0; y < koko; y++) {
-            for(int x = 0; x < koko; x++) {
-                if(kartta.getKartta()[y][x] != null) {
-                    karttaPanel.add(new JLabel(lattiaIcon));
-                }
-                else {
-                    karttaPanel.add(new JLabel(seinaIcon));
-                }
-            }
-        }
-        // --------------------------------------
-        
-        // siirrä omaan pelaajadatapaneeli-luokkaan
-        JPanel pelaajaPanel = new JPanel();
-        
-        pelaajaPanel.add(new JLabel(pelaaja.getNimi()));
+        Karttapaneeli karttaPanel = new Karttapaneeli(kartta.getKartta());
+        Tietopaneeli tietoPanel = new Tietopaneeli(pelaaja);
         // --------------------------------------
         
         container.add(karttaPanel);
-        container.add(pelaajaPanel);
+        container.add(tietoPanel);
     }
     
     private BufferedImage lataaKuva(String nimi) {

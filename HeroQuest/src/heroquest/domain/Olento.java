@@ -20,27 +20,56 @@ public class Olento {
     
     public Olento(String nimi, int voima, int energia) {
         this.random = new Random();
-        this.nimi = nimi;
-        this.voima = voima;
-        this.energia = energia;
-
+        
+        setNimi(nimi);
+        setVoima(voima);
+        setEnergia(energia);
     }
     // jos nimeä ei anneta, haetaan random hauska nimi
     public Olento(int voima, int energia) {
         this.random = new Random();
-        this.nimi = Nimilista.getHauskaNimi();
-        this.voima = voima;
-        this.energia = energia;
+        
+        setNimi("");
+        setVoima(voima);
+        setEnergia(energia);
     }
     
+    // konstruktorille tarkoitettu asetusfunktio, nimi ei voi olla tyhjä tai pelkkää white spacea
+    private void setNimi(String nimi) {
+        nimi = nimi.trim();
+        if(nimi.length() > 0) {
+            this.nimi = nimi;
+        }
+        else {
+            this.nimi = Nimilista.getHauskaNimi();
+        }
+    }
     public String getNimi() {
         return nimi;
     }
     
+    // konstruktorille tarkoitettu asetusfunktio, voima ei voi olla alle 1
+    private void setVoima(int voima) {
+        if(voima <= 0) {
+            this.voima = 1;
+        }
+        else {
+            this.voima = voima;
+        }
+    }
     public int getVoima() {
         return voima;
     }
     
+    // konstruktorille tarkoitettu asetusfunktio, energia ei voi olla alle 1
+    private void setEnergia(int energia) {
+        if(energia <= 0) {
+            this.energia = 1;
+        }
+        else {
+            this.energia = energia;
+        }
+    }
     public int getEnergia() {
         return energia;
     }
@@ -52,11 +81,11 @@ public class Olento {
         return sijainti;
     }
     public void setSijainti(Karttapala pala) {
-        sijainti = pala;
+        if(pala != null) {
+            sijainti = pala;
+        }
     }
     public void liiku(Ilmansuunta suunta) {
-        if(sijainti.getNaapuri(suunta) != null) {
-            sijainti = sijainti.getNaapuri(suunta);
-        }
+        setSijainti(sijainti.getNaapuri(suunta));
     }
 }
