@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
+import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -21,6 +22,7 @@ import java.awt.image.BufferedImage;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
+import heroquest.Peli;
 /**
  *
  * @author Merioksan Mikko
@@ -38,6 +40,7 @@ public class Kayttoliittyma implements Runnable {
     private Kartta kartta;
     private Pelaaja pelaaja;
     private JFrame frame;
+    private Peli peli;
     
     public Kayttoliittyma() {
     }
@@ -50,8 +53,6 @@ public class Kayttoliittyma implements Runnable {
         
         // luodaan pelaaja kokeeksi. Tämä toteutetaan myöhemmin kysymällä pelaajalta ensin tietoja
         this.kartta = new Kartta(testiKartta);
-        pelaaja = new Pelaaja("Julle", 5, 5, "Taikamaagivelho");
-        pelaaja.setSijainti(kartta.getAloituspala());
         
         luoKomponentit(frame.getContentPane());
         
@@ -61,17 +62,19 @@ public class Kayttoliittyma implements Runnable {
     
     private void luoKomponentit(Container container) {
         int koko = kartta.getKartta().length;
-        GridLayout karttaLayout = new GridLayout(koko, koko);
-        GridLayout layout = new GridLayout(1, 2);
-        
+        CardLayout layout = new CardLayout(1, 2);
         container.setLayout(layout);
+        
+        Aloituspaneeli aloitusPanel = new Aloituspaneeli();
+        JPanel peliPanel = new JPanel(new GridLayout(1, 2));
         
         Karttapaneeli karttaPanel = new Karttapaneeli(kartta.getKartta());
         Tietopaneeli tietoPanel = new Tietopaneeli(pelaaja);
-        // --------------------------------------
+        peliPanel.add(karttaPanel);
+        peliPanel.add(tietoPanel);
         
-        container.add(karttaPanel);
-        container.add(tietoPanel);
+        container.add(aloitusPanel);
+        container.add(peliPanel);
     }
     
     private BufferedImage lataaKuva(String nimi) {

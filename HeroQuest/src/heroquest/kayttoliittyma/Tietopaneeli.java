@@ -18,16 +18,26 @@ import heroquest.domain.Pelaaja;
 // JPanel-luokan alaluokka jolle tulostetaan pelaajan tiedot
 public class Tietopaneeli extends JPanel {
     private Pelaaja pelaaja;
+    private JLabel nimiJaLuokka;
+    private JTextArea pelaajanSijainti;
     
     public Tietopaneeli(Pelaaja p) {
         this.pelaaja = p;
+        this.nimiJaLuokka = new JLabel();
+        this.pelaajanSijainti = new JTextArea();
         luoKomponentit();
     }
     
     private void luoKomponentit() {
         this.setLayout(new GridLayout(2, 1));
 
-        this.add(new JLabel(pelaaja.getNimi() + " (" + pelaaja.getLuokka() + ")"));
-        this.add(new JTextArea(pelaaja.getSijainti().toString()));
+        this.add(nimiJaLuokka);
+        this.add(pelaajanSijainti);
     }
+    
+    public void paivitaTiedot() {
+        nimiJaLuokka.setText(pelaaja.getNimi() + " (" + pelaaja.getLuokka() + ")");
+        pelaajanSijainti.setText(pelaaja.getSijainti().toString());
+    }
+
 }

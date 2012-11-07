@@ -10,8 +10,10 @@ import java.util.Random;
  * @author merioksa
  */
 public class Nimilista {
-    private static String[] hauskatNimet = {"Esa Pakarinen", "Lauri Viita", "Simo Salminen", "Lasse Viren", 
-                                            "Seppo Lehto"};
+    private static String[] hauskatNimet = { "Esa Pakarinen", "Lauri Viita", "Simo Salminen", "Lasse Viren", 
+                                             "Seppo Lehto" };
+    private static String[] pelottavatNimet = { "Hirmuhirviö", "Mörmömöykky", "Kauhumies", "Kummituskaveri",
+                                                "Timo Soini" };
     private static Random random = new Random();
     
     public static String getHauskaNimi() {

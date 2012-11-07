@@ -1,3 +1,5 @@
+package heroquest.domain;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -69,4 +71,17 @@ public class PelaajaTest {
         pelaaja.otaVahinkoa(2);
         assertEquals(pelaaja.getEnergia(), 3);
     }
+    
+     @Test
+     public void nimenTrimmausOnnistuu() {
+         pelaaja = new Pelaaja("     Masa       ", 5, 5, "Superhahmo");
+         assertEquals(pelaaja.getNimi(), "Masa");
+     }
+     
+     @Test
+     public void tyhjaStringEiKelpaa() {
+         pelaaja = new Pelaaja("", 5, 5, "Superhahmo");
+         assertTrue(pelaaja.getNimi().length() > 0);
+     }
+     
 }

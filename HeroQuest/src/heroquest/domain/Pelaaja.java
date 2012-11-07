@@ -14,13 +14,22 @@ public class Pelaaja extends Olento {
     
     public Pelaaja(String nimi, int voima, int energia, String luokka) {
         super(nimi, voima, energia);
-        this.luokka = luokka;
+        setLuokka(luokka);
     }
     public Pelaaja(int voima, int energia, String luokka) {
         super(voima, energia);
-        this.luokka = luokka;
+        setLuokka(luokka);
     }
     
+    public void setLuokka(String luokka) {
+        luokka = luokka.trim();
+        if(luokka.length() > 0) {
+            this.luokka = luokka;
+        }
+        else {
+            this.luokka = "Defaultluokka";
+        }
+    }
     public String getLuokka() {
         return luokka;
     }

@@ -21,22 +21,25 @@ import heroquest.domain.Karttapala;
 // JPanel luokan alaluokka, jolle kartta tulostetaan
 public class Karttapaneeli extends JPanel {
     private Karttapala[][] kartta;
+    private ImageIcon lattiaIcon;
+    private ImageIcon seinaIcon;
     
     public Karttapaneeli(Karttapala[][] k) {
-        this.kartta = k;
         luoKomponentit();
     }
     
     private void luoKomponentit() {
-        this.setLayout(new GridLayout(kartta.length, kartta[0].length));
-        
         // ladataan kartan piirtämiseen vaaditut kuvat
         BufferedImage lattia = lataaKuva("lattia.png");
-        ImageIcon lattiaIcon = new ImageIcon(lattia);
+        lattiaIcon = new ImageIcon(lattia);
         BufferedImage seina = lataaKuva("seina.png");
-        ImageIcon seinaIcon = new ImageIcon(seina);
-        
-        // "piirretään" kartta käyttöliittymään
+        seinaIcon = new ImageIcon(seina);
+    }
+    
+    // "piirretään" kartta käyttöliittymään
+    public void piirraKartta(Karttapala[][] k) {
+        this.kartta = k;
+        this.setLayout(new GridLayout(kartta.length, kartta[0].length));
         for(int y = 0; y < kartta.length; y++) {
             for(int x = 0; x < kartta[0].length; x++) {
                 if(kartta[y][x] != null) {
