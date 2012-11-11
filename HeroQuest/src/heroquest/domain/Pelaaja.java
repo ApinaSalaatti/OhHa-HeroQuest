@@ -21,13 +21,13 @@ public class Pelaaja extends Olento {
         setLuokka(luokka);
     }
     
-    public void setLuokka(String luokka) {
+    private void setLuokka(String luokka) {
         luokka = luokka.trim();
         if(luokka.length() > 0) {
             this.luokka = luokka;
         }
         else {
-            this.luokka = "Defaultluokka";
+            this.luokka = "Defaultsoturi";
         }
     }
     public String getLuokka() {
@@ -38,8 +38,20 @@ public class Pelaaja extends Olento {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getNimi() + " (" + this.getLuokka() + ")\n");
-        sb.append("Voima: " + this.getVoima());
+        sb.append("Voima: " + this.getVoima() + "\n");
+        sb.append("Energia: ");
+        for(int i = 0; i < this.getEnergia(); i++) {
+            sb.append("*");
+        }
         
         return sb.toString();
+    }
+    
+    public void liiku(Ilmansuunta suunta) {
+        Karttapala vanha = this.getSijainti();
+        if(this.setSijainti(this.getSijainti().getNaapuri(suunta))) {
+            vanha.pelaajaPoistuu();
+            this.getSijainti().pelaajaSaapuu();
+        }
     }
 }

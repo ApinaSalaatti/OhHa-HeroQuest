@@ -59,10 +59,4 @@ public class OlentoTest {
         olento.otaVahinkoa(2);
         assertEquals(olento.getEnergia(), 3);
     }
-    
-    @Test
-    public void liikkuminenPohjoiseen() {
-        olento.liiku(Ilmansuunta.POHJOINEN);
-        assertEquals(olento.getSijainti().getY(), -1);
-    }
 }

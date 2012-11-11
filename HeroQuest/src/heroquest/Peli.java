@@ -7,6 +7,7 @@ package heroquest;
 import java.util.ArrayList;
 
 import heroquest.domain.Kartta;
+import heroquest.domain.Ilmansuunta;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
 /**
@@ -21,5 +22,27 @@ public class Peli {
     public Peli(Kartta k, Pelaaja p) {
         kartta = k;
         pelaaja = p;
+    }
+    
+    public Kartta getKartta() {
+        return kartta;
+    }
+    
+    public Pelaaja getPelaaja() {
+        return pelaaja;
+    }
+    
+    public void pelaajanLiike(Ilmansuunta suunta) {
+        pelaaja.liiku(suunta);
+    }
+    
+    private void monsterienLiike() {
+        for(Monsteri m : monsterit) {
+            m.liiku();
+        }
+    }
+    
+    public void lopetaVuoro() {
+        monsterienLiike();
     }
 }

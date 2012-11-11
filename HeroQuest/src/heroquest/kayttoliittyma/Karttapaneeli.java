@@ -13,54 +13,57 @@ import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 
+import heroquest.Peli;
 import heroquest.domain.Karttapala;
+import heroquest.util.Kuvienkasittely;
 /**
  *
  * @author Merioksan Mikko
  */
 // JPanel luokan alaluokka, jolle kartta tulostetaan
 public class Karttapaneeli extends JPanel {
-    private Karttapala[][] kartta;
+    private Peli peli;
     private ImageIcon lattiaIcon;
     private ImageIcon seinaIcon;
+    private ImageIcon lattiaPelaajaPaikallaIcon;
     
-    public Karttapaneeli(Karttapala[][] k) {
+    public Karttapaneeli() {
         luoKomponentit();
+    }
+    
+    public void setPeli(Peli peli) {
+        this.peli = peli;
     }
     
     private void luoKomponentit() {
         // ladataan kartan piirtämiseen vaaditut kuvat
-        BufferedImage lattia = lataaKuva("lattia.png");
+        BufferedImage lattia = Kuvienkasittely.lataaKuva("lattia.png");
         lattiaIcon = new ImageIcon(lattia);
-        BufferedImage seina = lataaKuva("seina.png");
+        BufferedImage seina = Kuvienkasittely.lataaKuva("seina.png");
         seinaIcon = new ImageIcon(seina);
+        BufferedImage lattiaPelaajaPaikalla = Kuvienkasittely.lataaKuva("lattiaPelaajaPaikalla.png");
+        lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
     }
     
     // "piirretään" kartta käyttöliittymään
-    public void piirraKartta(Karttapala[][] k) {
-        this.kartta = k;
+    public void piirraKartta() {
+        Karttapala[][] kartta = peli.getKartta().getKarttapalat();
+        this.removeAll();
         this.setLayout(new GridLayout(kartta.length, kartta[0].length));
         for(int y = 0; y < kartta.length; y++) {
             for(int x = 0; x < kartta[0].length; x++) {
                 if(kartta[y][x] != null) {
-                    this.add(new JLabel(lattiaIcon));
+                    if(!kartta[y][x].pelaajaPaikalla()) {
+                        this.add(new JLabel(lattiaIcon));
+                    }
+                    else {
+                        this.add(new JLabel(lattiaPelaajaPaikallaIcon));
+                    }
                 }
                 else {
                     this.add(new JLabel(seinaIcon));
                 }
             }
         }
-    }
-    
-    private BufferedImage lataaKuva(String nimi) {
-        String polku = "src/kuvat/" + nimi;
-        BufferedImage kuva = null;
-        try {
-            kuva = ImageIO.read(new File(polku));
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        return kuva;
     }
 }

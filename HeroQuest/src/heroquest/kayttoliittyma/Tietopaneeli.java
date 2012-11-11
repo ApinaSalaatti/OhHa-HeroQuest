@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import heroquest.Peli;
 import heroquest.domain.Pelaaja;
 /**
  *
@@ -17,27 +18,43 @@ import heroquest.domain.Pelaaja;
  */
 // JPanel-luokan alaluokka jolle tulostetaan pelaajan tiedot
 public class Tietopaneeli extends JPanel {
-    private Pelaaja pelaaja;
-    private JLabel nimiJaLuokka;
+    private Peli peli;
+    private JTextArea nimiJaLuokka;
     private JTextArea pelaajanSijainti;
+    private Nappipaneeli nappiPanel;
+    private Pelipaneeli pelipaneeli;
     
-    public Tietopaneeli(Pelaaja p) {
-        this.pelaaja = p;
-        this.nimiJaLuokka = new JLabel();
+    public Tietopaneeli() {
+        this.nimiJaLuokka = new JTextArea();
         this.pelaajanSijainti = new JTextArea();
         luoKomponentit();
     }
     
+    public void setPeli(Peli p) {
+        this.peli = p;
+        nappiPanel.setPeli(p);
+    }
+    
+    public void setPelipaneeli(Pelipaneeli p) {
+        this.pelipaneeli = p;
+        nappiPanel.setPelipaneeli(p);
+    }
+    
     private void luoKomponentit() {
-        this.setLayout(new GridLayout(2, 1));
-
+        this.setLayout(new GridLayout(3, 1));
+        pelaajanSijainti.setEditable(false);
+        nimiJaLuokka.setEditable(false);
+        
+        nappiPanel = new Nappipaneeli();
+        
         this.add(nimiJaLuokka);
+        this.add(nappiPanel);
         this.add(pelaajanSijainti);
     }
     
     public void paivitaTiedot() {
-        nimiJaLuokka.setText(pelaaja.getNimi() + " (" + pelaaja.getLuokka() + ")");
-        pelaajanSijainti.setText(pelaaja.getSijainti().toString());
+        nimiJaLuokka.setText(peli.getPelaaja().toString());
+        pelaajanSijainti.setText(peli.getPelaaja().getSijainti().toString());
     }
 
 }

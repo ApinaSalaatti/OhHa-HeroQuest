@@ -48,11 +48,8 @@ public class Kayttoliittyma implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("HeroQuest by Merioksan Mikko!");
-        frame.setPreferredSize(new Dimension(800, 500));
+        frame.setPreferredSize(new Dimension(1200, 800));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
-        // luodaan pelaaja kokeeksi. Tämä toteutetaan myöhemmin kysymällä pelaajalta ensin tietoja
-        this.kartta = new Kartta(testiKartta);
         
         luoKomponentit(frame.getContentPane());
         
@@ -61,31 +58,15 @@ public class Kayttoliittyma implements Runnable {
     }
     
     private void luoKomponentit(Container container) {
-        int koko = kartta.getKartta().length;
         CardLayout layout = new CardLayout(1, 2);
         container.setLayout(layout);
         
-        Aloituspaneeli aloitusPanel = new Aloituspaneeli();
-        JPanel peliPanel = new JPanel(new GridLayout(1, 2));
-        
-        Karttapaneeli karttaPanel = new Karttapaneeli(kartta.getKartta());
-        Tietopaneeli tietoPanel = new Tietopaneeli(pelaaja);
-        peliPanel.add(karttaPanel);
-        peliPanel.add(tietoPanel);
-        
-        container.add(aloitusPanel);
-        container.add(peliPanel);
-    }
-    
-    private BufferedImage lataaKuva(String nimi) {
-        String polku = "src/kuvat/" + nimi;
-        BufferedImage kuva = null;
-        try {
-            kuva = ImageIO.read(new File(polku));
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        return kuva;
+        Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, peli);
+        Karttapaneeli karttaPanel = new Karttapaneeli();
+        Tietopaneeli tietoPanel = new Tietopaneeli();
+        Pelipaneeli peliPanel = new Pelipaneeli(karttaPanel, tietoPanel);
+
+        container.add(aloitusPanel, "aloitus");
+        container.add(peliPanel, "peli");
     }
 }

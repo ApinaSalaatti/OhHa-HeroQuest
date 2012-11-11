@@ -80,12 +80,11 @@ public class Olento {
     public Karttapala getSijainti() {
         return sijainti;
     }
-    public void setSijainti(Karttapala pala) {
+    public boolean setSijainti(Karttapala pala) {
         if(pala != null) {
             sijainti = pala;
+            return true;
         }
-    }
-    public void liiku(Ilmansuunta suunta) {
-        setSijainti(sijainti.getNaapuri(suunta));
+        return false;
     }
 }

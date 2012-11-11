@@ -5,22 +5,32 @@
 package heroquest.kayttoliittyma;
 
 import java.awt.GridLayout;
+import java.awt.CardLayout;
+import java.awt.Container;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import heroquest.Peli;
 import heroquest.domain.Kartta;
 import heroquest.domain.Pelaaja;
+import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
 /**
  *
  * @author merioksa
  */
 public class Aloituspaneeli extends JPanel {
     private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };
+    private Container container;
+    private CardLayout cards;
+    private Peli peli;
     
-    public Aloituspaneeli() {
+    public Aloituspaneeli(Container c, CardLayout layout, Peli peli) {
+        this.container = c;
+        this.cards = layout;
+        this.peli = peli;
         luoKomponentit();
     }
     
@@ -40,11 +50,13 @@ public class Aloituspaneeli extends JPanel {
         
         JTextField koko = new JTextField();
         koko.setColumns(3);
+        koko.setText("10");
         JPanel kokopaneeli = new JPanel();
         kokopaneeli.add(new JLabel("Kartan koko"));
         kokopaneeli.add(koko);
         
         JButton aloitusnappi = new JButton("Aloita seikkailu!");
+        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, koko, peli));
         JPanel nappipaneeli = new JPanel();
         nappipaneeli.add(aloitusnappi);
         

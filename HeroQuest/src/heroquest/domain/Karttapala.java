@@ -15,9 +15,12 @@ public class Karttapala {
     private int y;
     // palan naapurit taulukossa. Indeksi 0 = pohjoinen, 1 = itä, 2 = etelä ja 3 = länsi
     private Karttapala[] naapurit;
+    boolean pelaajaPaikalla;
+    boolean monsteriPaikalla;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
+        pelaajaPaikalla = false;
     }
     
     public void setSijainti(int x, int y) {
@@ -36,6 +39,26 @@ public class Karttapala {
     }
     public Karttapala getNaapuri(Ilmansuunta suunta) {
         return naapurit[suunta.getSuuntanro()];
+    }
+    
+    public void pelaajaSaapuu() {
+        pelaajaPaikalla = true;
+    }
+    public void pelaajaPoistuu() {
+        pelaajaPaikalla = false;
+    }
+    public boolean pelaajaPaikalla() {
+        return pelaajaPaikalla;
+    }
+    
+    public void monsteriSaapuu() {
+        monsteriPaikalla = true;
+    }
+    public void monsteriPoistuu() {
+        monsteriPaikalla = false;
+    }
+    public boolean monsteriPaikalla() {
+        return monsteriPaikalla;
     }
     
     @Override

@@ -37,6 +37,7 @@ public class Kartta {
     public Kartta(int[][] lahde) {
         kartta = new Karttapala[lahde.length][lahde[0].length];
         random = new Random();
+        
         KarttaGeneraattori generaattori = new KarttaGeneraattori();
         generaattori.luoKartta(lahde);
         kartta = generaattori.getKartta();
@@ -46,11 +47,7 @@ public class Kartta {
         return kartta[1][1];
     }
     
-    public Karttapala[][] getKartta() {
+    public Karttapala[][] getKarttapalat() {
         return kartta;
-    }
-    
-    public Karttapala getPalanNaapuri(Karttapala pala, Ilmansuunta suunta) {
-        return pala.getNaapuri(suunta);
     }
 }
