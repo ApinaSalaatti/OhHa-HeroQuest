@@ -16,7 +16,7 @@ public class Olento {
     private int voima;
     private int energia;
     private Karttapala sijainti;
-    private Random random;
+    protected Random random;
     
     public Olento(String nimi, int voima, int energia) {
         this.random = new Random();
@@ -34,8 +34,8 @@ public class Olento {
         setEnergia(energia);
     }
     
-    // konstruktorille tarkoitettu asetusfunktio, nimi ei voi olla tyhjä tai pelkkää white spacea
-    private void setNimi(String nimi) {
+    // luokan (ja aliluokkien) sisäinen asetusfunktio, nimi ei voi olla tyhjä tai pelkkää white spacea
+    protected void setNimi(String nimi) {
         nimi = nimi.trim();
         if(nimi.length() > 0) {
             this.nimi = nimi;

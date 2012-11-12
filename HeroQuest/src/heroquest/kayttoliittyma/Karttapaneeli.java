@@ -26,6 +26,7 @@ public class Karttapaneeli extends JPanel {
     private ImageIcon lattiaIcon;
     private ImageIcon seinaIcon;
     private ImageIcon lattiaPelaajaPaikallaIcon;
+    private ImageIcon lattiaMonsteriPaikallaIcon;
     
     public Karttapaneeli() {
         luoKomponentit();
@@ -43,6 +44,8 @@ public class Karttapaneeli extends JPanel {
         seinaIcon = new ImageIcon(seina);
         BufferedImage lattiaPelaajaPaikalla = Kuvienkasittely.lataaKuva("lattiaPelaajaPaikalla.png");
         lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
+        BufferedImage lattiaMonsteriPaikalla = Kuvienkasittely.lataaKuva("lattiaMonsteriPaikalla.png");
+        lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
     }
     
     // "piirretään" kartta käyttöliittymään
@@ -53,11 +56,14 @@ public class Karttapaneeli extends JPanel {
         for(int y = 0; y < kartta.length; y++) {
             for(int x = 0; x < kartta[0].length; x++) {
                 if(kartta[y][x] != null) {
-                    if(!kartta[y][x].pelaajaPaikalla()) {
+                    if(!kartta[y][x].pelaajaPaikalla() && !kartta[y][x].monsteriPaikalla()) {
                         this.add(new JLabel(lattiaIcon));
                     }
-                    else {
+                    else if(kartta[y][x].pelaajaPaikalla()) {
                         this.add(new JLabel(lattiaPelaajaPaikallaIcon));
+                    }
+                    else if(kartta[y][x].monsteriPaikalla()) {
+                        this.add(new JLabel(lattiaMonsteriPaikallaIcon));
                     }
                 }
                 else {

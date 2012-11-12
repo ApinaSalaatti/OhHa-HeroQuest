@@ -15,8 +15,9 @@ public class Karttapala {
     private int y;
     // palan naapurit taulukossa. Indeksi 0 = pohjoinen, 1 = itä, 2 = etelä ja 3 = länsi
     private Karttapala[] naapurit;
-    boolean pelaajaPaikalla;
-    boolean monsteriPaikalla;
+    private boolean pelaajaPaikalla;
+    private boolean monsteriPaikalla;
+    private Monsteri monsteri;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
@@ -51,10 +52,12 @@ public class Karttapala {
         return pelaajaPaikalla;
     }
     
-    public void monsteriSaapuu() {
+    public void monsteriSaapuu(Monsteri m) {
+        monsteri = m;
         monsteriPaikalla = true;
     }
     public void monsteriPoistuu() {
+        monsteri = null;
         monsteriPaikalla = false;
     }
     public boolean monsteriPaikalla() {
@@ -91,6 +94,23 @@ public class Karttapala {
             }
         }
         
+        if(monsteriPaikalla()) {
+            rakentaja.append("Ruudussa on kamala monsteri: " + monsteri.toString() + "!!!\n");
+        }
+        
         return rakentaja.toString();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if(!o.getClass().equals(this.getClass())) {
+            return false;
+        }
+        Karttapala toinen = (Karttapala)o;
+        if(toinen.getX() == this.getX() && toinen.getY() == this.getY()) {
+            return true;
+        }
+        
+        return false;
     }
 }

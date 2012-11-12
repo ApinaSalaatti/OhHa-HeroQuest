@@ -27,30 +27,7 @@ public class Tekstikayttoliittyma {
     }
     
     public void kaynnista() {
-        boolean lopetus = false;
-        while(!lopetus) {
-            tulostaPelaajanTiedot();
-            System.out.println("Komennot: (p)ohjoinen (i)tä (e)telä (l)änsi e(x)it");
-            String komento = lukija.nextLine();
-            if(komento.equals("p")) {
-                pelaaja.liiku(Ilmansuunta.POHJOINEN);
-            }
-            else if(komento.equals("i")) {
-                pelaaja.liiku(Ilmansuunta.ITA);
-            }
-            else if(komento.equals("e")) {
-                pelaaja.liiku(Ilmansuunta.ETELA);
-            }
-            else if(komento.equals("l")) {
-                pelaaja.liiku(Ilmansuunta.LANSI);
-            }
-            else if(komento.equals("x")) {
-                lopetus = true;
-            }
-            else {
-                System.out.println("Anna kelvollinen komento! >:-(");
-            }
-        }
+        
     }
     
     private void tulostaPelaajanTiedot() {

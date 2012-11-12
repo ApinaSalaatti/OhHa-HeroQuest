@@ -11,10 +11,12 @@ package heroquest.domain;
  */
 public class Pelaaja extends Olento {
     private String luokka;
+    private int liikkeet;
     
     public Pelaaja(String nimi, int voima, int energia, String luokka) {
         super(nimi, voima, energia);
         setLuokka(luokka);
+        liikkeet = 0;
     }
     public Pelaaja(int voima, int energia, String luokka) {
         super(voima, energia);
@@ -32,6 +34,13 @@ public class Pelaaja extends Olento {
     }
     public String getLuokka() {
         return luokka;
+    }
+    
+    public void setLiikkeet(int l) {
+        liikkeet = l;
+    }
+    public int getLiikkeet() {
+        return liikkeet;
     }
     
     @Override
@@ -52,6 +61,7 @@ public class Pelaaja extends Olento {
         if(this.setSijainti(this.getSijainti().getNaapuri(suunta))) {
             vanha.pelaajaPoistuu();
             this.getSijainti().pelaajaSaapuu();
+            liikkeet--;
         }
     }
 }

@@ -49,7 +49,10 @@ public class AloitusnappiKuuntelija implements ActionListener {
         
         Pelipaneeli peliPanel = (Pelipaneeli)container.getComponent(1);
         peliPanel.setPeli(peli);
-        peliPanel.paivita();
+        
+        String aloitusviesti = peli.getPelaaja().getSijainti().toString();
+        aloitusviesti += "Suuri seikkailu alkaa! Löydä aarre ja valloita maan neitojen sydämet!\n";
+        peliPanel.paivita(aloitusviesti);
         
         layout.show(container, "peli");
 

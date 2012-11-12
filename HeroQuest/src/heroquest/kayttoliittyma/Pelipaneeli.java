@@ -37,8 +37,8 @@ public class Pelipaneeli extends JPanel {
         this.add(tiedot);
     }
     
-    public void paivita() {
+    public void paivita(String tapahtuma) {
         kartta.piirraKartta();
-        tiedot.paivitaTiedot();
+        tiedot.paivitaTiedot(tapahtuma);
     }
 }

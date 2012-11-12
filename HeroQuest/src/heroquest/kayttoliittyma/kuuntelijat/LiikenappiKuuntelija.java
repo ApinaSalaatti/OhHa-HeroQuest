@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import heroquest.Peli;
+import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
 import heroquest.kayttoliittyma.Pelipaneeli;
 /**
@@ -28,6 +29,8 @@ public class LiikenappiKuuntelija implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        Karttapala vanha = peli.getPelaaja().getSijainti();
+        
         if(e.getActionCommand().equals("^")) {
             peli.pelaajanLiike(Ilmansuunta.POHJOINEN);
         }
@@ -40,7 +43,21 @@ public class LiikenappiKuuntelija implements ActionListener {
         if(e.getActionCommand().equals(">")) {
             peli.pelaajanLiike(Ilmansuunta.ITA);
         }
+        Karttapala uusi = peli.getPelaaja().getSijainti();
         
-        kohde.paivita();
+        String viesti = "";
+        if(vanha.equals(uusi)) {
+            viesti = "Ei sinne voi liikkua! >:-(\n";
+        }
+        else {
+            viesti = uusi.toString();
+        }
+        
+        kohde.paivita(viesti);
+        
+        if(peli.getPelaaja().getLiikkeet() == 0) {
+            peli.lopetaVuoro();
+            viesti = "Pelottavat monsterit liikkuvat pimeässä...";
+        }
     }
 }
