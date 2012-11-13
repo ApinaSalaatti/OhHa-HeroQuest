@@ -42,6 +42,44 @@ public class Pelaaja extends Olento {
     public int getLiikkeet() {
         return liikkeet;
     }
+    public void liiku(Ilmansuunta suunta) {
+        Karttapala vanha = this.getSijainti();
+        if(this.setSijainti(vanha.getNaapuri(suunta))) {
+            vanha.pelaajaPoistuu();
+            this.getSijainti().pelaajaSaapuu();
+            liikkeet--;
+        }
+    }
+    
+    
+    /*
+     * Taistelumetodit:
+     *  - hyökätessä pelaaja heittää voimansa verran noppia ja osuu jos noppa on viisi tai kuusi
+     *  - puolustaessa pelaaja heittää voimansa verran noppia ja puolusutus onnistuu jos noppa on viisi tai kuusi
+     */
+    @Override
+    public int hyokkaa() {
+        int iskut = 0;
+        for(int i = 0; i < this.getVoima(); i++) {
+            int heitto = random.nextInt(6) + 1;
+            if(heitto > 4) {
+                iskut++;
+            }
+        }
+        return iskut;
+    }
+    
+    @Override
+    public int puolustaudu() {
+        int torjunnat = 0;
+        for(int i = 0; i < this.getVoima(); i++) {
+            int heitto = random.nextInt(6) + 1;
+            if(heitto > 4) {
+                torjunnat++;
+            }
+        }
+        return torjunnat;
+    }
     
     @Override
     public String toString() {
@@ -56,12 +94,4 @@ public class Pelaaja extends Olento {
         return sb.toString();
     }
     
-    public void liiku(Ilmansuunta suunta) {
-        Karttapala vanha = this.getSijainti();
-        if(this.setSijainti(this.getSijainti().getNaapuri(suunta))) {
-            vanha.pelaajaPoistuu();
-            this.getSijainti().pelaajaSaapuu();
-            liikkeet--;
-        }
-    }
 }

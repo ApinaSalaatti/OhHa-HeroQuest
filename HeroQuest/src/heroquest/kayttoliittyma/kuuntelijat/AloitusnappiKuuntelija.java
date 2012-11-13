@@ -12,7 +12,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import heroquest.Peli;
+import heroquest.PeliController;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Kartta;
 import heroquest.kayttoliittyma.Pelipaneeli;
@@ -25,34 +25,25 @@ public class AloitusnappiKuuntelija implements ActionListener {
     private CardLayout layout;
     private JTextField nimi;
     private JComboBox luokka;
-    private JTextField koko;
-    private Peli peli;
+    private JComboBox kartta;
+    private PeliController controller;
     
-    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, JTextField k, Peli p) {
+    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, JComboBox k, PeliController pc) {
         this.container = c;
         this.layout = lo;
         this.nimi = n;
         this.luokka = l;
-        this.koko = k;
-        this.peli = p;
+        this.kartta = k;
+        this.controller = pc;
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        int kartanKoko = Integer.parseInt(koko.getText());
-        Kartta k = new Kartta(kartanKoko);
+        String nimiStr = nimi.getText();
+        String luokkaStr = luokka.getSelectedItem().toString();
+        String karttaStr = kartta.getSelectedItem().toString();
         
-        Pelaaja p = new Pelaaja(nimi.getText(), 5, 5, luokka.getSelectedItem().toString());
-        p.setSijainti(k.getAloituspala());
-        k.getAloituspala().pelaajaSaapuu();
-        this.peli = new Peli(k, p);
-        
-        Pelipaneeli peliPanel = (Pelipaneeli)container.getComponent(1);
-        peliPanel.setPeli(peli);
-        
-        String aloitusviesti = peli.getPelaaja().getSijainti().toString();
-        aloitusviesti += "Suuri seikkailu alkaa! Löydä aarre ja valloita maan neitojen sydämet!\n";
-        peliPanel.paivita(aloitusviesti);
+        controller.aloitaPeli(nimiStr, luokkaStr, karttaStr);
         
         layout.show(container, "peli");
 

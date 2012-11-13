@@ -12,16 +12,17 @@ import javax.swing.JTextArea;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-import heroquest.Peli;
+import heroquest.PeliController;
 import heroquest.domain.Ilmansuunta;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenappiKuuntelija;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenoppaKuuntelija;
+import heroquest.kayttoliittyma.kuuntelijat.TaistelunoppaKuuntelija;
 /**
  *
  * @author Merioksan Mikko
  */
 public class Nappipaneeli extends JPanel {
-    Pelipaneeli tiedot;
+    PeliController controller;
     JButton ylos;
     JButton alas;
     JButton vasen;
@@ -29,7 +30,8 @@ public class Nappipaneeli extends JPanel {
     JButton liikenoppa;
     JButton taistelunoppa;
     
-    public Nappipaneeli() {
+    public Nappipaneeli(PeliController pc) {
+        this.controller = pc;
         luoKomponentit();
     }
     
@@ -44,10 +46,18 @@ public class Nappipaneeli extends JPanel {
         liikenoppa = new JButton("Liiku!");
         taistelunoppa = new JButton("Taistele!");
         
+        ylos.addActionListener(new LiikenappiKuuntelija(controller));
+        alas.addActionListener(new LiikenappiKuuntelija(controller));
+        vasen.addActionListener(new LiikenappiKuuntelija(controller));
+        oikea.addActionListener(new LiikenappiKuuntelija(controller));
+        liikenoppa.addActionListener(new LiikenoppaKuuntelija(controller));
+        taistelunoppa.addActionListener(new TaistelunoppaKuuntelija(controller));
+        
         liikkumisnapit.add(ylos, BorderLayout.NORTH);
         liikkumisnapit.add(alas);
         liikkumisnapit.add(vasen, BorderLayout.WEST);
         liikkumisnapit.add(oikea, BorderLayout.EAST);
+        
         nopat.add(new JLabel("Heitä noppaa:"), BorderLayout.NORTH);
         nopat.add(liikenoppa);
         nopat.add(taistelunoppa, BorderLayout.SOUTH);
@@ -55,30 +65,19 @@ public class Nappipaneeli extends JPanel {
         this.add(nopat);
     }
     
-    public void setPelipaneeli(Pelipaneeli p) {
-        this.tiedot = p;
-    }
-    
-    public void setPeli(Peli p) {
-        ylos.addActionListener(new LiikenappiKuuntelija(p, tiedot));
-        alas.addActionListener(new LiikenappiKuuntelija(p, tiedot));
-        vasen.addActionListener(new LiikenappiKuuntelija(p, tiedot));
-        oikea.addActionListener(new LiikenappiKuuntelija(p, tiedot));
-        liikenoppa.addActionListener(new LiikenoppaKuuntelija(p, tiedot));
-    }
-    
-    public void vaihdaMoodi(String moodi) {
-        if(moodi.equals("taistelu")) {
+    // enabloidaan/disabloidaan oikean nappulat ja namiskat käyttöliittymästä sen mukaan, missä tilassa peli on
+    public void vaihdaTila(String tila) {
+        if(tila.equals("taistelu")) {
             liikeNapit(false);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(true);
         }
-        else if(moodi.equals("liikenoppa")) {
+        else if(tila.equals("liikenoppa")) {
             liikeNapit(false);
             liikenoppa.setEnabled(true);
             taistelunoppa.setEnabled(false);
         }
-        else if(moodi.equals("liike")) {
+        else if(tila.equals("liike")) {
             liikeNapit(true);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(false);

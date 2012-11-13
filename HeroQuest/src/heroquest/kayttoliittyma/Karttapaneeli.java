@@ -14,6 +14,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 
 import heroquest.Peli;
+import heroquest.PeliController;
 import heroquest.domain.Karttapala;
 import heroquest.util.Kuvienkasittely;
 /**
@@ -22,19 +23,16 @@ import heroquest.util.Kuvienkasittely;
  */
 // JPanel luokan alaluokka, jolle kartta tulostetaan
 public class Karttapaneeli extends JPanel {
-    private Peli peli;
+    private PeliController controller;
     private ImageIcon lattiaIcon;
     private ImageIcon seinaIcon;
     private ImageIcon lattiaPelaajaPaikallaIcon;
     private ImageIcon lattiaMonsteriPaikallaIcon;
     private ImageIcon lattiaTaisteluIcon;
     
-    public Karttapaneeli() {
+    public Karttapaneeli(PeliController pc) {
+        this.controller = pc;
         luoKomponentit();
-    }
-    
-    public void setPeli(Peli peli) {
-        this.peli = peli;
     }
     
     private void luoKomponentit() {
@@ -53,7 +51,7 @@ public class Karttapaneeli extends JPanel {
     
     // "piirretään" kartta käyttöliittymään
     public void piirraKartta() {
-        Karttapala[][] kartta = peli.getKartta().getKarttapalat();
+        Karttapala[][] kartta = controller.getKartta().getKarttapalat();
         this.removeAll();
         this.setLayout(new GridLayout(kartta.length, kartta[0].length));
         for(int y = 0; y < kartta.length; y++) {

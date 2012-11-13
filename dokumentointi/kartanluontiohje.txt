@@ -1,0 +1,44 @@
+Pelaajan HeroQuest elämys on erittäin muokattavissa! Jokainen pystyy luomaan oman karttansa luomalla .hqm-päätteisen (päätteellä ei oikeasti ole väliä, kunhan hienostelen) tiedoston jonka sisältö noudattaa seuraavaa formaattia:
+ - tiedosto saa sisältää vain numeroita
+ - kartan rivien kohdalla mahdolliset arvot ovat 1 = lattia, 0 = seinä
+ - monsterikartan rivien kohdalla arvot ovat 1 = monsteri, 0 = ei monsteria
+
+Kartan rivien on syytä istua tiedoston alussa annettuihin arvoihin ja monsterien on syytä osua lattiaruuduille, muuten kaikki menee mönkään! Lisäksi ruudun 1,1 täytyy olla lattiaa, koska sen on tarkoitus olla aloitusruutu. Tiedoston sisältö on siis seuraava.
+
+kartan leveys
+kartan korkeus
+kartan rivi yksi
+kartan rivi kaksi
+.
+.
+.
+kartan viimeinen rivi
+TYHJÄ RIVI
+monsterikartan rivi yksi
+monsterikartan rivi kaksi
+.
+.
+.
+monsterikartan viimeinen rivi
+
+Eli käytännön esimerkki voisi olla seuraavanlainen:
+
+8
+8
+00000000
+01111110
+01000110
+01110000
+01010000
+01011110
+01110010
+00000000
+
+00000000
+00000000
+00000000
+01000000
+00000000
+00000000
+00000000
+00000000

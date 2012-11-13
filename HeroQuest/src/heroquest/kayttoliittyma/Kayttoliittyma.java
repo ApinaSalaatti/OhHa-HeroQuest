@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
-import heroquest.Peli;
+import heroquest.PeliController;
 /**
  *
  * @author Merioksan Mikko
@@ -40,9 +40,14 @@ public class Kayttoliittyma implements Runnable {
     private Kartta kartta;
     private Pelaaja pelaaja;
     private JFrame frame;
-    private Peli peli;
+    private PeliController controller;
+    private Pelipaneeli peliPanel;
     
     public Kayttoliittyma() {
+    }
+    
+    public void setController(PeliController p) {
+        this.controller = p;
     }
     
     @Override
@@ -61,12 +66,16 @@ public class Kayttoliittyma implements Runnable {
         CardLayout layout = new CardLayout(1, 2);
         container.setLayout(layout);
         
-        Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, peli);
-        Karttapaneeli karttaPanel = new Karttapaneeli();
-        Tietopaneeli tietoPanel = new Tietopaneeli();
-        Pelipaneeli peliPanel = new Pelipaneeli(karttaPanel, tietoPanel);
+        Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, controller);
+        Karttapaneeli karttaPanel = new Karttapaneeli(controller);
+        Tietopaneeli tietoPanel = new Tietopaneeli(controller);
+        peliPanel = new Pelipaneeli(karttaPanel, tietoPanel, controller);
 
         container.add(aloitusPanel, "aloitus");
         container.add(peliPanel, "peli");
+    }
+    
+    public void paivita(String tapahtuma) {
+        peliPanel.paivita(tapahtuma);
     }
 }

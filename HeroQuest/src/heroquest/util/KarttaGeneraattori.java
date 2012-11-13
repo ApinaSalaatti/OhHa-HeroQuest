@@ -6,7 +6,6 @@
 package heroquest.util;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
@@ -14,13 +13,14 @@ import heroquest.domain.Ilmansuunta;
 /**
  *
  * @author Merioksan Mikko
+ * 
+ * Apuluokka kartan luomiseen erilaisilla parametreilla
+ * 
  */
 public class KarttaGeneraattori {
     private Karttapala[][] kartta;
-    private Random random;
     
     public KarttaGeneraattori() {
-        random = new Random();
     }
     
     // luo kartta annetun lähdekartan pohjalta. 0 = seinä, 1 = käytävä
@@ -55,11 +55,8 @@ public class KarttaGeneraattori {
             }
         }
     }
+
     
-    // luodaan annetun kokoinen kartta satunnaisesti
-    public void luoKartta(int koko) {
-        // TODO: toteuta tämä :-)
-    }
     
     public Karttapala[][] getKartta() {
         return kartta;

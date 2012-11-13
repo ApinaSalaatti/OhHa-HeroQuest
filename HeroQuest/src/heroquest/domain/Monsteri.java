@@ -17,6 +17,7 @@ public class Monsteri extends Olento {
         this.setNimi(nimi);
     }
     
+    // monsteria satunnaiseen suuntaan liikuttava metodi
     public void liiku() {
         Ilmansuunta suunta = Ilmansuunta.satunnainen();
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);
@@ -30,17 +31,37 @@ public class Monsteri extends Olento {
         }
     }
     
+    // monsteria haluttuun suuntaan liikuttava metodi
+    public void liiku(Ilmansuunta suunta) {
+        Karttapala vanha = this.getSijainti();
+        Karttapala kohde = this.getSijainti().getNaapuri(suunta);
+        
+        if(kohde != null && !kohde.monsteriPaikalla()) {
+            if(this.setSijainti(vanha.getNaapuri(suunta))) {
+                vanha.monsteriPoistuu();
+                this.getSijainti().monsteriSaapuu(this);
+            }
+        }
+    }
+    
+    /*
+     * Taistelumetodit:
+     *  - hyökätessä monsteri heittää voimansa verran noppia ja osuu jos noppa on kuusi
+     *  - puolustaessa monsteri heittää voimansa verran noppia ja puolustus onnistuu jos noppa on kuusi
+     */
+    @Override
     public int hyokkaa() {
         int iskut = 0;
         for(int i = 0; i < this.getVoima(); i++) {
             int heitto = random.nextInt(6) + 1;
-            if(heitto > 4) {
+            if(heitto > 5) {
                 iskut++;
             }
         }
         return iskut;
     }
     
+    @Override
     public int puolustaudu() {
         int torjunnat = 0;
         for(int i = 0; i < this.getVoima(); i++) {
@@ -54,6 +75,6 @@ public class Monsteri extends Olento {
     
     @Override
     public String toString() {
-        return this.getNimi();
+        return this.getNimi() + " (V: " + this.getVoima() + " E: " + this.getEnergia() + ")";
     }
 }

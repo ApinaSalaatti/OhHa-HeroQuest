@@ -8,30 +8,25 @@ package heroquest.kayttoliittyma;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 
-import heroquest.Peli;
+import heroquest.PeliController;
+import heroquest.PeliController;
 /**
  *
  * @author Merioksan Mikko
  */
 public class Pelipaneeli extends JPanel {
-    private Peli peli;
     private Karttapaneeli kartta;
     private Tietopaneeli tiedot;
+    private PeliController controller;
     
-    public Pelipaneeli(Karttapaneeli k, Tietopaneeli t) {
+    public Pelipaneeli(Karttapaneeli k, Tietopaneeli t, PeliController pc) {
         this.kartta = k;
         this.tiedot = t;
+        this.controller = pc;
         luoKomponentit();
     }
     
-    public void setPeli(Peli p) {
-        this.peli = p;
-        kartta.setPeli(peli);
-        tiedot.setPeli(peli);
-    }
-    
     private void luoKomponentit() {
-        this.tiedot.setPelipaneeli(this);
         this.setLayout(new GridLayout(1, 2));
         this.add(kartta);
         this.add(tiedot);

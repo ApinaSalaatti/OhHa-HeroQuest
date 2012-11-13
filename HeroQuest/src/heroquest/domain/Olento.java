@@ -11,7 +11,7 @@ import heroquest.util.Nimilista;
  *
  * @author merioksa
  */
-public class Olento {
+public abstract class Olento {
     private String nimi;
     private int voima;
     private int energia;
@@ -87,4 +87,8 @@ public class Olento {
         }
         return false;
     }
+    
+    // kaikki olennot voivat hyökätä ja puolustaa, mutta hieman eri tavoilla
+    public abstract int hyokkaa();
+    public abstract int puolustaudu();
 }

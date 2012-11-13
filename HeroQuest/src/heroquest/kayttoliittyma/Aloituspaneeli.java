@@ -13,9 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
-import heroquest.Peli;
+import heroquest.PeliController;
 import heroquest.domain.Kartta;
 import heroquest.domain.Pelaaja;
+import heroquest.util.Tiedostoapuri;
 import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
 /**
  *
@@ -25,12 +26,12 @@ public class Aloituspaneeli extends JPanel {
     private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };
     private Container container;
     private CardLayout cards;
-    private Peli peli;
+    private PeliController controller;
     
-    public Aloituspaneeli(Container c, CardLayout layout, Peli peli) {
+    public Aloituspaneeli(Container c, CardLayout layout, PeliController pc) {
         this.container = c;
         this.cards = layout;
-        this.peli = peli;
+        this.controller = pc;
         luoKomponentit();
     }
     
@@ -55,15 +56,20 @@ public class Aloituspaneeli extends JPanel {
         kokopaneeli.add(new JLabel("Kartan koko"));
         kokopaneeli.add(koko);
         
+        JComboBox karttalista = new JComboBox(Tiedostoapuri.kansioTauluksi("src/kartat"));
+        JPanel karttapaneeli = new JPanel();
+        karttapaneeli.add(new JLabel("Valitse kartta:"));
+        karttapaneeli.add(karttalista);
+        
         JButton aloitusnappi = new JButton("Aloita seikkailu!");
-        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, koko, peli));
+        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, karttalista, controller));
         JPanel nappipaneeli = new JPanel();
         nappipaneeli.add(aloitusnappi);
         
         this.add(new JLabel("Tervetuloa superhypermegajännittävään Mahtiseikkailuun!"));
         this.add(nimipaneeli);
         this.add(luokkapaneeli);
-        this.add(kokopaneeli); 
+        this.add(karttapaneeli); 
         this.add(nappipaneeli);
     }
 }
