@@ -27,6 +27,7 @@ public class Karttapaneeli extends JPanel {
     private ImageIcon seinaIcon;
     private ImageIcon lattiaPelaajaPaikallaIcon;
     private ImageIcon lattiaMonsteriPaikallaIcon;
+    private ImageIcon lattiaTaisteluIcon;
     
     public Karttapaneeli() {
         luoKomponentit();
@@ -46,6 +47,8 @@ public class Karttapaneeli extends JPanel {
         lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
         BufferedImage lattiaMonsteriPaikalla = Kuvienkasittely.lataaKuva("lattiaMonsteriPaikalla.png");
         lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
+        BufferedImage lattiaTaistelu = Kuvienkasittely.lataaKuva("lattiaTaistelu.png");
+        lattiaTaisteluIcon = new ImageIcon(lattiaTaistelu);
     }
     
     // "piirretään" kartta käyttöliittymään
@@ -55,15 +58,19 @@ public class Karttapaneeli extends JPanel {
         this.setLayout(new GridLayout(kartta.length, kartta[0].length));
         for(int y = 0; y < kartta.length; y++) {
             for(int x = 0; x < kartta[0].length; x++) {
+                Karttapala nykyinen = kartta[y][x];
                 if(kartta[y][x] != null) {
-                    if(!kartta[y][x].pelaajaPaikalla() && !kartta[y][x].monsteriPaikalla()) {
+                    if(!nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla()) {
                         this.add(new JLabel(lattiaIcon));
                     }
-                    else if(kartta[y][x].pelaajaPaikalla()) {
+                    else if(nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla()) {
                         this.add(new JLabel(lattiaPelaajaPaikallaIcon));
                     }
-                    else if(kartta[y][x].monsteriPaikalla()) {
+                    else if(nykyinen.monsteriPaikalla() && !nykyinen.pelaajaPaikalla()) {
                         this.add(new JLabel(lattiaMonsteriPaikallaIcon));
+                    }
+                    else if(nykyinen.pelaajaPaikalla() && nykyinen.monsteriPaikalla()) {
+                        this.add(new JLabel(lattiaTaisteluIcon));
                     }
                 }
                 else {

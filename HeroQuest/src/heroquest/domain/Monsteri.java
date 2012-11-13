@@ -21,7 +21,7 @@ public class Monsteri extends Olento {
         Ilmansuunta suunta = Ilmansuunta.satunnainen();
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);
         
-        if(!kohde.monsteriPaikalla()) {
+        if(kohde != null && !kohde.monsteriPaikalla()) {
             Karttapala vanha = this.getSijainti();
             if(this.setSijainti(kohde)) {
                 vanha.monsteriPoistuu();

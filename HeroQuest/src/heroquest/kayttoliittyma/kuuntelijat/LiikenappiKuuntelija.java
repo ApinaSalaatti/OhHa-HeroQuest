@@ -58,6 +58,7 @@ public class LiikenappiKuuntelija implements ActionListener {
         if(peli.getPelaaja().getLiikkeet() == 0) {
             peli.lopetaVuoro();
             viesti = "Pelottavat monsterit liikkuvat pimeässä...";
+            kohde.paivita(viesti);
         }
     }
 }

@@ -6,8 +6,10 @@
 package heroquest.kayttoliittyma;
 
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 import heroquest.Peli;
@@ -32,17 +34,25 @@ public class Nappipaneeli extends JPanel {
     }
     
     private void luoKomponentit() {
+        this.setLayout(new GridLayout(1, 2));
+        JPanel liikkumisnapit = new JPanel();
+        JPanel nopat = new JPanel();
         ylos = new JButton("^");
         alas = new JButton("V");
         vasen = new JButton("<");
         oikea = new JButton(">");
-        liikenoppa = new JButton("Heitä!");
+        liikenoppa = new JButton("Liiku!");
+        taistelunoppa = new JButton("Taistele!");
         
-        this.add(ylos, BorderLayout.NORTH);
-        this.add(alas);
-        this.add(vasen, BorderLayout.WEST);
-        this.add(oikea, BorderLayout.EAST);
-        this.add(liikenoppa, BorderLayout.SOUTH);
+        liikkumisnapit.add(ylos, BorderLayout.NORTH);
+        liikkumisnapit.add(alas);
+        liikkumisnapit.add(vasen, BorderLayout.WEST);
+        liikkumisnapit.add(oikea, BorderLayout.EAST);
+        nopat.add(new JLabel("Heitä noppaa:"), BorderLayout.NORTH);
+        nopat.add(liikenoppa);
+        nopat.add(taistelunoppa, BorderLayout.SOUTH);
+        this.add(liikkumisnapit);
+        this.add(nopat);
     }
     
     public void setPelipaneeli(Pelipaneeli p) {
@@ -61,14 +71,17 @@ public class Nappipaneeli extends JPanel {
         if(moodi.equals("taistelu")) {
             liikeNapit(false);
             liikenoppa.setEnabled(false);
+            taistelunoppa.setEnabled(true);
         }
         else if(moodi.equals("liikenoppa")) {
             liikeNapit(false);
             liikenoppa.setEnabled(true);
+            taistelunoppa.setEnabled(false);
         }
         else if(moodi.equals("liike")) {
             liikeNapit(true);
             liikenoppa.setEnabled(false);
+            taistelunoppa.setEnabled(false);
         }
     }
     
