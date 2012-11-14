@@ -51,7 +51,7 @@ public class Karttapaneeli extends JPanel {
     
     // "piirretään" kartta käyttöliittymään
     public void piirraKartta() {
-        Karttapala[][] kartta = controller.getKartta().getKarttapalat();
+        Karttapala[][] kartta = controller.getKartta().getNahdytPalat();
         this.removeAll();
         this.setLayout(new GridLayout(kartta.length, kartta[0].length));
         for(int y = 0; y < kartta.length; y++) {

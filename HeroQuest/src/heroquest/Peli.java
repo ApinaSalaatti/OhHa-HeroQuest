@@ -26,6 +26,8 @@ public class Peli {
         pelaaja = p;
         monsterit = new ArrayList<Monsteri>();
         taistelunAika = false;
+        
+        kartta.paivitaNahdyt(pelaaja.getSijainti());
     }
     
     public void lisaaMonsteri(Monsteri m, Karttapala pala) {

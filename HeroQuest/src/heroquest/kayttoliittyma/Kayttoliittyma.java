@@ -5,40 +5,21 @@
 
 package heroquest.kayttoliittyma;
 
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.ImageIcon;
-import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 
-import heroquest.domain.Kartta;
-import heroquest.domain.Karttapala;
-import heroquest.domain.Pelaaja;
 import heroquest.PeliController;
 /**
  *
  * @author Merioksan Mikko
  */
 public class Kayttoliittyma implements Runnable {
-    // valmis kartta testitarkoituksiin
-    private static int[][] testiKartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
-                                            {0, 1, 1, 1, 1, 1, 1, 0},
-                                            {0, 1, 0, 0, 0, 0, 0, 0},
-                                            {0, 1, 1, 1, 0, 0, 0, 0},
-                                            {0, 1, 0, 1, 0, 0, 0, 0},
-                                            {0, 1, 0, 1, 1, 1, 1, 0},
-                                            {0, 1, 1, 1, 0, 0, 1, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0}};
-    private Kartta kartta;
-    private Pelaaja pelaaja;
     private JFrame frame;
     private PeliController controller;
     private Pelipaneeli peliPanel;
@@ -63,6 +44,20 @@ public class Kayttoliittyma implements Runnable {
     }
     
     private void luoKomponentit(Container container) {
+        JMenuBar ylavalikko = new JMenuBar();
+        JMenu tiedostoValikko = new JMenu("Tiedosto");
+        
+        JMenuItem uusiPeli = new JMenuItem("Uusi peli");
+        JMenuItem tallenna = new JMenuItem("Tallenna");
+        JMenuItem lataa = new JMenuItem("Lataa tallennus");
+        JMenuItem poistu = new JMenuItem("Poistu");
+        tiedostoValikko.add(uusiPeli);
+        tiedostoValikko.add(tallenna);
+        tiedostoValikko.add(lataa);
+        tiedostoValikko.add(poistu);
+        ylavalikko.add(tiedostoValikko);
+        frame.setJMenuBar(ylavalikko);
+        
         CardLayout layout = new CardLayout(1, 2);
         container.setLayout(layout);
         

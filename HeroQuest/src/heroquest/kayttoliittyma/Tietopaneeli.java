@@ -33,14 +33,17 @@ public class Tietopaneeli extends JPanel {
     }
     
     private void luoKomponentit() {
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new GridLayout(2, 1));
         tapahtumat.setEditable(false);
         nimiJaLuokka.setEditable(false);
         
         nappiPanel = new Nappipaneeli(controller);
         
-        this.add(nimiJaLuokka);
-        this.add(nappiPanel);
+        JPanel ylaPanel = new JPanel(new GridLayout(2, 1));
+        ylaPanel.add(nimiJaLuokka);
+        ylaPanel.add(nappiPanel);
+
+        this.add(ylaPanel);
         this.add(tapahtumat);
     }
     

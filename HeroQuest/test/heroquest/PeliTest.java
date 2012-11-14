@@ -40,7 +40,7 @@ public class PeliTest {
     
     @Before
     public void setUp() {
-        Pelaaja pelaaja = new Pelaaja("Aarne", 5, 5, "Soturitappaja");
+        Pelaaja pelaaja = new Pelaaja("Aarne", 50, 50, "Soturitappaja");
         Kartta kartta = new Kartta(testikartta);
         pelaaja.setSijainti(kartta.getAloituspala());
         

@@ -6,8 +6,7 @@
 package heroquest;
 
 import java.util.Random;
-
-import heroquest.domain.Pelaaja;
+import heroquest.domain.Olento;
 import heroquest.domain.Monsteri;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
@@ -28,20 +27,15 @@ public class PeliController {
     }
     
     public void aloitaPeli(String nimi, String luokka, String kartanNimi) {
-        // luodaan kartta ja pelaajahahmo annettujen parametrien pohjalta
-
-
-        
         PeliTehdas pt = new PeliTehdas();
         this.peli = pt.luoPeli(nimi, luokka, kartanNimi);
-        
-        // luodaan peli ja annetaan mennä!
 
         paivitaKali("Sijaintisi:\n" + peli.getPelaaja().getSijainti());
-        paivitaKali("Tervetuloa, urhea sankari tähän maanmainioon seikkailuun!\n");
+        paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
     }
     
     public void paivitaKali(String tapahtuma) {
+        peli.getKartta().paivitaNahdyt(peli.getPelaaja().getSijainti());
         peli.tuleekoTaistelu();
         kali.paivita(tapahtuma);
     }
@@ -64,7 +58,7 @@ public class PeliController {
         
         if(peli.getPelaaja().getLiikkeet() == 0) {
             peli.lopetaVuoro();
-            paivitaKali("Pelottavat monsterit liikkuvat pimeässä...");
+            paivitaKali("Pelottavat monsterit liikkuvat pimeässä...\n");
         }
     }
     
@@ -78,6 +72,7 @@ public class PeliController {
         return peli.getPelaaja().toString();
     }
     
+    // palauttaa tilan jossa peli on, sen mukaan käyttöliittymä osaa näyttää oikeat komponentit
     public String getTila() {
         if(peli.taistelunAika()) {
             return "taistelu";
@@ -105,14 +100,14 @@ public class PeliController {
             taisteluviesti.append("On taistelun aika!\n");
             taisteluviesti.append("Vastassasi on pelottava monsteri " + vastus.toString() + "\n");
             
-            int pelaajanHyokkays = peli.getPelaaja().hyokkaa();
-            int monsterinPuolustus = vastus.puolustaudu();
-            
-            int vahinko = pelaajanHyokkays - monsterinPuolustus;
+            int vahinko = hyokkays(peli.getPelaaja(), vastus);
             if(vahinko > 0) {
                 taisteluviesti.append("Teit vahinkoa! ");
                 taisteluviesti.append(vastus.getNimi() + " otti vahinkoa " + vahinko + " pistettä!\n");
-                vastus.otaVahinkoa(pelaajanHyokkays - monsterinPuolustus);
+                vastus.otaVahinkoa(vahinko);
+            }
+            else {
+                taisteluviesti.append("Et osunut! Kehveli!\n");
             }
             
             if(vastus.getEnergia() <= 0) {
@@ -120,14 +115,22 @@ public class PeliController {
                 taisteluviesti.append("VOITTO ON SINUN!\n");
             }
             else {
-                int monsterinHyokkays = vastus.hyokkaa();
-                int pelaajanPuolustus = peli.getPelaaja().puolustaudu();
-                if(monsterinHyokkays > pelaajanPuolustus) {
-                    peli.getPelaaja().otaVahinkoa(monsterinHyokkays - pelaajanPuolustus);
+                vahinko = hyokkays(vastus, peli.getPelaaja());
+                if(vahinko > 0) {
+                    taisteluviesti.append("Voi ei, sinuun osui " + vahinko + " pisteen edestä!!\n");
+                    peli.getPelaaja().otaVahinkoa(vahinko);
                 }
             }
             
             paivitaKali(taisteluviesti.toString());
         }
+    }
+    
+    // lasketaan yksittäisen hyökkäyksen damage. Iik!
+    public int hyokkays(Olento hyokkaaja, Olento puolustaja) {
+        int hyokkays = hyokkaaja.hyokkaa();
+        int puolustus = puolustaja.puolustaudu();
+        
+        return hyokkays - puolustus;
     }
 }

@@ -80,6 +80,14 @@ public class PeliTehdas {
             voima = 2;
             energia = 2;
         }
+        else if(luokka.equals("Konna")) {
+            voima = 8;
+            energia = 2;
+        }
+        else if(luokka.equals("Kekkeruusi")) {
+            voima = 100;
+            energia = 100;
+        }
         else {
             voima = 5;
             energia = 5;

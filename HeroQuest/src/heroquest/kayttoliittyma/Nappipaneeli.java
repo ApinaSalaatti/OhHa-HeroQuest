@@ -8,6 +8,7 @@ package heroquest.kayttoliittyma;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -29,6 +30,8 @@ public class Nappipaneeli extends JPanel {
     JButton oikea;
     JButton liikenoppa;
     JButton taistelunoppa;
+    JList taikalista;
+    JButton taikanappi;
     
     public Nappipaneeli(PeliController pc) {
         this.controller = pc;
@@ -45,6 +48,10 @@ public class Nappipaneeli extends JPanel {
         oikea = new JButton(">");
         liikenoppa = new JButton("Liiku!");
         taistelunoppa = new JButton("Taistele!");
+        taikanappi = new JButton("Heitä taika");
+        
+        String[] taiat = { "Tähän", "Tulee", "Taikoja" };
+        taikalista = new JList(taiat);
         
         ylos.addActionListener(new LiikenappiKuuntelija(controller));
         alas.addActionListener(new LiikenappiKuuntelija(controller));
@@ -57,12 +64,20 @@ public class Nappipaneeli extends JPanel {
         liikkumisnapit.add(alas);
         liikkumisnapit.add(vasen, BorderLayout.WEST);
         liikkumisnapit.add(oikea, BorderLayout.EAST);
-        
         nopat.add(new JLabel("Heitä noppaa:"), BorderLayout.NORTH);
         nopat.add(liikenoppa);
         nopat.add(taistelunoppa, BorderLayout.SOUTH);
-        this.add(liikkumisnapit);
-        this.add(nopat);
+        JPanel napitJaNopat = new JPanel(new GridLayout(2, 1));
+        napitJaNopat.add(liikkumisnapit);
+        napitJaNopat.add(nopat);
+        
+        JPanel taikapaneeli = new JPanel();
+        taikapaneeli.add(new JLabel("Taiat:"), BorderLayout.NORTH);
+        taikapaneeli.add(taikalista);
+        taikapaneeli.add(taikanappi, BorderLayout.SOUTH);
+        
+        this.add(napitJaNopat);
+        this.add(taikapaneeli);
     }
     
     // enabloidaan/disabloidaan oikean nappulat ja namiskat käyttöliittymästä sen mukaan, missä tilassa peli on
