@@ -45,29 +45,19 @@ public class Kartta {
         int y = pala.getY();
         int x = pala.getX();
         
-        // pohjoiseen
-        int kohta = y;
-        while(kohta >= 0 && kartta[kohta][x] != null) {
-            nahty[kohta][x] = kartta[kohta][x];
-            kohta--;
+        asetaNakyvaksi(x, y, 0, -1);
+        asetaNakyvaksi(x, y, 0, 1);
+        asetaNakyvaksi(x, y, -1, 0);
+        asetaNakyvaksi(x, y, 1, 0);
+    }
+    
+    // asetetaan annetuissa koordinaateissa oleva pala näkyväksi ja siirrytään rekursiivisesti seuraavaan
+    // kunnes törmätään seinään tai syöksytään ulos kartan reunalta
+    public void asetaNakyvaksi(int x, int y, int seurX, int seurY) {
+        if(x < 0 || x >= kartta[0].length || y < 0 || y >= kartta.length || kartta[y][x] == null) {
+            return;
         }
-        // itään
-        kohta = x;
-        while(kohta < kartta[0].length && kartta[y][kohta] != null) {
-            nahty[y][kohta] = kartta[y][kohta];
-            kohta++;
-        }
-        // etelään
-        kohta = y;
-        while(kohta < kartta.length && kartta[kohta][x] != null) {
-            nahty[kohta][x] = kartta[kohta][x];
-            kohta++;
-        }
-        // länteen
-        kohta = x;
-        while(kohta >= 0 && kartta[y][kohta] != null) {
-            nahty[y][kohta] = kartta[y][kohta];
-            kohta--;
-        }
+        nahty[y][x] = kartta[y][x];
+        asetaNakyvaksi(x+seurX, y+seurY, seurX, seurY);
     }
 }

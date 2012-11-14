@@ -51,6 +51,7 @@ public class PeliTehdas {
         return peli;
     }
     
+    // luetaan kartta Scannerista int[][] taulukkoon ja lähetetään se sitten Kartta-oliolle uuden kartan pohjaksi
     private Kartta luoKartta(Scanner lukija) {
         
         int x = Integer.parseInt(lukija.nextLine());

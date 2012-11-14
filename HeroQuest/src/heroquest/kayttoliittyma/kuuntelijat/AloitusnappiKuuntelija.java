@@ -7,15 +7,12 @@ package heroquest.kayttoliittyma.kuuntelijat;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Container;
-import java.awt.Component;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import heroquest.PeliController;
-import heroquest.domain.Pelaaja;
-import heroquest.domain.Kartta;
-import heroquest.kayttoliittyma.Pelipaneeli;
+
 /**
  *
  * @author merioksa

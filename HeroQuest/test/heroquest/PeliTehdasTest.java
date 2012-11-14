@@ -48,8 +48,14 @@ public class PeliTehdasTest {
     }
     
     @Test
-    public void tehdasLuoPelaajanOikein() {
+    public void tehdasLuoPelaajan() {
         assertEquals(peli.getPelaaja().getNimi(), "Aarne");
+    }
+    
+    @Test
+    public void tehdasAsettaaLuokanAttribuutitOikein() {
+        assertEquals(peli.getPelaaja().getVoima(), 2);
+        assertEquals(peli.getPelaaja().getEnergia(), 2);
     }
     
     @Test

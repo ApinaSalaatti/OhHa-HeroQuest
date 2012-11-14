@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import heroquest.Peli;
 import heroquest.PeliController;
 import heroquest.domain.Pelaaja;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Merioksan Mikko
@@ -49,6 +50,10 @@ public class Tietopaneeli extends JPanel {
     
     // päivittää kaikki käyttöliittymän näyttämät tiedot (pelaajan statuksen, tapahtumat-feedin ja nappulat)
     public void paivitaTiedot(String tapahtuma) {
+        
+        if(controller.getTila().equals("kuolema")) {
+            JOptionPane.showMessageDialog(this, "VOI EI! Nyt olet hengetön. :(");
+        }
         // päivitetään pelaajan status
         nimiJaLuokka.setText(controller.pelaajanStatus());
         

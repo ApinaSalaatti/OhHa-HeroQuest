@@ -74,6 +74,9 @@ public class PeliController {
     
     // palauttaa tilan jossa peli on, sen mukaan käyttöliittymä osaa näyttää oikeat komponentit
     public String getTila() {
+        if(peli.getPelaaja().getEnergia() <= 0) {
+            return "kuolema";
+        }
         if(peli.taistelunAika()) {
             return "taistelu";
         }

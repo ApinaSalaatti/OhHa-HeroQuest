@@ -58,4 +58,13 @@ public class KarttaTest {
         assertEquals(aloituspala.getX(), 1);
         assertEquals(aloituspala.getY(), 1);
     }
+    
+    @Test
+    public void kartanNakyvaksiAsetus() {
+        Karttapala pala = kartta.getAloituspala();
+        kartta.paivitaNahdyt(pala);
+        
+        assertNotNull(kartta.getNahdytPalat()[5][1]);
+        assertNull(kartta.getNahdytPalat()[3][2]);
+    }
 }
