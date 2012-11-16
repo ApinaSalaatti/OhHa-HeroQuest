@@ -40,7 +40,7 @@ public class PelaajaTest {
     
     @Before
     public void setUp() {
-        pelaaja = new Pelaaja(5, 5, "Maagikko");
+        pelaaja = new Pelaaja(5, 5, 5, "Maagikko");
         kartta = new Kartta(testiKartta);
         pelaaja.setSijainti(kartta.getAloituspala());
     }
@@ -74,19 +74,19 @@ public class PelaajaTest {
     
      @Test
      public void nimenTrimmausOnnistuu() {
-         pelaaja = new Pelaaja("     Masa       ", 5, 5, "Superhahmo");
+         pelaaja = new Pelaaja("     Masa       ", 5, 5, 5, "Superhahmo");
          assertEquals(pelaaja.getNimi(), "Masa");
      }
      
      @Test
      public void tyhjaStringEiKelpaa() {
-         pelaaja = new Pelaaja("", 5, 5, "Superhahmo");
+         pelaaja = new Pelaaja("", 5, 5, 5, "Superhahmo");
          assertTrue(pelaaja.getNimi().length() > 0);
      }
      
      @Test
      public void negatiivinenVoimaEiKelpaa() {
-         pelaaja = new Pelaaja("Jouko", -5, -5, "Suurenmoinen sankarimies");
+         pelaaja = new Pelaaja("Jouko", -5, -5, -5, "Suurenmoinen sankarimies");
          
          assertTrue(pelaaja.getVoima() > 0);
      }

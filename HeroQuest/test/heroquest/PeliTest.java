@@ -40,7 +40,7 @@ public class PeliTest {
     
     @Before
     public void setUp() {
-        Pelaaja pelaaja = new Pelaaja("Aarne", 50, 50, "Soturitappaja");
+        Pelaaja pelaaja = new Pelaaja("Aarne", 50, 50, 50, "Soturitappaja");
         Kartta kartta = new Kartta(testikartta);
         pelaaja.setSijainti(kartta.getAloituspala());
         
@@ -69,7 +69,7 @@ public class PeliTest {
     @Test
     public void taistelunAloitus() {
         Karttapala pala = peli.getKartta().getKarttapalat()[2][1];
-        peli.lisaaMonsteri(new Monsteri(2, 2), pala);
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2), pala);
         
         peli.pelaajanLiike(Ilmansuunta.ETELA);
         

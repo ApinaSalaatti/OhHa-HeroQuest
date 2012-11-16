@@ -11,8 +11,11 @@ import heroquest.util.Nimilista;
  */
 public class Monsteri extends Olento {
     
-    public Monsteri(int voima, int energia) {
-        super(voima, energia);
+    public Monsteri(String nimi, int voima, int energia, int nopeus) {
+        super(nimi, voima, energia, nopeus);
+    }
+    public Monsteri(int voima, int energia, int nopeus) {
+        super(voima, energia, nopeus);
         String nimi = Nimilista.getPelottavaNimi();
         this.setNimi(nimi);
     }
@@ -71,6 +74,12 @@ public class Monsteri extends Olento {
             }
         }
         return torjunnat;
+    }
+    
+    @Override
+    public String otaVahinkoa(int vahinko) {
+        muutaEnergia(-vahinko);
+        return "Osuma! Kammottava monsteri " + getNimi() + " otti " + vahinko + " pistettä vahinkoa!\n";
     }
     
     @Override

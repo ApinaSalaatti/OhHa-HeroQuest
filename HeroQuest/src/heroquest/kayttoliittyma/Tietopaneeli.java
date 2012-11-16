@@ -54,6 +54,7 @@ public class Tietopaneeli extends JPanel {
         if(controller.getTila().equals("kuolema")) {
             JOptionPane.showMessageDialog(this, "VOI EI! Nyt olet hengetön. :(");
         }
+        
         // päivitetään pelaajan status
         nimiJaLuokka.setText(controller.pelaajanStatus());
         

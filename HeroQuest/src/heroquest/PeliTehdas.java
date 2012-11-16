@@ -38,7 +38,7 @@ public class PeliTehdas {
         Kartta kartta = luoKartta(lukija);
         
         // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
-        System.out.println(lukija.nextLine());
+        lukija.nextLine();
         
         // pelaaja kartan alkuun
         pelaaja.setSijainti(kartta.getAloituspala());
@@ -47,6 +47,11 @@ public class PeliTehdas {
         Peli peli = new Peli(kartta, pelaaja);
         
         luoMonsterit(lukija, peli, kartta);
+        
+        // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
+        lukija.nextLine();
+        
+        sijoitaAarteet(lukija, peli, kartta);
         
         return peli;
     }
@@ -76,25 +81,30 @@ public class PeliTehdas {
     private Pelaaja luoPelaaja(String nimi, String luokka) {
         int voima = 0;
         int energia = 0;
+        int nopeus = 0;
         
         if(luokka.equals("Taikamaagi")) {
             voima = 2;
             energia = 2;
+            nopeus = 2;
         }
         else if(luokka.equals("Konna")) {
             voima = 8;
             energia = 2;
+            nopeus = 4;
         }
         else if(luokka.equals("Kekkeruusi")) {
             voima = 100;
             energia = 100;
+            nopeus = 100;
         }
         else {
             voima = 5;
             energia = 5;
+            nopeus = 1;
         }
         
-        return new Pelaaja(nimi, voima, energia, luokka);
+        return new Pelaaja(nimi, voima, energia, nopeus, luokka);
     }
     
     private void luoMonsterit(Scanner lukija, Peli peli, Kartta kartta) {
@@ -103,9 +113,21 @@ public class PeliTehdas {
             String riviStr = lukija.nextLine();
             for(int x = 0; x < palat[0].length; x++) {
                 if(riviStr.charAt(x) == '1') {
-                    Monsteri m = new Monsteri(5, 1);
+                    Monsteri m = new Monsteri(5, 1, 1);
                     Karttapala pala = palat[y][x];
                     peli.lisaaMonsteri(m, pala);
+                }
+            }
+        }
+    }
+    
+    private void sijoitaAarteet(Scanner lukija, Peli peli, Kartta kartta) {
+        Karttapala[][] palat = kartta.getKarttapalat();
+        for(int y = 0; y < palat.length; y++) {
+            String riviStr = lukija.nextLine();
+            for(int x = 0; x < palat[0].length; x++) {
+                if(riviStr.charAt(x) == '1') {
+                    palat[y][x].asetaAarre();
                 }
             }
         }

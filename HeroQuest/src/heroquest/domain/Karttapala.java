@@ -18,6 +18,7 @@ public class Karttapala {
     private boolean pelaajaPaikalla;
     private boolean monsteriPaikalla;
     private Monsteri monsteri;
+    private boolean aarrePaikalla;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
@@ -64,6 +65,16 @@ public class Karttapala {
         return monsteriPaikalla;
     }
     
+    public void asetaAarre() {
+        aarrePaikalla = true;
+    }
+    public void poimiAarre() {
+        aarrePaikalla = false;
+    }
+    public boolean aarrePaikalla() {
+        return aarrePaikalla;
+    }
+    
     @Override
     public String toString() {
         StringBuilder rakentaja = new StringBuilder();
@@ -96,6 +107,10 @@ public class Karttapala {
         
         if(monsteriPaikalla()) {
             rakentaja.append("Ruudussa on kamala monsteri: " + monsteri.toString() + "!!!\n");
+        }
+        
+        if(aarrePaikalla()) {
+            rakentaja.append("Ruudussa sijaitsee suunnattoman arvokas kulta-aarre!\n");
         }
         
         return rakentaja.toString();

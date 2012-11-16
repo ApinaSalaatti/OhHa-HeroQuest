@@ -5,6 +5,7 @@
 
 package heroquest.kayttoliittyma;
 
+import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.CardLayout;
@@ -20,6 +21,7 @@ public class Kayttoliittyma implements Runnable {
     private JFrame frame;
     private PeliController controller;
     private Pelipaneeli peliPanel;
+    private Lopetuspaneeli lopetusPanel;
     
     public Kayttoliittyma() {
     }
@@ -41,22 +43,25 @@ public class Kayttoliittyma implements Runnable {
     }
     
     private void luoKomponentit(Container container) {
-        CardLayout layout = new CardLayout(1, 2);
+        CardLayout layout = new CardLayout(1, 3);
         container.setLayout(layout);
         
         Ylavalikko ylavalikko = new Ylavalikko(container, layout, controller);
         frame.setJMenuBar(ylavalikko);
         
         Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, controller);
+        lopetusPanel = new Lopetuspaneeli(controller);
         Karttapaneeli karttaPanel = new Karttapaneeli(controller);
         Tietopaneeli tietoPanel = new Tietopaneeli(controller);
-        peliPanel = new Pelipaneeli(karttaPanel, tietoPanel, controller);
+        peliPanel = new Pelipaneeli(karttaPanel, tietoPanel, layout, container, controller);
 
         container.add(aloitusPanel, "aloitus");
         container.add(peliPanel, "peli");
+        container.add(lopetusPanel, "lopetus");
     }
     
     public void paivita(String tapahtuma) {
+        lopetusPanel.paivita();
         peliPanel.paivita(tapahtuma);
     }
 }

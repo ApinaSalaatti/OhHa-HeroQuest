@@ -63,9 +63,12 @@ public class PeliController {
     }
     
     public void liikenopanHeitto() {
-        int heitto = random.nextInt(6) + 1;
-        peli.getPelaaja().setLiikkeet(heitto);
-        paivitaKali("Mainio heitto: " + heitto + "\n");
+        int yhteensa = 0;
+        for(int i = 0; i < peli.getPelaaja().getNopeus(); i++) {
+            yhteensa += random.nextInt(6) + 1;
+        }
+        peli.getPelaaja().setLiikkeet(yhteensa);
+        paivitaKali("Mainio heitto: " + yhteensa + "\n");
     }
     
     public String pelaajanStatus() {
@@ -80,6 +83,9 @@ public class PeliController {
         if(peli.taistelunAika()) {
             return "taistelu";
         }
+        if(peli.getPelaaja().getSijainti().aarrePaikalla()) {
+            return "voitto";
+        }
         else if(peli.getPelaaja().getLiikkeet() > 0) {
             return "liike";
         }
@@ -91,39 +97,55 @@ public class PeliController {
     // taistelussa ensin pelaaja heittää noppaa ja monsteri ottaa damagea
     // mikäli monsteri vielä tämän jälkeen on hengissä lyö se vuorostaan pelaajaa
     public void taistele() {
-        // haetaan vastustaja
-        Monsteri vastus = peli.getVastustaja();
+        Olento aloittaja = null;
+        Olento seuraaja = null;
         
         // jos vastustajaa ei jostain syystä ollutkaan, ei voida taistellakaan. :(
-        if(vastus == null) {
+        if(peli.getVastustaja() == null) {
             paivitaKali("Ei ole ketään ketä vastaan taistella (mitäs peliä tämä on??)!");
         }
         else {
+            
+            if(peli.getPelaaja().getNopeus() >= peli.getVastustaja().getNopeus()) {
+                aloittaja = peli.getPelaaja();
+                seuraaja = peli.getVastustaja();
+            }
+            else {
+                aloittaja = peli.getVastustaja();
+                seuraaja = peli.getPelaaja();
+            }
+            
             StringBuilder taisteluviesti = new StringBuilder();
             taisteluviesti.append("On taistelun aika!\n");
-            taisteluviesti.append("Vastassasi on pelottava monsteri " + vastus.toString() + "\n");
+            taisteluviesti.append("Vastassasi on pelottava monsteri " + peli.getVastustaja().toString() + "\n");
             
-            int vahinko = hyokkays(peli.getPelaaja(), vastus);
+            
+            int vahinko = hyokkays(aloittaja, seuraaja);
             if(vahinko > 0) {
-                taisteluviesti.append("Teit vahinkoa! ");
-                taisteluviesti.append(vastus.getNimi() + " otti vahinkoa " + vahinko + " pistettä!\n");
-                vastus.otaVahinkoa(vahinko);
+                taisteluviesti.append(seuraaja.otaVahinkoa(vahinko));
             }
             else {
-                taisteluviesti.append("Et osunut! Kehveli!\n");
+                taisteluviesti.append(aloittaja.getNimi() + " löi ohi!\n");
             }
             
-            if(vastus.getEnergia() <= 0) {
-                peli.poistaMonsteri(vastus);
-                taisteluviesti.append("VOITTO ON SINUN!\n");
+            if(seuraaja.getEnergia() <= 0) {
+                // tarkistetaan josko kuollut Olento oli monsteri
+                peli.poistaKuolleetMonsterit();
             }
             else {
-                vahinko = hyokkays(vastus, peli.getPelaaja());
+                vahinko = hyokkays(seuraaja, aloittaja);
                 if(vahinko > 0) {
-                    taisteluviesti.append("Voi ei, sinuun osui " + vahinko + " pisteen edestä!!\n");
-                    peli.getPelaaja().otaVahinkoa(vahinko);
+                    taisteluviesti.append(aloittaja.otaVahinkoa(vahinko));
+                }
+                else {
+                    taisteluviesti.append(seuraaja.getNimi() + " löi ohi!\n");
+                }
+                if(aloittaja.getEnergia() <= 0) {
+                // tarkistetaan josko kuollut Olento oli monsteri
+                peli.poistaKuolleetMonsterit();
                 }
             }
+            
             
             paivitaKali(taisteluviesti.toString());
         }

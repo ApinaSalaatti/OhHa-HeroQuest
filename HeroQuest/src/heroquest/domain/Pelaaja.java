@@ -13,13 +13,13 @@ public class Pelaaja extends Olento {
     private String luokka;
     private int liikkeet;
     
-    public Pelaaja(String nimi, int voima, int energia, String luokka) {
-        super(nimi, voima, energia);
+    public Pelaaja(String nimi, int voima, int energia, int nopeus, String luokka) {
+        super(nimi, voima, energia, nopeus);
         setLuokka(luokka);
         liikkeet = 0;
     }
-    public Pelaaja(int voima, int energia, String luokka) {
-        super(voima, energia);
+    public Pelaaja(int voima, int energia, int nopeus, String luokka) {
+        super(voima, energia, nopeus);
         setLuokka(luokka);
     }
     
@@ -79,6 +79,12 @@ public class Pelaaja extends Olento {
             }
         }
         return torjunnat;
+    }
+    
+    @Override
+    public String otaVahinkoa(int vahinko) {
+        muutaEnergia(-vahinko);
+        return "Voi ei! Otit " + vahinko + " pistettä vahinkoa!\n";
     }
     
     @Override

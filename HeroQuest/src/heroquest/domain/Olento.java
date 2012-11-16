@@ -15,23 +15,26 @@ public abstract class Olento {
     private String nimi;
     private int voima;
     private int energia;
+    private int nopeus;
     private Karttapala sijainti;
     protected Random random;
     
-    public Olento(String nimi, int voima, int energia) {
+    public Olento(String nimi, int voima, int energia, int nopeus) {
         this.random = new Random();
         
         setNimi(nimi);
         setVoima(voima);
         setEnergia(energia);
+        setNopeus(nopeus);
     }
     // jos nimeä ei anneta, haetaan random hauska nimi
-    public Olento(int voima, int energia) {
+    public Olento(int voima, int energia, int nopeus) {
         this.random = new Random();
         
         setNimi("");
         setVoima(voima);
         setEnergia(energia);
+        setNopeus(nopeus);
     }
     
     // luokan (ja aliluokkien) sisäinen asetusfunktio, nimi ei voi olla tyhjä tai pelkkää white spacea
@@ -73,8 +76,20 @@ public abstract class Olento {
     public int getEnergia() {
         return energia;
     }
-    public void otaVahinkoa(int vahinko) {
-        energia -= vahinko;
+    public void muutaEnergia(int muutos) {
+        this.energia += muutos;
+    }
+    
+    public void setNopeus(int nopeus) {
+        if(nopeus < 0) {
+            this.nopeus = 0;
+        }
+        else {
+            this.nopeus = nopeus;
+        }
+    }
+    public int getNopeus() {
+        return nopeus;
     }
     
     public Karttapala getSijainti() {
@@ -88,7 +103,8 @@ public abstract class Olento {
         return false;
     }
     
-    // kaikki olennot voivat hyökätä ja puolustaa, mutta hieman eri tavoilla
+    // kaikki olennot voivat hyökätä ja puolustaa, ja ottaa vahinkoa mutta hieman eri tavoilla
     public abstract int hyokkaa();
     public abstract int puolustaudu();
+    public abstract String otaVahinkoa(int vahinko);
 }

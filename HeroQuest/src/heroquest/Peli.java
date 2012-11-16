@@ -5,6 +5,7 @@
 package heroquest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
@@ -39,6 +40,16 @@ public class Peli {
     public void poistaMonsteri(Monsteri m) {
         m.getSijainti().monsteriPoistuu();
         monsterit.remove(m);
+    }
+    public void poistaKuolleetMonsterit() {
+        Iterator<Monsteri> iter = monsterit.listIterator();
+        while(iter.hasNext()) {
+            Monsteri m = iter.next();
+            if(m.getEnergia() <= 0) {
+                m.getSijainti().monsteriPoistuu();
+                iter.remove();
+            }
+        }
     }
     
     public Kartta getKartta() {

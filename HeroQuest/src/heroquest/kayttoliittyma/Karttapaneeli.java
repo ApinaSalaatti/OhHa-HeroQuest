@@ -25,6 +25,7 @@ public class Karttapaneeli extends JPanel {
     private ImageIcon seinaIcon;
     private ImageIcon lattiaPelaajaPaikallaIcon;
     private ImageIcon lattiaMonsteriPaikallaIcon;
+    private ImageIcon lattiaAarrePaikallaIcon;
     private ImageIcon lattiaTaisteluIcon;
     
     public Karttapaneeli(PeliController pc) {
@@ -44,6 +45,8 @@ public class Karttapaneeli extends JPanel {
         lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
         BufferedImage lattiaTaistelu = Kuvienkasittely.lataaKuva("lattiaTaistelu.png");
         lattiaTaisteluIcon = new ImageIcon(lattiaTaistelu);
+        BufferedImage lattiaAarrePaikalla = Kuvienkasittely.lataaKuva("lattiaAarrePaikalla.png");
+        lattiaAarrePaikallaIcon = new ImageIcon(lattiaAarrePaikalla);
     }
     
     // "piirretään" kartta käyttöliittymään
@@ -55,7 +58,7 @@ public class Karttapaneeli extends JPanel {
             for(int x = 0; x < kartta[0].length; x++) {
                 Karttapala nykyinen = kartta[y][x];
                 if(kartta[y][x] != null) {
-                    if(!nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla()) {
+                    if(!nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla() && !nykyinen.aarrePaikalla()) {
                         this.add(new JLabel(lattiaIcon));
                     }
                     else if(nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla()) {
@@ -66,6 +69,9 @@ public class Karttapaneeli extends JPanel {
                     }
                     else if(nykyinen.pelaajaPaikalla() && nykyinen.monsteriPaikalla()) {
                         this.add(new JLabel(lattiaTaisteluIcon));
+                    }
+                    else if(nykyinen.aarrePaikalla()) {
+                        this.add(new JLabel(lattiaAarrePaikallaIcon));
                     }
                 }
                 else {

@@ -2,8 +2,9 @@ Pelaajan HeroQuest elämys on erittäin muokattavissa! Jokainen pystyy luomaan oma
  - tiedosto saa sisältää vain numeroita
  - kartan rivien kohdalla mahdolliset arvot ovat 1 = lattia, 0 = seinä
  - monsterikartan rivien kohdalla arvot ovat 1 = monsteri, 0 = ei monsteria
+ - aarrekartan rivien kohdalla arvot ovat 1 = aarre, 0 = ei aarretta
 
-Kartan rivien on syytä istua tiedoston alussa annettuihin arvoihin ja monsterien on syytä osua lattiaruuduille, muuten kaikki menee mönkään! Lisäksi ruudun 1,1 täytyy olla lattiaa, koska sen on tarkoitus olla aloitusruutu. Tiedoston sisältö on siis seuraava.
+Kartan rivien on syytä istua tiedoston alussa annettuihin arvoihin ja monsterien on syytä osua lattiaruuduille, muuten kaikki menee mönkään! Ja jos aarrekartassa ei ole yhtään aarretta, peli ei ikinä lopu. Lisäksi ruudun 1,1 täytyy olla lattiaa, koska sen on tarkoitus olla aloitusruutu. Tiedoston sisältö on siis seuraava.
 
 kartan leveys
 kartan korkeus
@@ -20,8 +21,15 @@ monsterikartan rivi kaksi
 .
 .
 monsterikartan viimeinen rivi
+TYHJÄ RIVI
+aarrekartan rivi yksi
+aarrekartan rivi kaksi
+.
+.
+.
+aarrekartan viimeinen rivi
 
-Eli käytännön esimerkki voisi olla seuraavanlainen:
+Tyhjät rivit ovat lähinnä selkeyden vuoksi. Eli käytännön esimerkki voisi olla seuraavanlainen:
 
 8
 8
@@ -41,4 +49,13 @@ Eli käytännön esimerkki voisi olla seuraavanlainen:
 00000000
 00000000
 00000000
+00000000
+
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000010
 00000000
