@@ -6,9 +6,6 @@
 package heroquest.kayttoliittyma;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 import java.awt.CardLayout;
 import java.awt.Container;
@@ -44,22 +41,11 @@ public class Kayttoliittyma implements Runnable {
     }
     
     private void luoKomponentit(Container container) {
-        JMenuBar ylavalikko = new JMenuBar();
-        JMenu tiedostoValikko = new JMenu("Tiedosto");
-        
-        JMenuItem uusiPeli = new JMenuItem("Uusi peli");
-        JMenuItem tallenna = new JMenuItem("Tallenna");
-        JMenuItem lataa = new JMenuItem("Lataa tallennus");
-        JMenuItem poistu = new JMenuItem("Poistu");
-        tiedostoValikko.add(uusiPeli);
-        tiedostoValikko.add(tallenna);
-        tiedostoValikko.add(lataa);
-        tiedostoValikko.add(poistu);
-        ylavalikko.add(tiedostoValikko);
-        frame.setJMenuBar(ylavalikko);
-        
         CardLayout layout = new CardLayout(1, 2);
         container.setLayout(layout);
+        
+        Ylavalikko ylavalikko = new Ylavalikko(container, layout, controller);
+        frame.setJMenuBar(ylavalikko);
         
         Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, controller);
         Karttapaneeli karttaPanel = new Karttapaneeli(controller);

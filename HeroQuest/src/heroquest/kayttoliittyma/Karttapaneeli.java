@@ -5,15 +5,12 @@
 
 package heroquest.kayttoliittyma;
 
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 
-import heroquest.Peli;
 import heroquest.PeliController;
 import heroquest.domain.Karttapala;
 import heroquest.util.Kuvienkasittely;

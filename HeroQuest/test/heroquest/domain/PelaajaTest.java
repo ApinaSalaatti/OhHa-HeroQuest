@@ -84,4 +84,11 @@ public class PelaajaTest {
          assertTrue(pelaaja.getNimi().length() > 0);
      }
      
+     @Test
+     public void negatiivinenVoimaEiKelpaa() {
+         pelaaja = new Pelaaja("Jouko", -5, -5, "Suurenmoinen sankarimies");
+         
+         assertTrue(pelaaja.getVoima() > 0);
+     }
+     
 }
