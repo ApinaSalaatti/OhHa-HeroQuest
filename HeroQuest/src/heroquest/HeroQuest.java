@@ -6,7 +6,8 @@ import javax.swing.SwingUtilities;
 
 import heroquest.kayttoliittyma.Kayttoliittyma;
 /**
- *
+ * Tämä vain käynnistää pelin, ei tee oikeasti mitään.
+ * 
  * @author Merioksan Mikko
  */
 public class HeroQuest {
@@ -17,7 +18,6 @@ public class HeroQuest {
         PeliController controller = new PeliController(kali);
         kali.setController(controller);
         SwingUtilities.invokeLater(kali);
-
-        
+  
     }
 }

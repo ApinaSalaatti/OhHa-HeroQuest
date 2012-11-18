@@ -19,8 +19,8 @@ import heroquest.domain.Ilmansuunta;
 public class PeliTest {
     private static int[][] testikartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
                                             {0, 1, 1, 1, 1, 1, 1, 0},
-                                            {0, 1, 0, 0, 0, 0, 0, 0},
-                                            {0, 1, 1, 1, 0, 0, 0, 0},
+                                            {0, 1, 0, 0, 1, 1, 1, 0},
+                                            {0, 1, 1, 1, 1, 1, 1, 0},
                                             {0, 1, 0, 1, 0, 0, 0, 0},
                                             {0, 1, 0, 1, 1, 1, 1, 0},
                                             {0, 1, 1, 1, 0, 0, 1, 0},
@@ -40,7 +40,7 @@ public class PeliTest {
     
     @Before
     public void setUp() {
-        Pelaaja pelaaja = new Pelaaja("Aarne", 50, 50, 50, "Soturitappaja");
+        Pelaaja pelaaja = new Pelaaja("Aarne", 100, 100, 100, "Soturitappaja");
         Kartta kartta = new Kartta(testikartta);
         pelaaja.setSijainti(kartta.getAloituspala());
         
@@ -50,11 +50,6 @@ public class PeliTest {
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     
     @Test
     public void pelaajanLiikkuminen() {
@@ -74,5 +69,15 @@ public class PeliTest {
         peli.pelaajanLiike(Ilmansuunta.ETELA);
         
         assertTrue(peli.taistelunAika());
+    }
+    
+    @Test
+    public void vuoronLopetusLiikuttaaMonstereita() {
+        Karttapala pala = peli.getKartta().getKarttapalat()[2][5];
+        Monsteri m = new Monsteri(2, 2, 2);
+        peli.lisaaMonsteri(m, pala);
+        peli.lopetaVuoro();
+        
+        assertNotSame(m.getSijainti(), pala);
     }
 }

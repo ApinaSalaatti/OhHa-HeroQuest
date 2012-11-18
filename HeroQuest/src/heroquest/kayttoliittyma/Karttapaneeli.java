@@ -15,18 +15,13 @@ import heroquest.PeliController;
 import heroquest.domain.Karttapala;
 import heroquest.util.Kuvienkasittely;
 /**
- *
+ * JPanel luokan alaluokka, jolle kartta tulostetaan.
+ * 
  * @author Merioksan Mikko
  */
-// JPanel luokan alaluokka, jolle kartta tulostetaan
 public class Karttapaneeli extends JPanel {
     private PeliController controller;
-    private ImageIcon lattiaIcon;
-    private ImageIcon seinaIcon;
-    private ImageIcon lattiaPelaajaPaikallaIcon;
-    private ImageIcon lattiaMonsteriPaikallaIcon;
-    private ImageIcon lattiaAarrePaikallaIcon;
-    private ImageIcon lattiaTaisteluIcon;
+    private ImageIcon[] laatat;
     
     public Karttapaneeli(PeliController pc) {
         this.controller = pc;
@@ -36,20 +31,30 @@ public class Karttapaneeli extends JPanel {
     private void luoKomponentit() {
         // ladataan kartan piirtämiseen vaaditut kuvat
         BufferedImage lattia = Kuvienkasittely.lataaKuva("lattia.png");
-        lattiaIcon = new ImageIcon(lattia);
+        ImageIcon lattiaIcon = new ImageIcon(lattia);
         BufferedImage seina = Kuvienkasittely.lataaKuva("seina.png");
-        seinaIcon = new ImageIcon(seina);
+        ImageIcon seinaIcon = new ImageIcon(seina);
         BufferedImage lattiaPelaajaPaikalla = Kuvienkasittely.lataaKuva("lattiaPelaajaPaikalla.png");
-        lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
+        ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
         BufferedImage lattiaMonsteriPaikalla = Kuvienkasittely.lataaKuva("lattiaMonsteriPaikalla.png");
-        lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
+        ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
         BufferedImage lattiaTaistelu = Kuvienkasittely.lataaKuva("lattiaTaistelu.png");
-        lattiaTaisteluIcon = new ImageIcon(lattiaTaistelu);
+        ImageIcon lattiaTaisteluIcon = new ImageIcon(lattiaTaistelu);
         BufferedImage lattiaAarrePaikalla = Kuvienkasittely.lataaKuva("lattiaAarrePaikalla.png");
-        lattiaAarrePaikallaIcon = new ImageIcon(lattiaAarrePaikalla);
+        ImageIcon lattiaAarrePaikallaIcon = new ImageIcon(lattiaAarrePaikalla);
+        
+        laatat = new ImageIcon[6];
+        laatat[0] = seinaIcon;
+        laatat[1] = lattiaIcon;
+        laatat[2] = lattiaPelaajaPaikallaIcon;
+        laatat[3] = lattiaMonsteriPaikallaIcon;
+        laatat[4] = lattiaTaisteluIcon;
+        laatat[5] = lattiaAarrePaikallaIcon;
     }
     
-    // "piirretään" kartta käyttöliittymään
+    /**
+     * "Piirretään" kartta käyttöliittymään.
+     */
     public void piirraKartta() {
         Karttapala[][] kartta = controller.getKartta().getNahdytPalat();
         this.removeAll();
@@ -58,24 +63,10 @@ public class Karttapaneeli extends JPanel {
             for(int x = 0; x < kartta[0].length; x++) {
                 Karttapala nykyinen = kartta[y][x];
                 if(kartta[y][x] != null) {
-                    if(!nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla() && !nykyinen.aarrePaikalla()) {
-                        this.add(new JLabel(lattiaIcon));
-                    }
-                    else if(nykyinen.pelaajaPaikalla() && !nykyinen.monsteriPaikalla()) {
-                        this.add(new JLabel(lattiaPelaajaPaikallaIcon));
-                    }
-                    else if(nykyinen.monsteriPaikalla() && !nykyinen.pelaajaPaikalla()) {
-                        this.add(new JLabel(lattiaMonsteriPaikallaIcon));
-                    }
-                    else if(nykyinen.pelaajaPaikalla() && nykyinen.monsteriPaikalla()) {
-                        this.add(new JLabel(lattiaTaisteluIcon));
-                    }
-                    else if(nykyinen.aarrePaikalla()) {
-                        this.add(new JLabel(lattiaAarrePaikallaIcon));
-                    }
+                    this.add(new JLabel(laatat[nykyinen.status()]));
                 }
                 else {
-                    this.add(new JLabel(seinaIcon));
+                    this.add(new JLabel(laatat[0]));
                 }
             }
         }

@@ -14,22 +14,24 @@ import heroquest.domain.Monsteri;
 import heroquest.util.KarttaGeneraattori;
 import heroquest.util.Tiedostoapuri;
 /**
- *
- * @author Merioksan Mikko
+ * Tehdasluokka joka luo pelin, pelaajan ja kartan annettujen parametrien pohjalta.
  * 
- * Tehdasluokka joka luo pelin, pelaajan ja kartan annettujen parametrien pohjalta
+ * @author Merioksan Mikko
  * 
  */
 public class PeliTehdas {
     public PeliTehdas() {
     }
     
-    /*
-     * luodaan peli annetuilla parametreilla
-     * pelaajanNimi ja pelaajanLuokka -parametrien avulla luodaan pelaajahahmo
+    /**
+     * Luodaan peli annetuilla parametreilla.
      * kartanNimi on .hqm-tiedosto josta karttadata luetaan
      * .hqm-tiedoston formaatti on selitetty dokumentaatiossa, ks. kartanluontiohje.txt
      * 
+     * @param pelaajanNimi pelaajan hahmon nimi
+     * @param pelaajanLuokka pelaajan hahmon hahmoluokka
+     * @param kartanNimi valitun kartan nimi
+     * @return rakennettu Peli-luokan olio
      */
     public Peli luoPeli(String pelaajanNimi, String pelaajanLuokka, String kartanNimi) {
         Pelaaja pelaaja = luoPelaaja(pelaajanNimi, pelaajanLuokka);
@@ -56,7 +58,12 @@ public class PeliTehdas {
         return peli;
     }
     
-    // luetaan kartta Scannerista int[][] taulukkoon ja lähetetään se sitten Kartta-oliolle uuden kartan pohjaksi
+    /**
+     * Metodi, jossa luetaan kartta Scannerista int[][] taulukkoon ja lähetetään se sitten Kartta-oliolle uuden kartan pohjaksi
+     * 
+     * @param lukija lukija joka sisältää karttadatan
+     * @return rakennettu Kartta-luokan olio
+     */
     private Kartta luoKartta(Scanner lukija) {
         
         int x = Integer.parseInt(lukija.nextLine());
@@ -78,6 +85,13 @@ public class PeliTehdas {
         return new Kartta(kartta);
     }
     
+    /**
+     * Metodi, joka luo Pelaaja-luokan olion annettujen parametrien perusteella. 
+     * 
+     * @param nimi hahmon nimi
+     * @param luokka hahmon hahmoluokka
+     * @return rakennettu Pelaaja-luokan olio
+     */
     private Pelaaja luoPelaaja(String nimi, String luokka) {
         int voima = 0;
         int energia = 0;
@@ -107,6 +121,13 @@ public class PeliTehdas {
         return new Pelaaja(nimi, voima, energia, nopeus, luokka);
     }
     
+    /**
+     * Metodi, joka lisää monsterit kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
+     * 
+     * @param lukija karttadatan sisältävä Scanner-olio
+     * @param peli Peli-olio johon monsterit lisätään
+     * @param kartta Kartta-olio johon monsterit lisätään.
+     */
     private void luoMonsterit(Scanner lukija, Peli peli, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         for(int y = 0; y < palat.length; y++) {
@@ -121,6 +142,13 @@ public class PeliTehdas {
         }
     }
     
+    /**
+     * Sijoitetaan arvokkaat aarteet kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
+     * 
+     * @param lukija Scanner-olio jossa karttadata
+     * @param peli Peli johon aarteet lisätään
+     * @param kartta Kartta johon aarteet lisätään
+     */
     private void sijoitaAarteet(Scanner lukija, Peli peli, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         for(int y = 0; y < palat.length; y++) {

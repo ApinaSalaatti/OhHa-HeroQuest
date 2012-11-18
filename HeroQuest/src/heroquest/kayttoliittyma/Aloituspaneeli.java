@@ -7,6 +7,7 @@ package heroquest.kayttoliittyma;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -66,7 +67,9 @@ public class Aloituspaneeli extends JPanel {
         JPanel nappipaneeli = new JPanel();
         nappipaneeli.add(aloitusnappi);
         
-        this.add(new JLabel("Tervetuloa superhypermegajännittävään Mahtiseikkailuun!"));
+        JLabel tervehdys = new JLabel("Tervetuloa superhypermegajännittävään Mahtiseikkailuun!");
+        tervehdys.setFont(new Font("tervehdys", 1, 30));
+        this.add(tervehdys);
         this.add(nimipaneeli);
         this.add(luokkapaneeli);
         this.add(karttapaneeli); 

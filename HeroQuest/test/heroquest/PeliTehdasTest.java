@@ -7,6 +7,8 @@ package heroquest;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import heroquest.domain.Karttapala;
+
 /**
  *
  * @author ApinaSalaatti
@@ -30,17 +32,12 @@ public class PeliTehdasTest {
     public void setUp() {
         this.pt = new PeliTehdas();
         peli = null;
-        peli = pt.luoPeli("Aarne", "Taikamaagi", "kartta.hqm");
+        peli = pt.luoPeli("Aarne", "Taikamaagi", "testikartta.hqm");
     }
     
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     
     @Test
     public void tehdasRakentaaPelin() {
@@ -61,5 +58,17 @@ public class PeliTehdasTest {
     @Test
     public void tehdasLuoKartan() {
         assertNotNull(peli.getKartta());
+    }
+    
+    @Test
+    public void monsterienAsetus() {
+        Karttapala pala = peli.getKartta().getKarttapalat()[2][2];
+        assertTrue(pala.monsteriPaikalla());
+    }
+    
+    @Test
+    public void aarteenAsetus() {
+        Karttapala pala = peli.getKartta().getKarttapalat()[3][3];
+        assertTrue(pala.aarrePaikalla());
     }
 }

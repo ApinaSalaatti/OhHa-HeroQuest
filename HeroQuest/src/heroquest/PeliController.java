@@ -13,12 +13,23 @@ import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
 import heroquest.kayttoliittyma.Kayttoliittyma;
 /**
- *
+ * Luokka joka toimii välittäjänä pelilogiikan ja käyttöliittymän välillä.
+ * Idea on, että käyttöliittymä voi olla millainen tahansa pelilogiikan muuttumatta. MVC-mallin C.
+ * 
  * @author Merioksan Mikko
  */
 public class PeliController {
+    /**
+     * Satunnaisuutta tarvittaessa hyödynnettävä Random-olio.
+     */
     private Random random;
+    /**
+     * Peli-luokan olio, joka sisältää kaiken pelilogiikan. MVC-mallissa se model.
+     */
     private Peli peli;
+    /**
+     * Käyttöliittymä-olio, voi olla toteutettu monin eri tavoin.
+     */
     private Kayttoliittyma kali;
     
     public PeliController(Kayttoliittyma k) {
@@ -26,6 +37,14 @@ public class PeliController {
         this.kali = k;
     }
     
+    /**
+     * Metodi, jota käyttöliittymä kutsuu kun ollaan valmiina aloittamaan peli.
+     * Käyttöliittymän pitää lähettää metodille pelaajalta pyydettyjä tietoja.
+     * 
+     * @param nimi pelaajan hahmon nimi
+     * @param luokka pelaajan hahmon hahmoluokka
+     * @param kartanNimi pelaajan valitsema kartta
+     */
     public void aloitaPeli(String nimi, String luokka, String kartanNimi) {
         PeliTehdas pt = new PeliTehdas();
         this.peli = pt.luoPeli(nimi, luokka, kartanNimi);
@@ -34,16 +53,40 @@ public class PeliController {
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
     }
     
+    /**
+     * 
+     * @return Peli-luokan olio, joka on parhaillaan käytössä.
+     */
+    public Peli getPeli() {
+        return peli;
+    }
+    
+    /**
+     * Metodi, joka lähettää käyttöliittymälle viestin siitä, mitä viimeisimmän kontrolleri-kutsun jälkeen tapahtui.
+     * 
+     * @param tapahtuma kontrollerin muilta metodeilta saatava viesti tapahtumista
+     */
     public void paivitaKali(String tapahtuma) {
         peli.getKartta().paivitaNahdyt(peli.getPelaaja().getSijainti());
         peli.tuleekoTaistelu();
         kali.paivita(tapahtuma);
     }
     
+    /**
+     * 
+     * @return parhaillaan käytössä oleva kartta
+     */
     public Kartta getKartta() {
         return peli.getKartta();
     }
     
+    /**
+     * Metodi, joka liikuttaa pelaajahahmoa.
+     * Päivittää käyttöliittymää viestillä liikkeen onnistumisesta.
+     * Lopuksi tarkistetaan onko käyttäjällä liikkeitä jäljellä ja päivitetään käyttöliittymää sen mukaisesti.
+     * 
+     * @param suunta suunta johon halutaan liikkua
+     */
     public void pelaajanLiike(Ilmansuunta suunta) {
         Karttapala vanha = peli.getPelaaja().getSijainti();
         peli.pelaajanLiike(suunta);
@@ -62,6 +105,10 @@ public class PeliController {
         }
     }
     
+    /**
+     * Metodi, joka simuloi nopanheittoa. Heitetään pelaajan nopeuden mukaista määrää noppia.
+     * Metodia kutsutaan, kun pelaaja on käyttänyt kaikki liikkeensä.
+     */
     public void liikenopanHeitto() {
         int yhteensa = 0;
         for(int i = 0; i < peli.getPelaaja().getNopeus(); i++) {
@@ -71,11 +118,20 @@ public class PeliController {
         paivitaKali("Mainio heitto: " + yhteensa + "\n");
     }
     
+    /**
+     * Metodi, joka lähettää pelaajan statuksen (nimen, voiman, energian, yms) käyttöliittymälle
+     * 
+     * @return pelaajan status String-oliona
+     */
     public String pelaajanStatus() {
         return peli.getPelaaja().toString();
     }
     
-    // palauttaa tilan jossa peli on, sen mukaan käyttöliittymä osaa näyttää oikeat komponentit
+    /*
+     * Metodi, joka palauttaa tilan jossa peli on. Sen mukaan käyttöliittymä osaa näyttää oikeat komponentit.
+     * 
+     * @return pelin/pelaajan tilanne
+     */
     public String getTila() {
         if(peli.getPelaaja().getEnergia() <= 0) {
             return "kuolema";
@@ -94,8 +150,10 @@ public class PeliController {
         }
     }
     
-    // taistelussa ensin pelaaja heittää noppaa ja monsteri ottaa damagea
-    // mikäli monsteri vielä tämän jälkeen on hengissä lyö se vuorostaan pelaajaa
+    /*
+     * Taistelumetodi. Taistelussa nopeampi hahmo hyökkää ensin ja hitaampi puolustaa.
+     * Mikäli hitaampi olento selviää hyökkäyksestä, on sen vuoro hyökätä.
+     */
     public void taistele() {
         Olento aloittaja = null;
         Olento seuraaja = null;
@@ -106,6 +164,7 @@ public class PeliController {
         }
         else {
             
+            // tarkastetaan kumpi on nopeampi ja asetetaan aloittaja ja seuraaja sen mukaisesti.
             if(peli.getPelaaja().getNopeus() >= peli.getVastustaja().getNopeus()) {
                 aloittaja = peli.getPelaaja();
                 seuraaja = peli.getVastustaja();
@@ -119,7 +178,7 @@ public class PeliController {
             taisteluviesti.append("On taistelun aika!\n");
             taisteluviesti.append("Vastassasi on pelottava monsteri " + peli.getVastustaja().toString() + "\n");
             
-            
+            // aloittajan hyökkäys
             int vahinko = hyokkays(aloittaja, seuraaja);
             if(vahinko > 0) {
                 taisteluviesti.append(seuraaja.otaVahinkoa(vahinko));
@@ -133,6 +192,7 @@ public class PeliController {
                 peli.poistaKuolleetMonsterit();
             }
             else {
+                // seuraajan hyökkäys
                 vahinko = hyokkays(seuraaja, aloittaja);
                 if(vahinko > 0) {
                     taisteluviesti.append(aloittaja.otaVahinkoa(vahinko));
@@ -151,7 +211,14 @@ public class PeliController {
         }
     }
     
-    // lasketaan yksittäisen hyökkäyksen damage. Iik!
+    /**
+     * Metodi, joka laskee yksittäisessä hyökkäyksessä tehdyn vahingon.
+     * <= 0 tarkoittaa ohilyöntiä.
+     * 
+     * @param hyokkaaja hyökkäävä Olento
+     * @param puolustaja puolustava Olento
+     * @return hyökkäyksen ja puolustuksen erotus
+     */
     public int hyokkays(Olento hyokkaaja, Olento puolustaja) {
         int hyokkays = hyokkaaja.hyokkaa();
         int puolustus = puolustaja.puolustaudu();

@@ -13,13 +13,26 @@ import heroquest.domain.Ilmansuunta;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
 /**
- *
- * @author merioksa
+ * Pelilogiikan sisältävä luokka. MVC-mallin M.
+ * 
+ * @author Merioksan Mikko
  */
 public class Peli {
+    /**
+     * Käytössä oleva kartta.
+     */
     private Kartta kartta;
+    /**
+     * Pelaajan hahmo.
+     */
     private Pelaaja pelaaja;
+    /**
+     * Kaikki pelissä jäljellä olevat monsterit.
+     */
     private ArrayList<Monsteri> monsterit;
+    /**
+     * Apumuuttuja, joka määrittelee onko pelaaja taistelussa.
+     */
     private boolean taistelunAika;
     
     public Peli(Kartta k, Pelaaja p) {
@@ -31,16 +44,30 @@ public class Peli {
         kartta.paivitaNahdyt(pelaaja.getSijainti());
     }
     
+    /**
+     * Lisätään kartalle yksi Monsteri annettuun Karttapalaan.
+     * 
+     * @param m lisättävä Monsteri
+     * @param pala Karttapala, johon monsteri lisätään
+     */
     public void lisaaMonsteri(Monsteri m, Karttapala pala) {
         m.setSijainti(pala);
         pala.monsteriSaapuu(m);
         monsterit.add(m);
     }
     
+    /**
+     * Poistaa annetun Monsterin pelistä, esim kun Pelaaja tappaa sen.
+     * 
+     * @param m poistettava Monsteri
+     */
     public void poistaMonsteri(Monsteri m) {
         m.getSijainti().monsteriPoistuu();
         monsterit.remove(m);
     }
+    /**
+     * Metodi, joka poistaa pelistä kaikki kuolleet Monsterit.
+     */
     public void poistaKuolleetMonsterit() {
         Iterator<Monsteri> iter = monsterit.listIterator();
         while(iter.hasNext()) {
@@ -48,24 +75,39 @@ public class Peli {
             if(m.getEnergia() <= 0) {
                 m.getSijainti().monsteriPoistuu();
                 iter.remove();
+                pelaaja.lisaaTappo();
             }
         }
     }
     
+    /**
+     * @return käytössä oleva Kartta
+     */
     public Kartta getKartta() {
         return kartta;
     }
     
+    /**
+     * @return pelaajan hahmo
+     */
     public Pelaaja getPelaaja() {
         return pelaaja;
     }
     
+    /**
+     * Liikuttaa pelaajaa haluttuun suuntaan kutsumalla Pelaaja-luokan liiku-metodia.
+     * 
+     * @param suunta haluttu suunta
+     */
     public void pelaajanLiike(Ilmansuunta suunta) {
         pelaaja.liiku(suunta);
         tuleekoTaistelu();
     }
     
-    // liikutetaan kaikki kartan hirviöitä kerralla
+    /**
+     * Metodi, joka liikuttaa kaikkia pelissä olevia Monstereita.
+     * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
+     */
     private void monsterienLiike() {
         // hirviöt liikkuvat vain jos pelaaja ei ole taistelussa
         if(!taistelunAika) {
@@ -75,37 +117,36 @@ public class Peli {
         }
     }
     
-    // palautetaan monsteri joka on samassa ruudussa pelaajan kanssa. Jos yksikään ei ole, return null
+    /**
+     * @return monsteri joka on samassa ruudussa pelaajan kanssa. Jos yksikään ei ole, return null
+     */
     public Monsteri getVastustaja() {
         Karttapala pelaajaSijainti = pelaaja.getSijainti();
-        for(Monsteri m : monsterit) {
-            if(m.getSijainti().equals(pelaajaSijainti)) {
-                return m;
-            }
-        }
-        
-        return null;
+        return pelaajaSijainti.getMonsteri();
     }
     
-    // kun pelaaja on käyttänyt kaikki liikkeensä, on vuoro ohi ja monsterit liikkuvat
+    /**
+     * Metodi, joka pelaajan liikkeiden loppuessa "lopettaa vuoron", eli liikuttaa Monstereita.
+     */
     public void lopetaVuoro() {
         monsterienLiike();
         tuleekoTaistelu();
     }
     
-    // tarkastetaan joutuuko pelaaja taisteluun (ts. onko samassa ruudussa monsteri)
+    /**
+     * Metodi, jossa tarkastetaan joutuuko pelaaja taisteluun (ts. onko samassa ruudussa monsteri).
+     */
     public void tuleekoTaistelu() {
         Karttapala pelaajanSijainti = pelaaja.getSijainti();
         taistelunAika = false;
-        
-        for(Monsteri m : monsterit) {
-            if(m.getSijainti().equals(pelaajanSijainti)) {
-                taistelunAika = true;
-                return;
-            }
+        if(pelaajanSijainti.monsteriPaikalla()) {
+            taistelunAika = true;
         }
     }
     
+    /**
+     * @return tieto siitä, ollaanko taistelussa
+     */
     public boolean taistelunAika() {
         return taistelunAika;
     }

@@ -6,21 +6,42 @@ package heroquest.domain;
 
 import heroquest.util.Nimilista;
 /**
- *
- * @author merioksa
+ * Olento-luokan perivä luokka, joka kuvaa kartalla liikkuvia vihaisia monstereita.
+ * 
+ * @author Merioksan Mikko
  */
 public class Monsteri extends Olento {
     
+    /**
+     * Konstruktori, joka saa annettuna monsterin nimen.
+     * 
+     * @param nimi monsterin nimi
+     * @param voima monsterin voima
+     * @param energia monsterin energia
+     * @param nopeus monsterin nopeus
+     */
     public Monsteri(String nimi, int voima, int energia, int nopeus) {
         super(nimi, voima, energia, nopeus);
     }
+    /**
+     * Konstruktori, jolle ei anneta nimeä. Tällöin monsterin nimeksi arvotaan satunnainen pelottava nimi Nimilista-luokan avulla
+     * 
+     * @see heroquest.util.Nimilista#pelottavatNimet()
+     * 
+     * @param voima monsterin voima
+     * @param energia monsterin energia
+     * @param nopeus monsterin nopeus
+     */
     public Monsteri(int voima, int energia, int nopeus) {
         super(voima, energia, nopeus);
         String nimi = Nimilista.getPelottavaNimi();
         this.setNimi(nimi);
     }
     
-    // monsteria satunnaiseen suuntaan liikuttava metodi
+    /**
+     * Monsteria yhden askeleen satunnaiseen suuntaan liikuttava metodi.
+     * Mikäli valittuun suuntaan ei voi liikkua, ei monsteri tee mitään.
+     */
     public void liiku() {
         Ilmansuunta suunta = Ilmansuunta.satunnainen();
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);
@@ -34,7 +55,11 @@ public class Monsteri extends Olento {
         }
     }
     
-    // monsteria haluttuun suuntaan liikuttava metodi
+    /**
+     * Metodi, joka liikuttaa monsteria haluttuun suuntaan.
+     * 
+     * @param suunta suunta, johon monsterin tulee liikkua
+     */
     public void liiku(Ilmansuunta suunta) {
         Karttapala vanha = this.getSijainti();
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);

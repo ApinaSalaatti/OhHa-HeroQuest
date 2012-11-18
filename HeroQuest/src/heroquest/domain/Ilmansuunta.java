@@ -6,8 +6,10 @@ package heroquest.domain;
 
 import java.util.Random;
 /**
- *
- * @author merioksa
+ * Luokka avuksi kartalla liikkumiseen.
+ * Kartan ilmansuuntiin liittyy numero, jota hyödynnetään mm. karttapalojen naapurien tallentamisessa taulukkoon.
+ * 
+ * @author Merioksan Mikko
  */
 public enum Ilmansuunta {
     POHJOINEN(0),
@@ -15,17 +17,29 @@ public enum Ilmansuunta {
     ETELA(2),
     LANSI(3);
     
+    /**
+     * Ilmansuuntaa vastaava numero.
+     */
     private int suuntanro;
+    /**
+     * Satunnaisen ilmansuunnan palauttamiseen käytetty Random-olio.
+     */
     private static Random random = new Random();
     
     private Ilmansuunta(int nro) {
         this.suuntanro = nro;
     }
     
+    /**
+     * @return ilmansuuntaa vastaava numero
+     */
     public int getSuuntanro() {
         return suuntanro;
     }
     
+    /**
+     * @return ilmansuunnan vastakohta, esim. lännellä itä.
+     */
     public Ilmansuunta vastakohta() {
         if(this == POHJOINEN) {
             return ETELA;
@@ -41,6 +55,9 @@ public enum Ilmansuunta {
         }
     }
     
+    /**
+     * @return ilmansuuntaan liikkuessa aiheutuva x-koordinaatin muutos
+     */
     public int xMuutos() {
         switch(this) {
             case POHJOINEN:
@@ -54,6 +71,9 @@ public enum Ilmansuunta {
         }
     }
     
+    /**
+     * @return ilmansuuntaan liikkuessa aiheutuva y-koordinaatin muutos
+     */
     public int yMuutos() {
         switch(this) {
             case POHJOINEN:
@@ -67,6 +87,12 @@ public enum Ilmansuunta {
         }
     }
     
+    /**
+     * Metodi, joka palauttaa tiettyyn numeroon liittyvän suunnan.
+     * 
+     * @param suunta haluttu suunta
+     * @return numeroon liittyvä suunta
+     */
     public static Ilmansuunta annaNumeronSuunta(int suunta) {
         switch(suunta) {
             case 0:
@@ -80,6 +106,9 @@ public enum Ilmansuunta {
         }
     }
     
+    /**
+     * @return satunnainen ilmansuunta
+     */
     public static Ilmansuunta satunnainen() {
         int suunta = random.nextInt(4);
         return annaNumeronSuunta(suunta);

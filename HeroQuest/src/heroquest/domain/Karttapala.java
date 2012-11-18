@@ -7,74 +7,151 @@ package heroquest.domain;
 import java.lang.StringBuilder;
 
 /**
+ * Luokka joka kuvaa yhden palan kartasta.
+ * Yhdellä karttapalalla voi sijaita yksi aarre, yksi pelaaja ja yksi monsteri kerrallaan.
+ * Karttapalalla on x- ja y-koordinaatit, sekä tiedot sen naapuripaloista. Tietyn karttapalan voi siis löytää joko koordinaattien tai naapureiden avulla.
  * 
- * @author merioksa
+ * @author Merioksan Mikko
  */
 public class Karttapala {
+    /**
+     * Palan x-koordinaatti.
+     */
     private int x;
+    /**
+     * Palan y-koordinaatti
+     */
     private int y;
-    // palan naapurit taulukossa. Indeksi 0 = pohjoinen, 1 = itä, 2 = etelä ja 3 = länsi
+    /**
+     * Palan naapuripalat taulukossa
+     */
     private Karttapala[] naapurit;
+    /** 
+     * Muuttuja joka kertoo onko pelaaja juuri tällä hetkellä ruudussa
+     */
     private boolean pelaajaPaikalla;
-    private boolean monsteriPaikalla;
+    /**
+     * Ruudussa mahdollisesti oleileva monsteri. Null = ei monsteria.
+     */
     private Monsteri monsteri;
+    /**
+     * Muuttuja joka kertoo onko ruudussa aarre.
+     */
     private boolean aarrePaikalla;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
         pelaajaPaikalla = false;
+        monsteri = null;
     }
     
+    /**
+     * Metodi joka asettaa kartan sijainnin koordinaatistossa.
+     * 
+     * @param x pelilogiikan määrittelemä palan x-koordinaatti
+     * @param y pelilogiikan määrittelemä palan y-koordinaatti
+     */
     public void setSijainti(int x, int y) {
         this.x = x;
         this.y = y;
     }
+    /**
+     * @return palan x-koordinaatti
+     */
     public int getX() {
         return x;
     }
+    /**
+     * @return kartan y-koordinaatti
+     */
     public int getY() {
         return y;
     }
     
+    /**
+     * Asettaa karttapalalle toisen palan naapuriksi.
+     * 
+     * @param pala pala joka asetetaan naapuriksi
+     * @param suunta suunta johon naapuri sijoitetaan
+     */
     public void setNaapuri(Karttapala pala, Ilmansuunta suunta) {
         naapurit[suunta.getSuuntanro()] = pala;
     }
+    /**
+     * Palauttaa kartan naapuripalan
+     * 
+     * @param suunta suunta josta naapuripala haetaan
+     * @return haettu naapuri. Mikäli palalla ei ole annetussa suunnassa naapuria palautuu null.
+     */
     public Karttapala getNaapuri(Ilmansuunta suunta) {
         return naapurit[suunta.getSuuntanro()];
     }
     
+    /**
+     * Metodi, joka pelaajan liikkuessa ruutuun asettaa tiedon karttapalaan.
+     */
     public void pelaajaSaapuu() {
         pelaajaPaikalla = true;
     }
+    /**
+     * Pelaajan poistuessa ruudusta, poistetaan tieto pelaajasta karttapalasta.
+     */
     public void pelaajaPoistuu() {
         pelaajaPaikalla = false;
     }
+    /**
+     * @return tieto siitä, onko pelaaja juuri kyseisessä ruudussa
+     */
     public boolean pelaajaPaikalla() {
         return pelaajaPaikalla;
     }
     
+    /**
+     * Metodi, joka monsterin saapuessa ruutuun asettaa monsterin ruudussa sijaitsevaksi.
+     * 
+     * @param m ruutuun saapuva monsteri
+     */
     public void monsteriSaapuu(Monsteri m) {
         monsteri = m;
-        monsteriPaikalla = true;
     }
+    /**
+     * Monsterin poistuessa poistetaan monsteri ruudusta.
+     */
     public void monsteriPoistuu() {
         monsteri = null;
-        monsteriPaikalla = false;
     }
+    /**
+     * @return tieto siitä, onko ruudussa monsteria
+     */
     public boolean monsteriPaikalla() {
-        return monsteriPaikalla;
+        return monsteri != null;
+    }
+    /**
+     * @return palassa majaileva monsteri
+     */
+    public Monsteri getMonsteri() {
+        return monsteri;
     }
     
+    /**
+     * Metodi joka lisää ruutuun aarteen.
+     */
     public void asetaAarre() {
         aarrePaikalla = true;
     }
+    /**
+     * Metodi joka poistuu aarteen ruudusta, esim. pelaajan poimiessa sen.
+     */
     public void poimiAarre() {
         aarrePaikalla = false;
     }
+    /**
+     * @return tieto siitä, onko ruudussa aarre
+     */
     public boolean aarrePaikalla() {
         return aarrePaikalla;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder rakentaja = new StringBuilder();
@@ -114,6 +191,29 @@ public class Karttapala {
         }
         
         return rakentaja.toString();
+    }
+    
+    /**
+     * Metodi, joka palauttaa palan "statuksen", eli mitä kaikkea ruudusta löytyy! Lähinnä että käyttöliittymä tietää mitä piirtää.
+     * 
+     * @return ennaltamääritelty arvo palan "statukseksi".
+     */
+    public int status() {
+        if(pelaajaPaikalla() && !monsteriPaikalla()) {
+            return 2;
+        }
+        else if(pelaajaPaikalla() && monsteriPaikalla()) {
+            return 4;
+        }
+        else if(!pelaajaPaikalla() && monsteriPaikalla()) {
+            return 3;
+        }
+        else if(aarrePaikalla()) {
+            return 5;
+        }
+        else {
+            return 1;
+        }
     }
     
     @Override

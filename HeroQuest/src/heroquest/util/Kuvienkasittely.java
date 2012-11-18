@@ -10,11 +10,18 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Apuluokka, jossa metodit kuvien käsittelyyn kuten tiedostosta lataamiseen ja croppaamiseen.
+ * 
  * @author Merioksan Mikko
  */
 public class Kuvienkasittely {
 
+    /**
+     * Ladataan kuva parametrina annetulla tiedostonimellä.
+     * 
+     * @param nimi kuvan tiedostonimi
+     * @return ladattu kuva BufferedImage-formaatissa
+     */
     public static BufferedImage lataaKuva(String nimi) {
         String polku = "src/kuvat/" + nimi;
         BufferedImage kuva = null;

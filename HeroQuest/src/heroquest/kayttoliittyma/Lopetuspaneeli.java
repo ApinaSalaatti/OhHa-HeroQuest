@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.GridLayout;
+import java.awt.Font;
 
 import heroquest.PeliController;
 /**
@@ -17,7 +18,9 @@ import heroquest.PeliController;
  */
 public class Lopetuspaneeli extends JPanel {
     private PeliController controller;
-    private JTextArea nimi;
+    private JLabel nimi;
+    private JLabel tapot;
+    private JLabel heihei;
     
     public Lopetuspaneeli(PeliController controller) {
         this.controller = controller;
@@ -25,14 +28,24 @@ public class Lopetuspaneeli extends JPanel {
     }
     
     private void luoKomponentit() {
-        this.setLayout(new GridLayout(2, 1));
-        nimi = new JTextArea();
-        nimi.setEditable(false);
+        this.setLayout(new GridLayout(3, 1));
+        nimi = new JLabel();
+        nimi.setFont(new Font("nimi", 1, 50));
+        
+        tapot = new JLabel();
+        tapot.setFont(new Font("tapot", 1, 50));
+        
+        heihei = new JLabel();
+        heihei.setFont(new Font("heihei", 1, 50));
+        
         this.add(nimi);
-        this.add(new JLabel("SE ON LOPPU NYT HEI!"));
+        this.add(tapot);
+        this.add(heihei);
     }
     
     public void paivita() {
-        nimi.setText(controller.pelaajanStatus());
+        nimi.setText("Nimesi oli " + controller.getPeli().getPelaaja().getNimi());
+        tapot.setText("Tapoit yhteensä " + controller.getPeli().getPelaaja().getTapot() + " hirmuista monsteria!");
+        heihei.setText("SE ON LOPPU NYT. HEI HEI!");
     }
 }

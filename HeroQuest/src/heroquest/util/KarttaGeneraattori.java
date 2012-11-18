@@ -11,10 +11,9 @@ import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
 /**
- *
- * @author Merioksan Mikko
+ * Apuluokka kartan luomiseen annetusta raakadatasta (int[][]-taulukko).
  * 
- * Apuluokka kartan luomiseen erilaisilla parametreilla
+ * @author Merioksan Mikko
  * 
  */
 public class KarttaGeneraattori {
@@ -23,7 +22,11 @@ public class KarttaGeneraattori {
     public KarttaGeneraattori() {
     }
     
-    // luo kartta annetun lähdekartan pohjalta. 0 = seinä, 1 = käytävä
+    /**
+     * Metodi, joka luo kartan annetun lähdekartan pohjalta.
+     * 
+     * @param lahde karttadata int[][]-muodossa
+     */
     public void luoKartta(int[][] lahde) {
         int y = lahde.length;
         int x = lahde[0].length;
@@ -35,6 +38,8 @@ public class KarttaGeneraattori {
                     Karttapala pala = new Karttapala();
                     pala.setSijainti(j, i);
                     kartta[i][j] = pala;
+                    
+                    // asetetaan naapurit oikein
                     if(i > 0 && kartta[i-1][j] != null) {
                         pala.setNaapuri(kartta[i-1][j], Ilmansuunta.POHJOINEN);
                         kartta[i-1][j].setNaapuri(pala, Ilmansuunta.ETELA);
@@ -55,9 +60,10 @@ public class KarttaGeneraattori {
             }
         }
     }
-
     
-    
+    /**
+     * @return luodut karttapalat taulukkona 
+     */
     public Karttapala[][] getKartta() {
         return kartta;
     }
