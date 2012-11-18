@@ -5,6 +5,7 @@
 package heroquest.domain;
 
 import java.util.Random;
+import java.util.List;
 
 import heroquest.util.Nimilista;
 /**
@@ -34,6 +35,10 @@ public abstract class Olento {
      */
     private Karttapala sijainti;
     /**
+     * Hahmon inventaario, johon varastoidaan sen kantamat tavarat ja varusteet
+     */
+    protected Inventaario inventaario;
+    /**
      * Esim. nopanheittojen simuloinnissa käytetty Random-olio. Protected jotta aliluokat pääsevät käsiksi.
      */
     protected Random random;
@@ -48,6 +53,7 @@ public abstract class Olento {
      */
     public Olento(String nimi, int voima, int energia, int nopeus) {
         random = new Random();
+        inventaario = new Inventaario();
         
         setNimi(nimi);
         setVoima(voima);
@@ -181,6 +187,18 @@ public abstract class Olento {
      */
     public Karttapala getSijainti() {
         return sijainti;
+    }
+    
+    /**
+     * @return hahmon inventaario
+     */
+    public Inventaario getInventaario() {
+        return inventaario;
+    }
+    public void lisaaTavarat(List<String> tavarat) {
+        for(String t : tavarat) {
+            inventaario.lisaaTavara(t);
+        }
     }
     
     /**

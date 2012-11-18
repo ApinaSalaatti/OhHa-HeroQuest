@@ -14,10 +14,10 @@ import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
 import heroquest.kayttoliittyma.Pelipaneeli;
 /**
- *
+ * ActionListenerin toteuttava luokka hahmon liikuttamista varten
+ * 
  * @author Merioksan Mikko
  */
-// ActionListener-luokka näppäimille jotka
 public class LiikenappiKuuntelija implements ActionListener {
     private PeliController controller;
     

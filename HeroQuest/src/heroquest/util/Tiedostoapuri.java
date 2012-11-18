@@ -6,7 +6,10 @@
 package heroquest.util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
+
+import heroquest.Peli;
 
 /**
  * Apuluokka helpottamaan tiedostojen avaamista, lukemista ja kirjoittamista.
@@ -52,5 +55,28 @@ public class Tiedostoapuri {
             System.exit(-1);
         }
         return null;
+    }
+    
+    // TODO: toteutappas tämä kekkuli
+    public static void tallennaPeli(Peli peli, String nimi) {
+        String polku = "tallennukset/" + nimi;
+        try {
+            FileWriter fw = new FileWriter(polku);
+            fw.write(peli.getPelaaja().getNimi());
+            fw.write("\n");
+            fw.write(peli.getPelaaja().getVoima());
+            fw.write("\n");
+            fw.write(peli.getPelaaja().getEnergia());
+            fw.write("\n");
+            fw.write(peli.getPelaaja().getNopeus());
+            fw.write("\n");
+            fw.append(peli.getPelaaja().getLuokka());
+            fw.write("\n");
+            
+            fw.close();
+        }
+        catch(Exception e) {
+            System.exit(-1);
+        }
     }
 }

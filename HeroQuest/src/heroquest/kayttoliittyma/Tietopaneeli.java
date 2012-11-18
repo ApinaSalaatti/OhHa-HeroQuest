@@ -61,8 +61,8 @@ public class Tietopaneeli extends JPanel {
         // päivitetään tapahtumat-feed
         paivitaTapahtumat(tapahtuma);
         
-        // vaihdetaan käyttöliittymän tila (a.k.a. enabloidaan oikeat napit)
-        nappiPanel.vaihdaTila(controller.getTila());
+        // päivitetään käyttöliittymän napit ja näpykät
+        nappiPanel.paivita(controller.getTila());
     }
     
     // päivitetään tapahtumat-feediä. Uusin tapahtuma tulee alkuun

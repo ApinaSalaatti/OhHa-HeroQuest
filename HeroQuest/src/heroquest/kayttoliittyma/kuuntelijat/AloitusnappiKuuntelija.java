@@ -14,8 +14,9 @@ import java.awt.event.ActionEvent;
 import heroquest.PeliController;
 
 /**
- *
- * @author merioksa
+ * ActionListenerin toteuttava luokka, jonka avulla lähetetään pelin alussa pelaajan valitsemat tiedot Peli-luokalle
+ * 
+ * @author Merioksan Mikko
  */
 public class AloitusnappiKuuntelija implements ActionListener {
     private Container container;

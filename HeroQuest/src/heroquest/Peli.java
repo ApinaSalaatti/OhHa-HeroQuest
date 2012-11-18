@@ -105,6 +105,21 @@ public class Peli {
     }
     
     /**
+     * Poimitaan kaikki pelaajan sijaintiruudussa olevat tavarat.
+     * 
+     * @return tieto tavaroiden poiston onnistumisesta
+     */
+    public boolean tavaroidenPoiminta() {
+        if(pelaaja.getSijainti().getTavarat().size() <= 0) {
+            return false;
+        }
+        
+        pelaaja.lisaaTavarat(pelaaja.getSijainti().poimiTavarat());
+        
+        return true;
+    }
+    
+    /**
      * Metodi, joka liikuttaa kaikkia pelissä olevia Monstereita.
      * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
      */

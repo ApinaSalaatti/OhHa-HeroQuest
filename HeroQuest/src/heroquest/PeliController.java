@@ -20,7 +20,7 @@ import heroquest.kayttoliittyma.Kayttoliittyma;
  */
 public class PeliController {
     /**
-     * Satunnaisuutta tarvittaessa hyödynnettävä Random-olio.
+     * Satunnaisuutta tarvittaessa.
      */
     private Random random;
     /**
@@ -96,7 +96,7 @@ public class PeliController {
             paivitaKali("Ei sinne voi liikkua! >:-(\n");
         }
         else {
-            paivitaKali("Siirryit onnistuneest! Sijaintisi nyt:\n" + peli.getPelaaja().getSijainti() + "\n");
+            paivitaKali("Siirryit onnistuneesti! Sijaintisi nyt:\n" + peli.getPelaaja().getSijainti() + "\n");
         }
         
         if(peli.getPelaaja().getLiikkeet() == 0) {
@@ -116,6 +116,16 @@ public class PeliController {
         }
         peli.getPelaaja().setLiikkeet(yhteensa);
         paivitaKali("Mainio heitto: " + yhteensa + "\n");
+    }
+    
+    public void tavaroidenPoiminta() {
+        if(peli.tavaroidenPoiminta()) {
+            paivitaKali("Tavarat poimittu!\n");
+        }
+        else {
+            paivitaKali("Ei mitään poimittavaa. :(\n");
+        }
+        
     }
     
     /**
@@ -139,7 +149,7 @@ public class PeliController {
         if(peli.taistelunAika()) {
             return "taistelu";
         }
-        if(peli.getPelaaja().getSijainti().aarrePaikalla()) {
+        if(peli.getKartta().getAarteet() <= 0) {
             return "voitto";
         }
         else if(peli.getPelaaja().getLiikkeet() > 0) {

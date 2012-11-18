@@ -4,8 +4,7 @@
  */
 package heroquest.domain;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 import heroquest.util.KarttaGeneraattori;
 /**
@@ -23,6 +22,10 @@ public class Kartta {
      * Pelaajan löytämät karttapalat. Nämä määritellään yksinkertaisen line of sightin perusteella.
      */
     private Karttapala[][] nahty;
+    /**
+     * Kartalla jäljellä olevien aarteiden määrä.
+     */
+    private int aarteita;
     
     public Kartta(int[][] lahde) {
         kartta = new Karttapala[lahde.length][lahde[0].length];
@@ -31,6 +34,7 @@ public class Kartta {
         generaattori.luoKartta(lahde);
         kartta = generaattori.getKartta();
         nahty = new Karttapala[kartta.length][kartta[0].length];
+        aarteita = 0;
     }
     
     /**
@@ -52,6 +56,29 @@ public class Kartta {
      */
     public Karttapala[][] getNahdytPalat() {
         return nahty;
+    }
+    
+    /**
+     * Poimii kaikki tavarat parametrina annetusta Karttapalasta
+     * 
+     * @param pala tyhjennettävä karttapala
+     */
+    public List<String> poimiTavarat(Karttapala pala) {
+        return pala.poimiTavarat();
+    }
+    /**
+     * @return kartalla jäljellä olevien aarteiden määrä
+     */
+    public int getAarteet() {
+        int lkm = 0;
+        for(int y = 0; y < kartta.length; y++) {
+            for(int x = 0; x < kartta.length; x++) {
+                if(kartta[y][x] != null && kartta[y][x].aarrePaikalla()) {
+                    lkm++;
+                }
+            }
+        }
+        return lkm;
     }
     
     /**

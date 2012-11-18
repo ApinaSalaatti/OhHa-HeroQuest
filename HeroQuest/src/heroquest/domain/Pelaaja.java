@@ -99,6 +99,19 @@ public class Pelaaja extends Olento {
         return tapot;
     }
     
+    /**
+     * @return pelaajan pistemäärä
+     */
+    public int getPisteet() {
+        int pisteet = 0;
+        pisteet += 100 * tapot;
+        for(String t : inventaario.getTavarat()) {
+            if(t.equals("Arvokas aarre")) {
+                pisteet += 200;
+            }
+        }
+        return pisteet;
+    }
     
     /*
      * Taistelumetodit:
@@ -144,6 +157,8 @@ public class Pelaaja extends Olento {
         for(int i = 0; i < this.getEnergia(); i++) {
             sb.append("*");
         }
+        sb.append("\n");
+        sb.append("Pisteet: " + getPisteet() + "\n");
         
         return sb.toString();
     }

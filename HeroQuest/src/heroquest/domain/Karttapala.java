@@ -5,6 +5,9 @@
 package heroquest.domain;
 
 import java.lang.StringBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  * Luokka joka kuvaa yhden palan kartasta.
@@ -26,6 +29,10 @@ public class Karttapala {
      * Palan naapuripalat taulukossa
      */
     private Karttapala[] naapurit;
+    /**
+     * Ruudussa sijaitsevat tavarat
+     */
+    private List<String> tavarat;
     /** 
      * Muuttuja joka kertoo onko pelaaja juuri tällä hetkellä ruudussa
      */
@@ -34,13 +41,10 @@ public class Karttapala {
      * Ruudussa mahdollisesti oleileva monsteri. Null = ei monsteria.
      */
     private Monsteri monsteri;
-    /**
-     * Muuttuja joka kertoo onko ruudussa aarre.
-     */
-    private boolean aarrePaikalla;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
+        tavarat = new ArrayList<String>();
         pelaajaPaikalla = false;
         monsteri = null;
     }
@@ -88,6 +92,34 @@ public class Karttapala {
     }
     
     /**
+     * Lisää tavaran Karttapalan inventaarioon
+     * 
+     * @param t lisättävä tavara
+     */
+    public void addTavara(String t) {
+        tavarat.add(t);
+    }
+    /**
+     * @return Karttapalassa majailevat tavarat
+     */
+    public List<String> getTavarat() {
+        return tavarat;
+    }
+    /**
+     * Metodi joka poistuu aarteen ruudusta, esim. pelaajan poimiessa sen.
+     */
+    public List<String> poimiTavarat() {
+        List<String> lista = new ArrayList<String>();
+        Iterator<String> iter = tavarat.listIterator();
+        while(iter.hasNext()) {
+            String tavara = iter.next();
+            lista.add(tavara);
+            iter.remove();
+        }
+        return lista;
+    }
+    
+    /**
      * Metodi, joka pelaajan liikkuessa ruutuun asettaa tiedon karttapalaan.
      */
     public void pelaajaSaapuu() {
@@ -132,24 +164,11 @@ public class Karttapala {
     public Monsteri getMonsteri() {
         return monsteri;
     }
-    
-    /**
-     * Metodi joka lisää ruutuun aarteen.
-     */
-    public void asetaAarre() {
-        aarrePaikalla = true;
-    }
-    /**
-     * Metodi joka poistuu aarteen ruudusta, esim. pelaajan poimiessa sen.
-     */
-    public void poimiAarre() {
-        aarrePaikalla = false;
-    }
     /**
      * @return tieto siitä, onko ruudussa aarre
      */
     public boolean aarrePaikalla() {
-        return aarrePaikalla;
+        return tavarat.contains("Arvokas aarre");
     }
 
     @Override

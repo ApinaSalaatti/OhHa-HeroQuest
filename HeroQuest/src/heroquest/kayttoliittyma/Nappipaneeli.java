@@ -5,6 +5,7 @@
 
 package heroquest.kayttoliittyma;
 
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -12,6 +13,9 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import heroquest.PeliController;
 import heroquest.domain.Ilmansuunta;
@@ -30,8 +34,9 @@ public class Nappipaneeli extends JPanel {
     JButton oikea;
     JButton liikenoppa;
     JButton taistelunoppa;
-    JList taikalista;
-    JButton taikanappi;
+    JList inventaario;
+    JButton inventaarionappi;
+    JButton poimintanappi;
     
     public Nappipaneeli(PeliController pc) {
         this.controller = pc;
@@ -48,10 +53,11 @@ public class Nappipaneeli extends JPanel {
         oikea = new JButton(">");
         liikenoppa = new JButton("Liiku!");
         taistelunoppa = new JButton("Taistele!");
-        taikanappi = new JButton("Heitä taika");
+        poimintanappi = new JButton("Poimi tavarat ruudusta");
         
-        String[] taiat = { "Tähän", "Tulee", "Taikoja" };
-        taikalista = new JList(taiat);
+        inventaarionappi = new JButton("Käytä esinettä");
+        inventaario = new JList();
+        inventaario.setPreferredSize(new Dimension(250, 110));
         
         ylos.addActionListener(new LiikenappiKuuntelija(controller));
         alas.addActionListener(new LiikenappiKuuntelija(controller));
@@ -60,28 +66,36 @@ public class Nappipaneeli extends JPanel {
         liikenoppa.addActionListener(new LiikenoppaKuuntelija(controller));
         taistelunoppa.addActionListener(new TaistelunoppaKuuntelija(controller));
         
+        poimintanappi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.tavaroidenPoiminta();
+            }
+        });
+        
         liikkumisnapit.add(ylos, BorderLayout.NORTH);
-        liikkumisnapit.add(alas);
+        liikkumisnapit.add(alas, BorderLayout.SOUTH);
         liikkumisnapit.add(vasen, BorderLayout.WEST);
         liikkumisnapit.add(oikea, BorderLayout.EAST);
         nopat.add(new JLabel("Heitä noppaa:"), BorderLayout.NORTH);
         nopat.add(liikenoppa);
         nopat.add(taistelunoppa, BorderLayout.SOUTH);
-        JPanel napitJaNopat = new JPanel(new GridLayout(2, 1));
+        JPanel napitJaNopat = new JPanel(new GridLayout(3, 1));
         napitJaNopat.add(liikkumisnapit);
         napitJaNopat.add(nopat);
+        napitJaNopat.add(poimintanappi);
         
-        JPanel taikapaneeli = new JPanel();
-        taikapaneeli.add(new JLabel("Taiat:"), BorderLayout.NORTH);
-        taikapaneeli.add(taikalista);
-        taikapaneeli.add(taikanappi, BorderLayout.SOUTH);
+        JPanel inventaariopaneeli = new JPanel();
+        inventaariopaneeli.add(new JLabel("Inventaario:"), BorderLayout.NORTH);
+        inventaariopaneeli.add(inventaario);
+        inventaariopaneeli.add(inventaarionappi, BorderLayout.SOUTH);
         
         this.add(napitJaNopat);
-        this.add(taikapaneeli);
+        this.add(inventaariopaneeli);
     }
     
     // enabloidaan/disabloidaan oikean nappulat ja namiskat käyttöliittymästä sen mukaan, missä tilassa peli on
-    public void vaihdaTila(String tila) {
+    public void paivita(String tila) {
         if(tila.equals("taistelu")) {
             liikeNapit(false);
             liikenoppa.setEnabled(false);
@@ -97,6 +111,10 @@ public class Nappipaneeli extends JPanel {
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(false);
         }
+        
+        String[] tavarat = controller.getPeli().getPelaaja().getInventaario().getTavaratTaulukkona();
+        
+        inventaario.setListData(tavarat);
     }
     
     private void liikeNapit(boolean b) {

@@ -9,8 +9,10 @@ import java.awt.event.ActionEvent;
 
 import heroquest.PeliController;
 /**
- *
- * @author merioksa
+ * ActionListenerin toteuttava luokka liikkumisnopan heiton simulointia varten
+ * 
+ * 
+ * @author Merioksan Mikko
  */
 public class LiikenoppaKuuntelija implements ActionListener {
     private PeliController controller;

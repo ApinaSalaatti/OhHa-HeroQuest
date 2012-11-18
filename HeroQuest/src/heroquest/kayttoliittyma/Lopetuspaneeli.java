@@ -7,7 +7,6 @@ package heroquest.kayttoliittyma;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import java.awt.GridLayout;
 import java.awt.Font;
 
@@ -45,7 +44,7 @@ public class Lopetuspaneeli extends JPanel {
     
     public void paivita() {
         nimi.setText("Nimesi oli " + controller.getPeli().getPelaaja().getNimi());
-        tapot.setText("Tapoit yhteensä " + controller.getPeli().getPelaaja().getTapot() + " hirmuista monsteria!");
+        tapot.setText("Tienasit yhteensä " + controller.getPeli().getPelaaja().getPisteet() + " pistettä! Wowzers!");
         heihei.setText("SE ON LOPPU NYT. HEI HEI!");
     }
 }

@@ -11,7 +11,6 @@ import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
-import heroquest.util.KarttaGeneraattori;
 import heroquest.util.Tiedostoapuri;
 /**
  * Tehdasluokka joka luo pelin, pelaajan ja kartan annettujen parametrien pohjalta.
@@ -53,7 +52,7 @@ public class PeliTehdas {
         // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
         lukija.nextLine();
         
-        sijoitaAarteet(lukija, peli, kartta);
+        sijoitaTavarat(lukija, peli, kartta);
         
         return peli;
     }
@@ -143,19 +142,19 @@ public class PeliTehdas {
     }
     
     /**
-     * Sijoitetaan arvokkaat aarteet kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
+     * Sijoitetaan tavarat kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
      * 
      * @param lukija Scanner-olio jossa karttadata
-     * @param peli Peli johon aarteet lisätään
-     * @param kartta Kartta johon aarteet lisätään
+     * @param peli Peli johon tavarat lisätään
+     * @param kartta Kartta johon tavarat lisätään
      */
-    private void sijoitaAarteet(Scanner lukija, Peli peli, Kartta kartta) {
+    private void sijoitaTavarat(Scanner lukija, Peli peli, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         for(int y = 0; y < palat.length; y++) {
             String riviStr = lukija.nextLine();
             for(int x = 0; x < palat[0].length; x++) {
                 if(riviStr.charAt(x) == '1') {
-                    palat[y][x].asetaAarre();
+                    palat[y][x].addTavara("Arvokas aarre");
                 }
             }
         }
