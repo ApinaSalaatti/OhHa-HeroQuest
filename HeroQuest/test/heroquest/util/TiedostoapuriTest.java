@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import java.util.Scanner;
 /**
  *
- * @author ApinaSalaatti
+ * @author Merioksan Mikko
  */
 public class TiedostoapuriTest {
     
