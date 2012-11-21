@@ -52,9 +52,54 @@ public class PeliTehdas {
         // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
         lukija.nextLine();
         
-        sijoitaTavarat(lukija, peli, kartta);
+        sijoitaTavarat(lukija, kartta);
         
         return peli;
+    }
+    
+    /**
+     * Metodi, joka lukee tallennetun pelin annetusta tiedostosta, ja rakentaa sen perusteella uuden pelin.
+     * 
+     * @param tiedostonimi tiedosto josta pelin tiedot luetaan
+     * @return rakennettu Peli-luokan olio
+     */
+    public Peli lataaPeli(String tiedostonimi) {
+        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi);
+        
+        String[] pelaajanTiedot = lukija.nextLine().split(";");
+        
+        Pelaaja pelaaja = lataaPelaaja(pelaajanTiedot);
+        
+        Kartta kartta = luoKartta(lukija);
+        
+        Peli peli = new Peli(kartta, pelaaja);
+        
+        luoMonsterit(lukija, peli, kartta);
+        sijoitaTavarat(lukija, kartta);
+        
+        int y = Integer.parseInt(pelaajanTiedot[0]);
+        int x = Integer.parseInt(pelaajanTiedot[1]);
+        pelaaja.setSijainti(kartta.getKarttapalat()[y][x]);
+        kartta.getKarttapalat()[y][x].pelaajaSaapuu();
+        
+        return peli;
+    }
+    
+    /**
+     * Metodi, joka käyttää purkaa annetusta merkkijonotaulukosta pelaajan tiedot.
+     * Käytetään vain peliä tallennuksesta ladatessa, uutta peliä luodessa luodaan aina uusi pelaaja "normaalisti".
+     * 
+     * @param lukija
+     * @return 
+     */
+    public Pelaaja lataaPelaaja(String[] pelaajanTiedot) {
+        String nimi = pelaajanTiedot[2];
+        int voima = Integer.parseInt(pelaajanTiedot[3]);
+        int energia = Integer.parseInt(pelaajanTiedot[4]);
+        int nopeus = Integer.parseInt(pelaajanTiedot[5]);
+        String luokka = pelaajanTiedot[6];
+        
+        return new Pelaaja(nimi, voima, energia, nopeus, luokka);
     }
     
     /**
@@ -64,7 +109,6 @@ public class PeliTehdas {
      * @return rakennettu Kartta-luokan olio
      */
     private Kartta luoKartta(Scanner lukija) {
-        
         int x = Integer.parseInt(lukija.nextLine());
         int y = Integer.parseInt(lukija.nextLine());
         int[][] kartta = new int[y][x];
@@ -148,7 +192,7 @@ public class PeliTehdas {
      * @param peli Peli johon tavarat lisätään
      * @param kartta Kartta johon tavarat lisätään
      */
-    private void sijoitaTavarat(Scanner lukija, Peli peli, Kartta kartta) {
+    private void sijoitaTavarat(Scanner lukija, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         for(int y = 0; y < palat.length; y++) {
             String riviStr = lukija.nextLine();

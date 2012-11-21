@@ -202,6 +202,15 @@ public abstract class Olento {
     }
     
     /**
+     * Palauttaa Olennon tiedot String-muodossa. Tätä ei ole tarkoitus kutsua pelkästään, vaan jonkun perivän luokan kautta.
+     * 
+     * @return Olennon tiedot String-muodossa
+     */
+    protected String tallenna() {
+        return sijainti.getY() + ";" + sijainti.getX() + ";" + getNimi() + ";" + getVoima() + ";" + getEnergia() + ";" + getNopeus();
+    }
+    
+    /**
      * Abstrakti metodi johon perivä luokka toteuttaa olennon hyökkäyslogiikan.
      * 
      * @return hahmon tekemä vahinko

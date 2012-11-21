@@ -6,6 +6,8 @@
 package heroquest;
 
 import java.util.Random;
+
+import heroquest.util.Tiedostoapuri;
 import heroquest.domain.Olento;
 import heroquest.domain.Monsteri;
 import heroquest.domain.Kartta;
@@ -234,5 +236,25 @@ public class PeliController {
         int puolustus = puolustaja.puolustaudu();
         
         return hyokkays - puolustus;
+    }
+    
+    /**
+     * Pelin tallentava metodi. Yksinkertaisesti kirjoitetaan karttadata, monsterit ja pelaajan tiedot tekstitiedostoon.
+     */
+    public void tallenna(String tiedostonimi) {
+        Tiedostoapuri.tallennaPeli(peli.tallenna(), tiedostonimi);
+    }
+    
+    /**
+     * Pelin tallennuksesta lataava metodi. Rakentaa uuden pelin tiedoston tietojen perusteella.
+     * 
+     * @param tiedostonimi tiedosto josta peli ladataan
+     */
+    public void lataa(String tiedostonimi) {
+        PeliTehdas pt = new PeliTehdas();
+        this.peli = pt.lataaPeli(tiedostonimi);
+        
+        paivitaKali("Sijaintisi: " + peli.getPelaaja().getSijainti());
+        paivitaKali("Peli ladattu!");
     }
 }

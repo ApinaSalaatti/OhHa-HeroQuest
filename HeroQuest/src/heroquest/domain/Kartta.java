@@ -22,10 +22,6 @@ public class Kartta {
      * Pelaajan löytämät karttapalat. Nämä määritellään yksinkertaisen line of sightin perusteella.
      */
     private Karttapala[][] nahty;
-    /**
-     * Kartalla jäljellä olevien aarteiden määrä.
-     */
-    private int aarteita;
     
     public Kartta(int[][] lahde) {
         kartta = new Karttapala[lahde.length][lahde[0].length];
@@ -34,7 +30,6 @@ public class Kartta {
         generaattori.luoKartta(lahde);
         kartta = generaattori.getKartta();
         nahty = new Karttapala[kartta.length][kartta[0].length];
-        aarteita = 0;
     }
     
     /**
@@ -111,5 +106,60 @@ public class Kartta {
         }
         nahty[y][x] = kartta[y][x];
         asetaNakyvaksi(x+seurX, y+seurY, seurX, seurY);
+    }
+    
+    /**
+     * Palautetaan kaikki karttadata tallentamista varten tiedostona.
+     * 
+     * @return karttadata String-muotoisena
+     */
+    public String tallenna() {
+        StringBuilder sb = new StringBuilder();
+        
+        // kartan koko
+        sb.append(kartta.length + "\n");
+        sb.append(kartta[0].length + "\n");
+        
+        // itse karttapalat
+        sb.append(tallennaData("karttapalat"));
+        sb.append(tallennaData("monsterit"));
+        sb.append(tallennaData("aarrekartta"));
+        sb.append(tallennaData("nahdyt"));
+        
+        return sb.toString();
+    }
+    
+    public String tallennaData(String data) {
+        StringBuilder sb = new StringBuilder();
+        
+        for(int y = 0; y < kartta.length; y++) {
+            for(int x = 0; x < kartta[0].length; x++) {
+                if(data.equals("karttapalat")) {
+                    sb.append((kartta[y][x] != null) ? "1" : "0");
+                }
+                else if(data.equals("monsterit")) {
+                    if(kartta[y][x] != null) {
+                        sb.append((kartta[y][x].monsteriPaikalla()) ? "1" : "0");
+                    }
+                    else {
+                        sb.append("0");
+                    }
+                }
+                else if(data.equals("aarrekartta")) {
+                    if(kartta[y][x] != null) {
+                        sb.append((kartta[y][x].aarrePaikalla()) ? "1" : "0");
+                    }
+                    else {
+                        sb.append("0");
+                    }
+                }
+                else if(data.equals("nahdyt")) {
+                    sb.append((nahty[y][x] != null) ? "1" : "0");
+                }
+            }
+            sb.append("\n");
+        }
+        
+        return sb.toString();
     }
 }

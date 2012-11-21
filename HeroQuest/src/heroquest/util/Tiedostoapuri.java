@@ -57,5 +57,23 @@ public class Tiedostoapuri {
         }
         return null;
     }
+    
+    /**
+     * Kirjoitettaa annetut tiedot annetun nimiseen tiedostoon. Tiedosto sijoitetaan tallennukset-kansioon.
+     * 
+     * @param kirjoitettava pelidata joka tiedostoon kirjoitetaan
+     * @param tiedostonimi tallennettavan tiedoston nimi
+     */
+    public static void tallennaPeli(String kirjoitettava, String tiedostonimi) {
+        String polku = "tallennukset/" + tiedostonimi + ".hqs";
+        try {
+            FileWriter fw = new FileWriter(polku);
+            fw.write(kirjoitettava);
+            fw.close();
+        }
+        catch(Exception e) {
+            System.out.println("Tallennus epäonnistui!");
+        }
+    }
    
 }

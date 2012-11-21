@@ -111,4 +111,9 @@ public class Monsteri extends Olento {
     public String toString() {
         return this.getNimi() + " (V: " + this.getVoima() + " E: " + this.getEnergia() + ")";
     }
+    
+    @Override
+    public String tallenna() {
+        return super.tallenna() + "\n";
+    }
 }

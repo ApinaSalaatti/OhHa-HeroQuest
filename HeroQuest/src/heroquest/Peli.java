@@ -165,4 +165,23 @@ public class Peli {
     public boolean taistelunAika() {
         return taistelunAika;
     }
+    
+    /**
+     * Palautetaan kartan ja pelaajan tiedot tallennettavaksi tiedostoon
+     * 
+     * @return pelaajan ja kartan tiedot String-muuttujassa
+     */
+    public String tallenna() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(pelaaja.tallenna());
+        sb.append(kartta.tallenna());
+        
+        sb.append(monsterit.size() + "\n");
+        for(Monsteri m : monsterit) {
+            sb.append(m.tallenna());
+        }
+        
+        return sb.toString();
+    }
 }

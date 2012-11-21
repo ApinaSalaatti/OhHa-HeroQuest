@@ -46,7 +46,7 @@ public class Kayttoliittyma implements Runnable {
         CardLayout layout = new CardLayout(1, 3);
         container.setLayout(layout);
         
-        Ylavalikko ylavalikko = new Ylavalikko(container, layout, controller);
+        Ylavalikko ylavalikko = new Ylavalikko(frame, layout, controller);
         frame.setJMenuBar(ylavalikko);
         
         Aloituspaneeli aloitusPanel = new Aloituspaneeli(container, layout, controller);

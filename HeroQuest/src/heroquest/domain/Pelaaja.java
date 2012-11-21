@@ -163,4 +163,13 @@ public class Pelaaja extends Olento {
         return sb.toString();
     }
     
+    /**
+     * Metodi, joka lähettää pelaajan tiedot yhtenä Stringinä tallennettavaksi tiedostoon.
+     * 
+     * @return pelaajan strategiset mitat
+     */
+    @Override
+    public String tallenna() {
+        return super.tallenna() + ";" + getLuokka() + "\n";
+    }
 }
