@@ -105,7 +105,10 @@ public class Kartta {
             return;
         }
         nahty[y][x] = kartta[y][x];
-        asetaNakyvaksi(x+seurX, y+seurY, seurX, seurY);
+        
+        if(seurX != 0 || seurY != 0) {
+            asetaNakyvaksi(x+seurX, y+seurY, seurX, seurY);
+        }
     }
     
     /**

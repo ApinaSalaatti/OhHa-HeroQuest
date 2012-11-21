@@ -46,7 +46,9 @@ public class Inventaario {
      * @param tavara lisättävä tavara
      */
     public void lisaaTavara(String tavara) {
-        tavarat.add(tavara);
+        if(tavara.length() > 0) {
+            tavarat.add(tavara);
+        }
     }
     
     /**

@@ -72,15 +72,17 @@ public class PeliTehdas {
         
         Kartta kartta = luoKartta(lukija);
         
-        Peli peli = new Peli(kartta, pelaaja);
-        
-        luoMonsterit(lukija, peli, kartta);
-        sijoitaTavarat(lukija, kartta);
-        
         int y = Integer.parseInt(pelaajanTiedot[0]);
         int x = Integer.parseInt(pelaajanTiedot[1]);
         pelaaja.setSijainti(kartta.getKarttapalat()[y][x]);
         kartta.getKarttapalat()[y][x].pelaajaSaapuu();
+        
+        
+        Peli peli = new Peli(kartta, pelaaja);
+        
+        luoMonsterit(lukija, peli, kartta);
+        sijoitaTavarat(lukija, kartta);
+        lataaNahdyt(lukija, kartta);
         
         return peli;
     }
@@ -89,8 +91,8 @@ public class PeliTehdas {
      * Metodi, joka käyttää purkaa annetusta merkkijonotaulukosta pelaajan tiedot.
      * Käytetään vain peliä tallennuksesta ladatessa, uutta peliä luodessa luodaan aina uusi pelaaja "normaalisti".
      * 
-     * @param lukija
-     * @return 
+     * @param lukija Scanner-olio josta tiedot luetaan
+     * @return rakennettu Pelaaja-olio
      */
     public Pelaaja lataaPelaaja(String[] pelaajanTiedot) {
         String nimi = pelaajanTiedot[2];
@@ -126,6 +128,26 @@ public class PeliTehdas {
         }
         
         return new Kartta(kartta);
+    }
+    
+    /**
+     * Metodi, joka asettaa nähdyiksi ne Karttapalat jotka pelaaja oli tallentaessaan nähnyt.
+     * 
+     * @param lukija Scanner-olio josta tiedot luetaan
+     * @param kartta Kartta johon nähdyt palat asetetaan
+     * 
+     */
+    public void lataaNahdyt(Scanner lukija, Kartta kartta) {
+        Karttapala[][] palat = kartta.getKarttapalat();
+        
+        for(int y = 0; y < palat.length; y++) {
+            String riviStr = lukija.nextLine();
+            for(int x = 0; x < palat[0].length; x++) {
+                if(riviStr.charAt(x) == '1') {
+                    kartta.asetaNakyvaksi(x, y, 0, 0);
+                }
+            }
+        }
     }
     
     /**

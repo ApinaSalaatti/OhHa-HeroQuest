@@ -255,6 +255,6 @@ public class PeliController {
         this.peli = pt.lataaPeli(tiedostonimi);
         
         paivitaKali("Sijaintisi: " + peli.getPelaaja().getSijainti());
-        paivitaKali("Peli ladattu!");
+        paivitaKali("Peli ladattu!\n");
     }
 }

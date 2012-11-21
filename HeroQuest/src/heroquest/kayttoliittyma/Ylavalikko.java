@@ -81,6 +81,7 @@ public class Ylavalikko extends JMenuBar {
                 );
                 if(tiedostonimi != null && tiedostonimi.length() > 0) {
                     controller.lataa(tiedostonimi);
+                    nakyma.show(container, "peli");
                 }
             }
         });
