@@ -37,14 +37,14 @@ public class Ylavalikko extends JMenuBar {
         JMenu tiedostoValikko = new JMenu("Tiedosto");
         
         JMenuItem uusiPeli = new JMenuItem("Uusi peli");
-        JMenuItem tallenna = new JMenuItem("Tallenna");
-        JMenuItem lataa = new JMenuItem("Lataa tallennus");
+        JMenuItem tallenna = new JMenuItem("Tallenna peli");
+        JMenuItem lataa = new JMenuItem("Lataa peli");
         JMenuItem poistu = new JMenuItem("Poistu");
         
         uusiPeli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                nakyma.show(container, "aloitus");
+                nakyma.show(container, "luonti");
             }
         });
         
@@ -96,6 +96,7 @@ public class Ylavalikko extends JMenuBar {
         tiedostoValikko.add(uusiPeli);
         tiedostoValikko.add(tallenna);
         tiedostoValikko.add(lataa);
+        tiedostoValikko.addSeparator();
         tiedostoValikko.add(poistu);
         this.add(tiedostoValikko);
     }

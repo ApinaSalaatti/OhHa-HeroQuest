@@ -12,6 +12,7 @@ import java.awt.Container;
 
 import heroquest.PeliController;
 import heroquest.PeliController;
+import heroquest.domain.Ilmansuunta;
 /**
  *
  * @author Merioksan Mikko

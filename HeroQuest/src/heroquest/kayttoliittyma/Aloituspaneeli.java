@@ -8,11 +8,15 @@ import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import heroquest.PeliController;
 import heroquest.domain.Kartta;
@@ -26,53 +30,77 @@ import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
 public class Aloituspaneeli extends JPanel {
     private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };
     private Container container;
-    private CardLayout cards;
+    private CardLayout nakyma;
     private PeliController controller;
     
-    public Aloituspaneeli(Container c, CardLayout layout, PeliController pc) {
-        this.container = c;
-        this.cards = layout;
+    public Aloituspaneeli(JFrame frame, CardLayout layout, PeliController pc) {
+        this.container = frame.getContentPane();
+        this.nakyma = layout;
         this.controller = pc;
-        luoKomponentit();
+        luoKomponentit(frame);
     }
     
-    private void luoKomponentit() {
-        this.setLayout(new GridLayout(5, 1));
+    private void luoKomponentit(JFrame frame) {
+        this.setLayout(new GridLayout(3, 1));
         
-        JTextField nimi = new JTextField();
-        nimi.setColumns(20);
-        JPanel nimipaneeli = new JPanel();
-        nimipaneeli.add(new JLabel("Hahmon nimi: "));
-        nimipaneeli.add(nimi);
+        JButton uusiPeli = luoUusiPeliNappi();
+        JButton lataaPeli = luoLataaPeliNappi(frame);
+        JButton poistu = luoPoistuNappi();
         
-        JComboBox luokkalista = new JComboBox(luokat);
-        JPanel luokkapaneeli = new JPanel();
-        luokkapaneeli.add(new JLabel("Luokka: "));
-        luokkapaneeli.add(luokkalista);
+        this.add(uusiPeli);
+        this.add(lataaPeli);
+        this.add(poistu);
+    }
+    
+    public JButton luoUusiPeliNappi() {
+        JButton uusiPeli = new JButton("Uusi peli");
         
-        JTextField koko = new JTextField();
-        koko.setColumns(3);
-        koko.setText("10");
-        JPanel kokopaneeli = new JPanel();
-        kokopaneeli.add(new JLabel("Kartan koko"));
-        kokopaneeli.add(koko);
+        uusiPeli.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               nakyma.show(container, "luonti");
+           }
+        });
         
-        JComboBox karttalista = new JComboBox(Tiedostoapuri.kansioTauluksi("src/kartat"));
-        JPanel karttapaneeli = new JPanel();
-        karttapaneeli.add(new JLabel("Valitse kartta:"));
-        karttapaneeli.add(karttalista);
+        return uusiPeli;
+    }
+    
+    public JButton luoLataaPeliNappi(final JFrame frame) {
+        JButton lataaPeli = new JButton("Lataa peli");
         
-        JButton aloitusnappi = new JButton("Aloita seikkailu!");
-        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, karttalista, controller));
-        JPanel nappipaneeli = new JPanel();
-        nappipaneeli.add(aloitusnappi);
+        lataaPeli.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] tallennukset = Tiedostoapuri.kansioTauluksi("tallennukset/");
+                String tiedostonimi = (String)JOptionPane.showInputDialog(
+                    frame,
+                    "Valitse tallennus",
+                    "Lataa peli",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    tallennukset,
+                    null
+                );
+                if(tiedostonimi != null && tiedostonimi.length() > 0) {
+                    controller.lataa(tiedostonimi);
+                    nakyma.show(container, "peli");
+                }
+            }
+        });
         
-        JLabel tervehdys = new JLabel("Tervetuloa superhypermegajännittävään Mahtiseikkailuun!");
-        tervehdys.setFont(new Font("tervehdys", 1, 30));
-        this.add(tervehdys);
-        this.add(nimipaneeli);
-        this.add(luokkapaneeli);
-        this.add(karttapaneeli); 
-        this.add(nappipaneeli);
+        return lataaPeli;
+    }
+    
+    public JButton luoPoistuNappi() {
+        JButton poistu = new JButton("Poistu");
+        
+        poistu.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               System.exit(0);
+           }
+        });
+        
+        return poistu;
     }
 }
