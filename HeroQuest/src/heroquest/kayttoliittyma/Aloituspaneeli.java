@@ -8,8 +8,10 @@ import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -17,6 +19,11 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+
+import sun.audio.AudioData;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+import sun.audio.ContinuousAudioDataStream;
 
 import heroquest.PeliController;
 import heroquest.domain.Kartta;
@@ -28,7 +35,6 @@ import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
  * @author merioksa
  */
 public class Aloituspaneeli extends JPanel {
-    private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };
     private Container container;
     private CardLayout nakyma;
     private PeliController controller;
@@ -41,19 +47,34 @@ public class Aloituspaneeli extends JPanel {
     }
     
     private void luoKomponentit(JFrame frame) {
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new GridLayout(4, 1));
+        this.setBackground(Color.WHITE);
+        
+        JLabel logo = new JLabel(new ImageIcon("src/kuvat/logo.png"));
         
         JButton uusiPeli = luoUusiPeliNappi();
-        JButton lataaPeli = luoLataaPeliNappi(frame);
-        JButton poistu = luoPoistuNappi();
+        JPanel uusiPeliPanel = new JPanel();
+        uusiPeliPanel.setBackground(Color.WHITE);
+        uusiPeliPanel.add(uusiPeli);
         
-        this.add(uusiPeli);
-        this.add(lataaPeli);
-        this.add(poistu);
+        JButton lataaPeli = luoLataaPeliNappi(frame);
+        JPanel lataaPeliPanel = new JPanel();
+        lataaPeliPanel.setBackground(Color.WHITE);
+        lataaPeliPanel.add(lataaPeli);
+        
+        JButton poistu = luoPoistuNappi();
+        JPanel poistuPanel = new JPanel();
+        poistuPanel.setBackground(Color.WHITE);
+        poistuPanel.add(poistu);
+        
+        this.add(logo);
+        this.add(uusiPeliPanel);
+        this.add(lataaPeliPanel);
+        this.add(poistuPanel);
     }
     
     public JButton luoUusiPeliNappi() {
-        JButton uusiPeli = new JButton("Uusi peli");
+        JButton uusiPeli = new JButton(new ImageIcon("src/kuvat/uusiPeli.png"));
         
         uusiPeli.addActionListener(new ActionListener() {
            @Override
@@ -62,11 +83,15 @@ public class Aloituspaneeli extends JPanel {
            }
         });
         
+        uusiPeli.setContentAreaFilled(false);
+        uusiPeli.setBorderPainted(false);
+        uusiPeli.setFocusPainted(false);
+        
         return uusiPeli;
     }
     
     public JButton luoLataaPeliNappi(final JFrame frame) {
-        JButton lataaPeli = new JButton("Lataa peli");
+        JButton lataaPeli = new JButton(new ImageIcon("src/kuvat/lataaPeli.png"));
         
         lataaPeli.addActionListener(new ActionListener() {
             @Override
@@ -88,11 +113,14 @@ public class Aloituspaneeli extends JPanel {
             }
         });
         
+        lataaPeli.setContentAreaFilled(false);
+        lataaPeli.setBorderPainted(false);
+        lataaPeli.setFocusPainted(false);
         return lataaPeli;
     }
     
     public JButton luoPoistuNappi() {
-        JButton poistu = new JButton("Poistu");
+        JButton poistu = new JButton(new ImageIcon("src/kuvat/poistu.png"));
         
         poistu.addActionListener(new ActionListener() {
            @Override
@@ -100,6 +128,10 @@ public class Aloituspaneeli extends JPanel {
                System.exit(0);
            }
         });
+        
+        poistu.setContentAreaFilled(false);
+        poistu.setBorderPainted(false);
+        poistu.setFocusPainted(false);
         
         return poistu;
     }

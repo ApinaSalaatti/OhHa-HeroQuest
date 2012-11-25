@@ -4,6 +4,7 @@
  */
 package heroquest.domain;
 
+import heroquest.domain.kauppa.Tavara;
 import java.util.Random;
 import java.util.List;
 
@@ -195,10 +196,13 @@ public abstract class Olento {
     public Inventaario getInventaario() {
         return inventaario;
     }
-    public void lisaaTavarat(List<String> tavarat) {
-        for(String t : tavarat) {
+    public void lisaaTavarat(List<Tavara> tavarat) {
+        for(Tavara t : tavarat) {
             inventaario.lisaaTavara(t);
         }
+    }
+    public void lisaaTavara(Tavara t) {
+        inventaario.lisaaTavara(t);
     }
     
     /**

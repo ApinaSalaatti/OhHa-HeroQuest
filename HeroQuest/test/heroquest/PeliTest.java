@@ -42,9 +42,10 @@ public class PeliTest {
     public void setUp() {
         Pelaaja pelaaja = new Pelaaja("Aarne", 100, 100, 100, "Soturitappaja");
         Kartta kartta = new Kartta(testikartta);
-        pelaaja.setSijainti(kartta.getAloituspala());
+        this.peli = new Peli(pelaaja);
+        this.peli.setKartta(kartta);
         
-        this.peli = new Peli(kartta, pelaaja);
+        pelaaja.setSijainti(peli.getKartta().getAloituspala());
     }
     
     @After
@@ -63,8 +64,7 @@ public class PeliTest {
     
     @Test
     public void taistelunAloitus() {
-        Karttapala pala = peli.getKartta().getKarttapalat()[2][1];
-        peli.lisaaMonsteri(new Monsteri(2, 2, 2), pala);
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2), 2, 1);
         
         peli.pelaajanLiike(Ilmansuunta.ETELA);
         
@@ -75,7 +75,7 @@ public class PeliTest {
     public void vuoronLopetusLiikuttaaMonstereita() {
         Karttapala pala = peli.getKartta().getKarttapalat()[2][5];
         Monsteri m = new Monsteri(2, 2, 2);
-        peli.lisaaMonsteri(m, pala);
+        peli.lisaaMonsteri(m, 2, 5);
         peli.lopetaVuoro();
         
         assertNotSame(m.getSijainti(), pala);

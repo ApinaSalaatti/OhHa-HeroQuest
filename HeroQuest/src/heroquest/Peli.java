@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
+import heroquest.domain.Kotikarttapala;
 import heroquest.domain.Ilmansuunta;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
@@ -27,21 +28,23 @@ public class Peli {
      */
     private Pelaaja pelaaja;
     /**
-     * Kaikki pelissä jäljellä olevat monsterit.
-     */
-    private ArrayList<Monsteri> monsterit;
-    /**
      * Apumuuttuja, joka määrittelee onko pelaaja taistelussa.
      */
     private boolean taistelunAika;
+    /**
+     * Apumuuttuja, joka kertoo onko pelaaja kotona vai luolastossa.
+     */
+    private boolean pelaajaKotona;
+    /**
+     * Pelaajan kotia simuloiva Karttapala-luokan aliluokka.
+     */
+    private Kotikarttapala kotipala;
     
-    public Peli(Kartta k, Pelaaja p) {
-        kartta = k;
+    public Peli(Pelaaja p) {
         pelaaja = p;
-        monsterit = new ArrayList<Monsteri>();
         taistelunAika = false;
-        
-        kartta.paivitaNahdyt(pelaaja.getSijainti());
+        kotipala = new Kotikarttapala();
+        pelaajaSaapuuKotiin();
     }
     
     /**
@@ -50,10 +53,8 @@ public class Peli {
      * @param m lisättävä Monsteri
      * @param pala Karttapala, johon monsteri lisätään
      */
-    public void lisaaMonsteri(Monsteri m, Karttapala pala) {
-        m.setSijainti(pala);
-        pala.monsteriSaapuu(m);
-        monsterit.add(m);
+    public void lisaaMonsteri(Monsteri m, int y, int x) {
+        kartta.lisaaMonsteri(m, y, x);
     }
     
     /**
@@ -62,22 +63,14 @@ public class Peli {
      * @param m poistettava Monsteri
      */
     public void poistaMonsteri(Monsteri m) {
-        m.getSijainti().monsteriPoistuu();
-        monsterit.remove(m);
+        kartta.poistaMonsteri(m);
     }
     /**
      * Metodi, joka poistaa pelistä kaikki kuolleet Monsterit.
      */
     public void poistaKuolleetMonsterit() {
-        Iterator<Monsteri> iter = monsterit.listIterator();
-        while(iter.hasNext()) {
-            Monsteri m = iter.next();
-            if(m.getEnergia() <= 0) {
-                m.getSijainti().monsteriPoistuu();
-                iter.remove();
-                pelaaja.lisaaTappo();
-            }
-        }
+        int tapot = kartta.poistaKuolleetMonsterit();
+        pelaaja.lisaaTapot(tapot);
     }
     
     /**
@@ -85,6 +78,12 @@ public class Peli {
      */
     public Kartta getKartta() {
         return kartta;
+    }
+    /**
+     * @param k luolasto, johon ollaan syöksymässä
+     */
+    public void setKartta(Kartta k) {
+        kartta = k;
     }
     
     /**
@@ -100,8 +99,17 @@ public class Peli {
      * @param suunta haluttu suunta
      */
     public void pelaajanLiike(Ilmansuunta suunta) {
-        pelaaja.liiku(suunta);
+        if(kartta.ulosKartalta(pelaaja.getSijainti(), suunta)) {
+            pelaajaSaapuuKotiin();
+        }
+        else {
+            pelaaja.liiku(suunta);
+        }
         tuleekoTaistelu();
+    }
+    
+    public Karttapala getPelaajanSijainti() {
+        return pelaaja.getSijainti();
     }
     
     /**
@@ -124,12 +132,7 @@ public class Peli {
      * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
      */
     private void monsterienLiike() {
-        // hirviöt liikkuvat vain jos pelaaja ei ole taistelussa
-        if(!taistelunAika) {
-            for(Monsteri m : monsterit) {
-                m.liiku();
-            }
-        }
+        kartta.monsterienLiike(taistelunAika);
     }
     
     /**
@@ -167,20 +170,44 @@ public class Peli {
     }
     
     /**
-     * Palautetaan kartan ja pelaajan tiedot tallennettavaksi tiedostoon
+     * Pelaajan kotona olevaksi asettava metodi
+     */
+    public void pelaajaSaapuuKotiin() {
+        if(pelaaja.getSijainti() != null) {
+            pelaaja.getSijainti().pelaajaPoistuu();
+        }
+        pelaaja.setSijainti(kotipala);
+        kotipala.pelaajaSaapuu();
+        pelaajaKotona = true;
+    }
+    /**
+     * Pelaajan luolastoa komppaavaksi asettava metodi
      * 
-     * @return pelaajan ja kartan tiedot String-muuttujassa
+     * @param pala kohteena olevan luolaston aloituspala
+     */
+    public void pelaajaPoistuuKotoa(Karttapala pala) {
+        kotipala.pelaajaPoistuu();
+        pelaaja.setSijainti(pala);
+        pelaaja.setLiikkeet(0);
+        pala.pelaajaSaapuu();
+        pelaajaKotona = false;
+    }
+    /**
+     * @return tieto siitä, onko pelaaja kotona vai luolastossa
+     */
+    public boolean pelaajaKotona() {
+        return pelaajaKotona;
+    }
+    
+    /**
+     * Palautetaan pelaajan tiedot tallennettavaksi tiedostoon
+     * 
+     * @return pelaajan tiedot String-muuttujassa
      */
     public String tallenna() {
         StringBuilder sb = new StringBuilder();
         
         sb.append(pelaaja.tallenna());
-        sb.append(kartta.tallenna());
-        
-        sb.append(monsterit.size() + "\n");
-        for(Monsteri m : monsterit) {
-            sb.append(m.tallenna());
-        }
         
         return sb.toString();
     }

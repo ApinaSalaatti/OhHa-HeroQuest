@@ -4,6 +4,7 @@
  */
 package heroquest.domain;
 
+import heroquest.domain.kauppa.Tavara;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -15,16 +16,16 @@ public class Inventaario {
     /**
      * Tavarat ArrayList-tietorakenteessa
      */
-    private List<String> tavarat;
+    private List<Tavara> tavarat;
     
     public Inventaario() {
-        this.tavarat = new ArrayList<String>();
+        this.tavarat = new ArrayList<Tavara>();
     }
     
     /**
      * @return tavarat List-rajapinnan toteuttavana listana
      */
-    public List<String> getTavarat() {
+    public List<Tavara> getTavarat() {
         return tavarat;
     }
     /**
@@ -33,8 +34,8 @@ public class Inventaario {
     public String[] getTavaratTaulukkona() {
         String[] palautus = new String[tavarat.size()];
         int i = 0;
-        for(String t : tavarat) {
-            palautus[i] = t;
+        for(Tavara t : tavarat) {
+            palautus[i] = t.toString();
             i++;
         }
         return palautus;
@@ -45,8 +46,8 @@ public class Inventaario {
      * 
      * @param tavara lisättävä tavara
      */
-    public void lisaaTavara(String tavara) {
-        if(tavara.length() > 0) {
+    public void lisaaTavara(Tavara tavara) {
+        if(tavara != null && tavara.getNimi().length() > 0) {
             tavarat.add(tavara);
         }
     }
@@ -56,7 +57,7 @@ public class Inventaario {
      * 
      * @param tavara poistettava tavara
      */
-    public void poistaTavara(String tavara) {
+    public void poistaTavara(Tavara tavara) {
         tavarat.remove(tavara);
     }
 }

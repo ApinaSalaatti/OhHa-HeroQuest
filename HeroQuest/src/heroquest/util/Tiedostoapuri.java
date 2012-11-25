@@ -53,6 +53,8 @@ public class Tiedostoapuri {
         }
         catch(Exception e) {
             // jokin meni vikaan, sulkeudutaan :-(
+            System.out.println("Nyt ei tiedosto aukea!");
+            e.printStackTrace();
             System.exit(-1);
         }
         return null;

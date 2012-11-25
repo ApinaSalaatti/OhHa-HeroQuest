@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 
 import heroquest.PeliController;
 import heroquest.domain.Ilmansuunta;
+import heroquest.domain.kauppa.Tavara;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenappiKuuntelija;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenoppaKuuntelija;
 import heroquest.kayttoliittyma.kuuntelijat.TaistelunoppaKuuntelija;
@@ -90,6 +91,13 @@ public class Nappipaneeli extends JPanel {
         inventaariopaneeli.add(inventaario);
         inventaariopaneeli.add(inventaarionappi, BorderLayout.SOUTH);
         
+        inventaarionappi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.kaytaTavaraa((Tavara)inventaario.getSelectedValue());
+            }
+        });
+        
         this.add(napitJaNopat);
         this.add(inventaariopaneeli);
     }
@@ -100,21 +108,30 @@ public class Nappipaneeli extends JPanel {
             liikeNapit(false);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(true);
+            poimintanappi.setEnabled(false);
         }
         else if(tila.equals("liikenoppa")) {
             liikeNapit(false);
             liikenoppa.setEnabled(true);
             taistelunoppa.setEnabled(false);
+            poimintanappi.setEnabled(true);
         }
         else if(tila.equals("liike")) {
             liikeNapit(true);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(false);
+            poimintanappi.setEnabled(true);
+        }
+        else if(tila.equals("koti")) {
+            liikeNapit(false);
+            liikenoppa.setEnabled(false);
+            taistelunoppa.setEnabled(false);
+            poimintanappi.setEnabled(false);
         }
         
-        String[] tavarat = controller.getPeli().getPelaaja().getInventaario().getTavaratTaulukkona();
+        List<Tavara> tavarat = controller.getPeli().getPelaaja().getInventaario().getTavarat();
         
-        inventaario.setListData(tavarat);
+        inventaario.setListData(tavarat.toArray());
     }
     
     private void liikeNapit(boolean b) {

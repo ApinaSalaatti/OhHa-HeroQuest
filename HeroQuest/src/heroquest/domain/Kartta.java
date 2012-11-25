@@ -5,7 +5,11 @@
 package heroquest.domain;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import heroquest.domain.Monsteri;
+import heroquest.domain.kauppa.Tavara;
 import heroquest.util.KarttaGeneraattori;
 /**
  * Luokka, johon on kapseloitu yksittäiset karttapalat sisältävä kaksiulotteinen taulukko.
@@ -22,6 +26,10 @@ public class Kartta {
      * Pelaajan löytämät karttapalat. Nämä määritellään yksinkertaisen line of sightin perusteella.
      */
     private Karttapala[][] nahty;
+    /**
+     * Kartalla sijaitsevat monsterit ArrayListissä. 
+     */
+    private ArrayList<Monsteri> monsterit;
     
     public Kartta(int[][] lahde) {
         kartta = new Karttapala[lahde.length][lahde[0].length];
@@ -30,6 +38,7 @@ public class Kartta {
         generaattori.luoKartta(lahde);
         kartta = generaattori.getKartta();
         nahty = new Karttapala[kartta.length][kartta[0].length];
+        monsterit = new ArrayList<Monsteri>();
     }
     
     /**
@@ -58,7 +67,7 @@ public class Kartta {
      * 
      * @param pala tyhjennettävä karttapala
      */
-    public List<String> poimiTavarat(Karttapala pala) {
+    public List<Tavara> poimiTavarat(Karttapala pala) {
         return pala.poimiTavarat();
     }
     /**
@@ -74,6 +83,68 @@ public class Kartta {
             }
         }
         return lkm;
+    }
+    
+    /**
+     * Lisätään kartalle yksi Monsteri annettuun Karttapalaan.
+     * 
+     * @param m lisättävä Monsteri
+     * @param pala Karttapala, johon monsteri lisätään
+     */
+    public void lisaaMonsteri(Monsteri m, int y, int x) {
+        m.setSijainti(kartta[y][x]);
+        kartta[y][x].monsteriSaapuu(m);
+        monsterit.add(m);
+    }
+    /**
+     * Poistaa annetun Monsterin kartalta, esim kun Pelaaja tappaa sen.
+     * 
+     * @param m poistettava Monsteri
+     */
+    public void poistaMonsteri(Monsteri m) {
+        m.getSijainti().monsteriPoistuu();
+        monsterit.remove(m);
+    }
+    /**
+     * Metodi, joka poistaa kartalta kaikki kuolleet Monsterit.
+     */
+    public int poistaKuolleetMonsterit() {
+        int tapot = 0;
+        
+        Iterator<Monsteri> iter = monsterit.listIterator();
+        while(iter.hasNext()) {
+            Monsteri m = iter.next();
+            if(m.getEnergia() <= 0) {
+                m.getSijainti().monsteriPoistuu();
+                iter.remove();
+                tapot++;
+            }
+        }
+        
+        return tapot;
+    }
+    /**
+     * Metodi, joka liikuttaa kaikkia pelissä olevia Monstereita.
+     * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
+     */
+    public void monsterienLiike(boolean taistelu) {
+        // hirviöt liikkuvat vain jos pelaaja ei ole taistelussa
+        if(!taistelu) {
+            for(Monsteri m : monsterit) {
+                m.liiku();
+            }
+        }
+    }
+    
+    public boolean ulosKartalta(Karttapala pala, Ilmansuunta suunta) {
+        int uusiX = pala.getX() + suunta.xMuutos();
+        int uusiY = pala.getY() + suunta.yMuutos();
+        
+        if(uusiX < 0 || uusiX >= kartta[0].length || uusiY < 0 || uusiY >= kartta.length) {
+            return true;
+        }
+        
+        return false;   
     }
     
     /**

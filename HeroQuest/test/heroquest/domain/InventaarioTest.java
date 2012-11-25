@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import heroquest.domain.kauppa.Tavara;
 /**
  *
  * @author merioksa
@@ -32,7 +33,7 @@ public class InventaarioTest {
     @Before
     public void setUp() {
         this.inv = new Inventaario();
-        this.inv.lisaaTavara("Murhamiekka");
+        this.inv.lisaaTavara(new Tavara("Murhamiekka", 5));
     }
     
     @After
@@ -41,19 +42,19 @@ public class InventaarioTest {
     
     @Test
     public void lisaysLisaaTavaran() {
-        inv.lisaaTavara("Hattu");
+        inv.lisaaTavara(new Tavara("Hattu", 5));
         assertTrue(inv.getTavarat().size() > 1);
     }
     
     @Test
     public void tyhjaaStringiaEiVoiLisata() {
-        inv.lisaaTavara("");
+        inv.lisaaTavara(new Tavara("", 5));
         assertTrue(inv.getTavarat().size() == 1);
     }
     
     @Test
     public void poistaminenVahentaaTavaroita() {
-        inv.poistaTavara("Murhamiekka");
+        inv.poistaTavara(new Tavara("Murhamiekka", 5));
         assertTrue(inv.getTavarat().isEmpty());
     }
 }

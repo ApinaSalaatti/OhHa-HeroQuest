@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest;
 
 import java.util.Scanner;
@@ -11,6 +6,7 @@ import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
+import heroquest.domain.kauppa.Tavara;
 import heroquest.util.Tiedostoapuri;
 /**
  * Tehdasluokka joka luo pelin, pelaajan ja kartan annettujen parametrien pohjalta.
@@ -23,38 +19,38 @@ public class PeliTehdas {
     }
     
     /**
-     * Luodaan peli annetuilla parametreilla.
-     * kartanNimi on .hqm-tiedosto josta karttadata luetaan
-     * .hqm-tiedoston formaatti on selitetty dokumentaatiossa, ks. kartanluontiohje.txt
+     * Metodi, jossa luodaan uusi peli ja pelaaja annetuilla parametreilla.
      * 
      * @param pelaajanNimi pelaajan hahmon nimi
      * @param pelaajanLuokka pelaajan hahmon hahmoluokka
-     * @param kartanNimi valitun kartan nimi
      * @return rakennettu Peli-luokan olio
      */
-    public Peli luoPeli(String pelaajanNimi, String pelaajanLuokka, String kartanNimi) {
+    public Peli luoPeli(String pelaajanNimi, String pelaajanLuokka) {
         Pelaaja pelaaja = luoPelaaja(pelaajanNimi, pelaajanLuokka);
         
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("src/kartat/" + kartanNimi);
-        Kartta kartta = luoKartta(lukija);
+        Peli peli = new Peli(pelaaja);
         
-        // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
+        return peli;
+    }
+    
+    /**
+     * Metodi, joka pelaajan siirtyessä luolastoon luo kyseisen luolaston .hqm -karttatiedoston perusteella.
+     * 
+     * @param kartanNimi
+     * @return 
+     */
+    public Kartta luoLuolasto(String kartanNimi) {
+        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("src/kartat/" + kartanNimi);
+        
+        Kartta kartta = luoKartta(lukija);
         lukija.nextLine();
         
-        // pelaaja kartan alkuun
-        pelaaja.setSijainti(kartta.getAloituspala());
-        kartta.getAloituspala().pelaajaSaapuu();
-        
-        Peli peli = new Peli(kartta, pelaaja);
-        
-        luoMonsterit(lukija, peli, kartta);
-        
-        // poistetaan karttadatan tyhjä rivi (se on siellä ihan selkeyden vuoksi!)
+        luoMonsterit(lukija, kartta);
         lukija.nextLine();
         
         sijoitaTavarat(lukija, kartta);
         
-        return peli;
+        return kartta;
     }
     
     /**
@@ -73,14 +69,11 @@ public class PeliTehdas {
         Kartta kartta = luoKartta(lukija);
         
         int y = Integer.parseInt(pelaajanTiedot[0]);
-        int x = Integer.parseInt(pelaajanTiedot[1]);
-        pelaaja.setSijainti(kartta.getKarttapalat()[y][x]);
-        kartta.getKarttapalat()[y][x].pelaajaSaapuu();
+        int x = Integer.parseInt(pelaajanTiedot[1]);   
         
+        Peli peli = new Peli(pelaaja);
         
-        Peli peli = new Peli(kartta, pelaaja);
-        
-        luoMonsterit(lukija, peli, kartta);
+        luoMonsterit(lukija, kartta);
         sijoitaTavarat(lukija, kartta);
         lataaNahdyt(lukija, kartta);
         
@@ -193,7 +186,7 @@ public class PeliTehdas {
      * @param peli Peli-olio johon monsterit lisätään
      * @param kartta Kartta-olio johon monsterit lisätään.
      */
-    private void luoMonsterit(Scanner lukija, Peli peli, Kartta kartta) {
+    private void luoMonsterit(Scanner lukija, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         for(int y = 0; y < palat.length; y++) {
             String riviStr = lukija.nextLine();
@@ -201,7 +194,7 @@ public class PeliTehdas {
                 if(riviStr.charAt(x) == '1') {
                     Monsteri m = new Monsteri(5, 1, 1);
                     Karttapala pala = palat[y][x];
-                    peli.lisaaMonsteri(m, pala);
+                    kartta.lisaaMonsteri(m, y, x);
                 }
             }
         }
@@ -220,7 +213,7 @@ public class PeliTehdas {
             String riviStr = lukija.nextLine();
             for(int x = 0; x < palat[0].length; x++) {
                 if(riviStr.charAt(x) == '1') {
-                    palat[y][x].addTavara("Arvokas aarre");
+                    palat[y][x].addTavara(new Tavara("arvokasaarre.hqt"));
                 }
             }
         }

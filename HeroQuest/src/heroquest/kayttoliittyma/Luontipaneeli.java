@@ -57,13 +57,9 @@ public class Luontipaneeli extends JPanel {
         kokopaneeli.add(new JLabel("Kartan koko"));
         kokopaneeli.add(koko);
         
-        JComboBox karttalista = new JComboBox(Tiedostoapuri.kansioTauluksi("src/kartat"));
-        JPanel karttapaneeli = new JPanel();
-        karttapaneeli.add(new JLabel("Valitse kartta:"));
-        karttapaneeli.add(karttalista);
         
         JButton aloitusnappi = new JButton("Aloita seikkailu!");
-        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, karttalista, controller));
+        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, controller));
         JPanel nappipaneeli = new JPanel();
         nappipaneeli.add(aloitusnappi);
         
@@ -72,7 +68,6 @@ public class Luontipaneeli extends JPanel {
         this.add(tervehdys);
         this.add(nimipaneeli);
         this.add(luokkapaneeli);
-        this.add(karttapaneeli); 
         this.add(nappipaneeli);
     }
 }

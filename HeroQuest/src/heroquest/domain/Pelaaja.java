@@ -23,12 +23,17 @@ public class Pelaaja extends Olento {
      * Pelaajan tappamien monsterien määrä.
      */
     private int tapot;
+    /**
+     * Pelaajan varakkuus. Rahalla voi ostaa kaikkea kivaa!
+     */
+    private int varat;
     
     public Pelaaja(String nimi, int voima, int energia, int nopeus, String luokka) {
         super(nimi, voima, energia, nopeus);
         setLuokka(luokka);
         liikkeet = 0;
         tapot = 0;
+        varat = 100;
     }
     public Pelaaja(int voima, int energia, int nopeus, String luokka) {
         super(voima, energia, nopeus);
@@ -86,8 +91,8 @@ public class Pelaaja extends Olento {
     /**
      * Lisää pelaajalle yhden tapon. Jes!
      */
-    public void lisaaTappo() {
-        tapot++;
+    public void lisaaTapot(int t) {
+        tapot += t;
         if(tapot > 2) {
             this.setNimi("\"Mörkökiller\" " + this.getNimi());
         }
@@ -100,12 +105,27 @@ public class Pelaaja extends Olento {
     }
     
     /**
+     * 
+     * @param v summa joksi pelaajan rahamäärä muutetaan
+     */
+    public void setVarat(int v) {
+        varat = v;
+    }
+    /**
+     * @return pelaajan varakkuus
+     */
+    public int getVarat() {
+        return varat;
+    }
+    
+    /**
      * @return pelaajan pistemäärä
      */
     public int getPisteet() {
         int pisteet = 0;
         pisteet += 100 * tapot;
-        for(String t : inventaario.getTavarat()) {
+        String[] tavarat = inventaario.getTavaratTaulukkona();
+        for(String t : tavarat) {
             if(t.equals("Arvokas aarre")) {
                 pisteet += 200;
             }
@@ -158,6 +178,7 @@ public class Pelaaja extends Olento {
             sb.append("*");
         }
         sb.append("\n");
+        sb.append("Kultaduplooneja: " + getVarat() + "\n");
         sb.append("Pisteet: " + getPisteet() + "\n");
         
         return sb.toString();

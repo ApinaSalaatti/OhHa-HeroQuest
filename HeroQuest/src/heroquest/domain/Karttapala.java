@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+import heroquest.domain.kauppa.Tavara;
+
 /**
  * Luokka joka kuvaa yhden palan kartasta.
  * Yhdellä karttapalalla voi sijaita yksi aarre, yksi pelaaja ja yksi monsteri kerrallaan.
@@ -32,7 +34,7 @@ public class Karttapala {
     /**
      * Ruudussa sijaitsevat tavarat
      */
-    private List<String> tavarat;
+    private List<Tavara> tavarat;
     /** 
      * Muuttuja joka kertoo onko pelaaja juuri tällä hetkellä ruudussa
      */
@@ -44,7 +46,7 @@ public class Karttapala {
     
     public Karttapala() {
         naapurit = new Karttapala[4];
-        tavarat = new ArrayList<String>();
+        tavarat = new ArrayList<Tavara>();
         pelaajaPaikalla = false;
         monsteri = null;
     }
@@ -96,23 +98,23 @@ public class Karttapala {
      * 
      * @param t lisättävä tavara
      */
-    public void addTavara(String t) {
+    public void addTavara(Tavara t) {
         tavarat.add(t);
     }
     /**
      * @return Karttapalassa majailevat tavarat
      */
-    public List<String> getTavarat() {
+    public List<Tavara> getTavarat() {
         return tavarat;
     }
     /**
      * Metodi joka poistuu aarteen ruudusta, esim. pelaajan poimiessa sen.
      */
-    public List<String> poimiTavarat() {
-        List<String> lista = new ArrayList<String>();
-        Iterator<String> iter = tavarat.listIterator();
+    public List<Tavara> poimiTavarat() {
+        List<Tavara> lista = new ArrayList<Tavara>();
+        Iterator<Tavara> iter = tavarat.listIterator();
         while(iter.hasNext()) {
-            String tavara = iter.next();
+            Tavara tavara = iter.next();
             lista.add(tavara);
             iter.remove();
         }
@@ -168,7 +170,7 @@ public class Karttapala {
      * @return tieto siitä, onko ruudussa aarre
      */
     public boolean aarrePaikalla() {
-        return tavarat.contains("Arvokas aarre");
+        return tavarat.contains(new Tavara("arvokasaarre.hqt"));
     }
 
     @Override

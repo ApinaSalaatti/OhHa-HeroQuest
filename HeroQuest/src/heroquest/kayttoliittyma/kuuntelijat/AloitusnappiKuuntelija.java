@@ -23,15 +23,13 @@ public class AloitusnappiKuuntelija implements ActionListener {
     private CardLayout layout;
     private JTextField nimi;
     private JComboBox luokka;
-    private JComboBox kartta;
     private PeliController controller;
     
-    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, JComboBox k, PeliController pc) {
+    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, PeliController pc) {
         this.container = c;
         this.layout = lo;
         this.nimi = n;
         this.luokka = l;
-        this.kartta = k;
         this.controller = pc;
     }
     
@@ -39,9 +37,8 @@ public class AloitusnappiKuuntelija implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String nimiStr = nimi.getText();
         String luokkaStr = luokka.getSelectedItem().toString();
-        String karttaStr = kartta.getSelectedItem().toString();
         
-        controller.aloitaPeli(nimiStr, luokkaStr, karttaStr);
+        controller.aloitaPeli(nimiStr, luokkaStr);
         
         layout.show(container, "peli");
 

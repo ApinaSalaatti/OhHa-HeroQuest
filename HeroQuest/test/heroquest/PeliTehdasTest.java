@@ -7,6 +7,7 @@ package heroquest;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 
 /**
@@ -32,7 +33,7 @@ public class PeliTehdasTest {
     public void setUp() {
         this.pt = new PeliTehdas();
         peli = null;
-        peli = pt.luoPeli("Aarne", "Taikamaagi", "testikartta.hqm");
+        peli = pt.luoPeli("Aarne", "Taikamaagi");
     }
     
     @After
@@ -57,18 +58,21 @@ public class PeliTehdasTest {
     
     @Test
     public void tehdasLuoKartan() {
-        assertNotNull(peli.getKartta());
+        Kartta k = pt.luoLuolasto("testikartta.hqm");
+        assertNotNull(k);
     }
     
     @Test
     public void monsterienAsetus() {
-        Karttapala pala = peli.getKartta().getKarttapalat()[2][2];
+        Kartta k = pt.luoLuolasto("testikartta.hqm");
+        Karttapala pala = k.getKarttapalat()[2][2];
         assertTrue(pala.monsteriPaikalla());
     }
     
     @Test
     public void aarteenAsetus() {
-        Karttapala pala = peli.getKartta().getKarttapalat()[3][3];
+        Kartta k = pt.luoLuolasto("testikartta.hqm");
+        Karttapala pala = k.getKarttapalat()[3][3];
         assertTrue(pala.aarrePaikalla());
     }
 }

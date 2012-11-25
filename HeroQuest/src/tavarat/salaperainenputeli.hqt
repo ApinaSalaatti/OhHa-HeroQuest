@@ -1,0 +1,4 @@
+Mystinen Puteli
+50
+controller.getPeli().getPelaaja().setNimi("Kakkapylly");
+Sielusi kirjassa avataan uusi luku...

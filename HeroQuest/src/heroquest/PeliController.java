@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest;
 
 import java.util.Random;
@@ -13,6 +8,7 @@ import heroquest.domain.Monsteri;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
+import heroquest.domain.kauppa.Tavara;
 import heroquest.kayttoliittyma.Kayttoliittyma;
 /**
  * Luokka joka toimii välittäjänä pelilogiikan ja käyttöliittymän välillä.
@@ -26,6 +22,10 @@ public class PeliController {
      */
     private Random random;
     /**
+     * Pelin ja karttojen luomiseen käytettävän apuluokan olio.
+     */
+    private PeliTehdas tehdas;
+    /**
      * Peli-luokan olio, joka sisältää kaiken pelilogiikan. MVC-mallissa se model.
      */
     private Peli peli;
@@ -33,10 +33,16 @@ public class PeliController {
      * Käyttöliittymä-olio, voi olla toteutettu monin eri tavoin.
      */
     private Kayttoliittyma kali;
+    /**
+     * Ali-kontrolleri, joka sisältää kaikki pelaajan kotona hoidettavat toimenpiteet
+     */
+    private KotiController koti;
     
     public PeliController(Kayttoliittyma k) {
         this.random = new Random();
         this.kali = k;
+        this.koti = new KotiController(this);
+        this.tehdas = new PeliTehdas();
     }
     
     /**
@@ -47,11 +53,12 @@ public class PeliController {
      * @param luokka pelaajan hahmon hahmoluokka
      * @param kartanNimi pelaajan valitsema kartta
      */
-    public void aloitaPeli(String nimi, String luokka, String kartanNimi) {
-        PeliTehdas pt = new PeliTehdas();
-        this.peli = pt.luoPeli(nimi, luokka, kartanNimi);
-
-        paivitaKali("Sijaintisi:\n" + peli.getPelaaja().getSijainti());
+    public void aloitaPeli(String nimi, String luokka) {
+        tehdas = new PeliTehdas();
+        this.peli = tehdas.luoPeli(nimi, luokka);
+        this.koti = new KotiController(this);
+        
+        paivitaKali("Sijaintisi:\n" + peli.getPelaajanSijainti());
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
     }
     
@@ -64,13 +71,41 @@ public class PeliController {
     }
     
     /**
+     * @return KotiController joka on parhaillaan käytössä
+     */
+    public KotiController getKoti() {
+        return koti;
+    }
+    /**
+     * Pelaajan kotona olevaksi asettava metodi
+     */
+    public void pelaajaSaapuuKotiin() {
+        peli.pelaajaSaapuuKotiin();
+        paivitaKali("Tervetuloa kotiin, urhea sankari!");
+    }
+    /**
+     * Pelaajan luolastoa komppaavaksi asettava metodi
+     * 
+     * @param pala kohteena olevan luolaston aloituspala
+     */
+    public void pelaajaPoistuuKotoa(String kartta) {
+        Kartta k = tehdas.luoLuolasto(kartta);
+        peli.setKartta(k);
+        peli.pelaajaPoistuuKotoa(k.getAloituspala());
+        paivitaKali(peli.getPelaaja().getSijainti().toString());
+        paivitaKali("Jännittävä seikkailu alkaa!");
+    }
+    
+    /**
      * Metodi, joka lähettää käyttöliittymälle viestin siitä, mitä viimeisimmän kontrolleri-kutsun jälkeen tapahtui.
      * 
      * @param tapahtuma kontrollerin muilta metodeilta saatava viesti tapahtumista
      */
     public void paivitaKali(String tapahtuma) {
-        peli.getKartta().paivitaNahdyt(peli.getPelaaja().getSijainti());
-        peli.tuleekoTaistelu();
+        if(!peli.pelaajaKotona()) {
+            peli.getKartta().paivitaNahdyt(peli.getPelaaja().getSijainti());
+            peli.tuleekoTaistelu();
+        }
         kali.paivita(tapahtuma);
     }
     
@@ -120,14 +155,31 @@ public class PeliController {
         paivitaKali("Mainio heitto: " + yhteensa + "\n");
     }
     
+    /**
+     * Metodi tavaroiden poimimiseen. Kutsuu peli-luokan poimimis-metodia ja päivittää käyttöliittymää poiminnan onnistumisesta riippuen.
+     */
     public void tavaroidenPoiminta() {
         if(peli.tavaroidenPoiminta()) {
             paivitaKali("Tavarat poimittu!\n");
         }
         else {
             paivitaKali("Ei mitään poimittavaa. :(\n");
+        } 
+    }
+    
+    /**
+     * Metodi pelaajan inventaariossa olevien tavaroiden käyttämiseen.
+     * Jokainen tavara lähettää käytettäessä viestin, joka eteenpäin lähetetään käyttöliittymälle.
+     * 
+     * @param t tavara, jota pelaaja haluaa käyttää
+     */
+    public void kaytaTavaraa(Tavara t) {
+        if(t != null) {
+            paivitaKali(t.kayta(this) + "\n");
         }
-        
+        else {
+            paivitaKali("Valitse käytettävä tavara!\n");
+        }
     }
     
     /**
@@ -148,11 +200,11 @@ public class PeliController {
         if(peli.getPelaaja().getEnergia() <= 0) {
             return "kuolema";
         }
+        if(peli.pelaajaKotona()) {
+            return "koti";
+        }
         if(peli.taistelunAika()) {
             return "taistelu";
-        }
-        if(peli.getKartta().getAarteet() <= 0) {
-            return "voitto";
         }
         else if(peli.getPelaaja().getLiikkeet() > 0) {
             return "liike";

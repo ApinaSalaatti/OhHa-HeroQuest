@@ -48,13 +48,13 @@ public class Kayttoliittyma implements Runnable {
         Ylavalikko ylavalikko = new Ylavalikko(frame, layout, controller);
         frame.setJMenuBar(ylavalikko);
         
-        
         Aloituspaneeli aloitusPanel = new Aloituspaneeli(frame, layout, controller);
         Luontipaneeli luontiPanel = new Luontipaneeli(container, layout, controller);
         lopetusPanel = new Lopetuspaneeli(controller);
+        Kotipaneeli kotiPanel = new Kotipaneeli(controller);
         Karttapaneeli karttaPanel = new Karttapaneeli(controller);
         Tietopaneeli tietoPanel = new Tietopaneeli(controller);
-        peliPanel = new Pelipaneeli(karttaPanel, tietoPanel, layout, container, controller);
+        peliPanel = new Pelipaneeli(kotiPanel, karttaPanel, tietoPanel, layout, container, controller);
 
         container.add(aloitusPanel, "aloitus");
         container.add(luontiPanel, "luonti");
