@@ -32,8 +32,17 @@ public abstract class Olento {
      */
     private int nopeus;
     /**
+     * Olennon kokemustaso.
+     */
+    private int taso;
+    /**
+     * Olennon tienaamat kokemuspisteet.
+     */
+    private int exp;
+    /**
      * Hahmon sijainti kartalla
      */
+    
     private Karttapala sijainti;
     /**
      * Hahmon inventaario, johon varastoidaan sen kantamat tavarat ja varusteet
@@ -60,6 +69,9 @@ public abstract class Olento {
         setVoima(voima);
         setEnergia(energia);
         setNopeus(nopeus);
+        
+        taso = 1;
+        exp = 0;
     }
     /**
      * Konstruktori jossa hahmolle ei ole annettu valmiina nimeä. Tällöin setNimi-funktio arpoo hahmolle hauskan nimen.
@@ -70,11 +82,15 @@ public abstract class Olento {
      */
     public Olento(int voima, int energia, int nopeus) {
         random = new Random();
+        inventaario = new Inventaario();
         
         setNimi("");
         setVoima(voima);
         setEnergia(energia);
         setNopeus(nopeus);
+        
+        taso = 1;
+        exp = 0;
     }
     
     /**
@@ -107,7 +123,7 @@ public abstract class Olento {
      * 
      * @param voima käyttäjältä syötteenä saatu voima.
      */
-    private void setVoima(int voima) {
+    public void setVoima(int voima) {
         if(voima <= 0) {
             this.voima = 1;
         }
@@ -170,6 +186,28 @@ public abstract class Olento {
         return nopeus;
     }
     
+    public int getTaso() {
+        return taso;
+    }
+    /**
+     * Nostaa olennon kokemustasoa yhdellä.
+     */
+    public void nouseTaso() {
+        taso++;
+    }
+    
+    public int getExp() {
+        return exp;
+    }
+    /**
+     * Lisätään olennolle kokemuspisteitä.
+     * 
+     * @param xp lisättävät pisteet
+     */
+    public void lisaaExp(int xp) {
+        exp += xp;
+    }
+    
     /**
      * Metodi joka asettaa pelaajan sijainnin tiettyyn karttapalaan.
      * 
@@ -204,6 +242,9 @@ public abstract class Olento {
     public void lisaaTavara(Tavara t) {
         inventaario.lisaaTavara(t);
     }
+    public boolean poistaTavara(Tavara t) {
+        return inventaario.poistaTavara(t);
+    }
     
     /**
      * Palauttaa Olennon tiedot String-muodossa. Tätä ei ole tarkoitus kutsua pelkästään, vaan jonkun perivän luokan kautta.
@@ -211,7 +252,9 @@ public abstract class Olento {
      * @return Olennon tiedot String-muodossa
      */
     protected String tallenna() {
-        return sijainti.getY() + ";" + sijainti.getX() + ";" + getNimi() + ";" + getVoima() + ";" + getEnergia() + ";" + getNopeus();
+        String inv = inventaario.tallenna();
+        String hahmo = getNimi() + ";" + getVoima() + ";" + getEnergia() + ";" + getNopeus() + ";" + getTaso() + ";" + getExp();
+        return inv + hahmo;
     }
     
     /**

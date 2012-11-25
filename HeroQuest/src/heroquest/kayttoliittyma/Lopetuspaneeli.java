@@ -44,7 +44,7 @@ public class Lopetuspaneeli extends JPanel {
     
     public void paivita() {
         nimi.setText("Nimesi oli " + controller.getPeli().getPelaaja().getNimi());
-        tapot.setText("Tienasit yhteensä " + controller.getPeli().getPelaaja().getPisteet() + " pistettä! Wowzers!");
+        tapot.setText("Tienasit yhteensä " + controller.getPeli().getPelaaja().getExp() + " pistettä! Wowzers!");
         heihei.setText("SE ON LOPPU NYT. HEI HEI!");
     }
 }

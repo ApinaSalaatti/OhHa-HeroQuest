@@ -57,7 +57,24 @@ public class Inventaario {
      * 
      * @param tavara poistettava tavara
      */
-    public void poistaTavara(Tavara tavara) {
-        tavarat.remove(tavara);
+    public boolean poistaTavara(Tavara tavara) {
+        return tavarat.remove(tavara);
+    }
+    
+    /**
+     * Tallennetaan inventaarion sisältö, ts. palautetaan kaikki tavarat String-muotoisina.
+     * 
+     * @return kaikki inventaarion tavarat String-muuttujassa
+     */
+    public String tallenna() {
+        String inv = "";
+        for(int i = 0; i < tavarat.size(); i++) {
+            if(i > 0) {
+                inv += ";";
+            }
+            inv += tavarat.get(i).tallenna();
+        }
+        inv += "\n";
+        return inv;
     }
 }

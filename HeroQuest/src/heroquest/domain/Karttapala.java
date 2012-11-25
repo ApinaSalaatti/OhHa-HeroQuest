@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Iterator;
 
 import heroquest.domain.kauppa.Tavara;
+import heroquest.PeliController;
 
 /**
  * Luokka joka kuvaa yhden palan kartasta.
@@ -43,12 +44,17 @@ public class Karttapala {
      * Ruudussa mahdollisesti oleileva monsteri. Null = ei monsteria.
      */
     private Monsteri monsteri;
+    /**
+     * Ruudussa mahdollisesti piilotteleva ansa. Null = ei ansaa.
+     */
+    private Ansa ansa;
     
     public Karttapala() {
         naapurit = new Karttapala[4];
         tavarat = new ArrayList<Tavara>();
         pelaajaPaikalla = false;
         monsteri = null;
+        ansa = null;
     }
     
     /**
@@ -122,7 +128,7 @@ public class Karttapala {
     }
     
     /**
-     * Metodi, joka pelaajan liikkuessa ruutuun asettaa tiedon karttapalaan.
+     * Metodi, joka pelaajan liikkuessa ruutuun asettaa tiedon karttapalaan ja tarkastaa laukaiseeko pelaaja ansan.
      */
     public void pelaajaSaapuu() {
         pelaajaPaikalla = true;
@@ -166,6 +172,32 @@ public class Karttapala {
     public Monsteri getMonsteri() {
         return monsteri;
     }
+    
+    /**
+     * Asettaa ruutuun ansan.
+     * 
+     * @param a asetettava ansa
+     */
+    public void viritaAnsa(Ansa a) {
+        ansa = a;
+    }
+    public void laukaiseAnsa(Olento o, PeliController pc) {
+        ansa.laukea(o, pc);
+        ansa = null;
+    }
+    /** 
+     * @return tieto siitä, onko pelaaja löytänyt ansan
+     */
+    public boolean ansaHavaittu() {
+        return ansa.havaittu();
+    }
+    /**
+     * @return tieto siitä, onko ruudussa ansa
+     */
+    public boolean ansaPaikalla() {
+        return ansa != null;
+    }
+    
     /**
      * @return tieto siitä, onko ruudussa aarre
      */

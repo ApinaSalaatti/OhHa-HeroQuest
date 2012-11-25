@@ -136,6 +136,10 @@ public class PeliController {
             paivitaKali("Siirryit onnistuneesti! Sijaintisi nyt:\n" + peli.getPelaaja().getSijainti() + "\n");
         }
         
+        if(uusi.ansaPaikalla()) {
+            uusi.laukaiseAnsa(peli.getPelaaja(), this);
+        }
+        
         if(peli.getPelaaja().getLiikkeet() == 0) {
             peli.lopetaVuoro();
             paivitaKali("Pelottavat monsterit liikkuvat pimeässä...\n");
@@ -174,12 +178,19 @@ public class PeliController {
      * @param t tavara, jota pelaaja haluaa käyttää
      */
     public void kaytaTavaraa(Tavara t) {
+        String viesti = null;
         if(t != null) {
-            paivitaKali(t.kayta(this) + "\n");
+            viesti = t.kayta(this) + "\n";
+            paivitaKali(viesti);
+            if(t.kkayttoinen()) {
+                peli.getPelaaja().getInventaario().poistaTavara(t);
+            }
         }
         else {
-            paivitaKali("Valitse käytettävä tavara!\n");
+            viesti = "Valitse käytettävä tavara!\n";
         }
+        
+        paivitaKali(viesti);
     }
     
     /**
@@ -291,7 +302,7 @@ public class PeliController {
     }
     
     /**
-     * Pelin tallentava metodi. Yksinkertaisesti kirjoitetaan karttadata, monsterit ja pelaajan tiedot tekstitiedostoon.
+     * Pelin tallentava metodi. Yksinkertaisesti kirjoitetaan pelaajan tiedot tekstitiedostoon.
      */
     public void tallenna(String tiedostonimi) {
         Tiedostoapuri.tallennaPeli(peli.tallenna(), tiedostonimi);

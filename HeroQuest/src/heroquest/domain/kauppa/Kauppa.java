@@ -5,10 +5,12 @@
 
 package heroquest.domain.kauppa;
 
-import heroquest.domain.Pelaaja;
-import heroquest.domain.kauppa.Tavara;
 import java.util.ArrayList;
 import java.util.List;
+
+import heroquest.domain.Pelaaja;
+import heroquest.domain.kauppa.Tavara;
+import heroquest.domain.Inventaario;
 
 /**
  * Pelaajan kotona sijaitsevaa kauppaa kuvaava luokka. Sisältää metodeja mm. tavaroiden ostamiseen ja myymiseen.
@@ -16,13 +18,14 @@ import java.util.List;
  * @author Merioksan Mikko
  */
 public class Kauppa {
-    private List<Tavara> tavarat;
+    private Inventaario tavarat;
     private double myyntiProsentti;
     private double ostoProsentti;
     
     public Kauppa() {
-        this.tavarat = new ArrayList<Tavara>();
-        tavarat.add(new Tavara("salaperainenputeli.hqt"));
+        this.tavarat = new Inventaario();
+        tavarat.lisaaTavara(new Tavara("salaperainenputeli.hqt"));
+        tavarat.lisaaTavara(new Tavara("voimaputeli.hqt"));
         myyntiProsentti = 1.5;
         ostoProsentti = 0.5;
         
@@ -34,9 +37,7 @@ public class Kauppa {
      * @param t lisättävä Tavara
      */
     public void lisaaTavara(Tavara t) {
-        if(t.getNimi().length() > 0) {
-            tavarat.add(t);
-        }
+        tavarat.lisaaTavara(t);
     }
     /**
      * Metodi, joka poistaa ja palauttaa parametrina annetun tavaran kaupan vaikoimista. Jos tavaraa ei ole, palautuu null.
@@ -46,10 +47,8 @@ public class Kauppa {
      */
     public Tavara poistaTavara(Tavara t) {
         Tavara palautus = null;
-        
-        if(tavarat.contains(t)) {
+        if(tavarat.poistaTavara(t)) {
             palautus = t;
-            tavarat.remove(t);
         }
         
         return palautus;
@@ -64,7 +63,7 @@ public class Kauppa {
     public List<MyyntiTavara> getTavarat() {
         List<MyyntiTavara> palautus = new ArrayList<MyyntiTavara>();
         
-        for(Tavara t: tavarat) {
+        for(Tavara t: tavarat.getTavarat()) {
             MyyntiTavara uusi = new MyyntiTavara(t, myyntiProsentti);
             palautus.add(uusi);
         }
@@ -80,7 +79,7 @@ public class Kauppa {
      * @param p ostoa yrittävä pelaaja
      * @return onnistuiko kauppa
      */
-    public boolean osta(MyyntiTavara tavara, Pelaaja p) {
+    public boolean myy(MyyntiTavara tavara, Pelaaja p) {
         Tavara t = tavara.getTavara();
         
         if(t != null && p != null) {
@@ -89,9 +88,26 @@ public class Kauppa {
             if(varat >= hinta) {
                 p.setVarat(varat - hinta);
                 p.lisaaTavara(t);
-                tavarat.remove(t);
+                tavarat.poistaTavara(t);
                 return true;
             }
+        }
+        
+        return false;
+    }
+    /**
+     * Metodi, joka myy tavaran pelaajalta kaupalle. Kaupalla on aina kaikkeen varaa.
+     * 
+     * @param t myytävä tavara
+     * @param p pelaaja jolle myydään
+     * @return onnistuiko myynti
+     */
+    public boolean osta(Tavara t, Pelaaja p) {
+        int arvo = (int)(t.getArvo() * ostoProsentti);
+        if(p.poistaTavara(t)) {
+            p.setVarat(p.getVarat() + arvo);
+            tavarat.lisaaTavara(t);
+            return true;
         }
         
         return false;

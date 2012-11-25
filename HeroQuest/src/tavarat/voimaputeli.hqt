@@ -1,0 +1,4 @@
+Voimaputeli
+100
+controller.getPeli().getPelaaja().setVoima(controller.getPeli().getPelaaja().getVoima() + 1)
+Paitasi repeää lihastesi pullistuessa!

@@ -37,6 +37,7 @@ public class Nappipaneeli extends JPanel {
     JButton taistelunoppa;
     JList inventaario;
     JButton inventaarionappi;
+    JButton myyntinappi;
     JButton poimintanappi;
     
     public Nappipaneeli(PeliController pc) {
@@ -57,6 +58,7 @@ public class Nappipaneeli extends JPanel {
         poimintanappi = new JButton("Poimi tavarat ruudusta");
         
         inventaarionappi = new JButton("Käytä esinettä");
+        myyntinappi = new JButton("Myy esine");
         inventaario = new JList();
         inventaario.setPreferredSize(new Dimension(250, 110));
         
@@ -87,15 +89,25 @@ public class Nappipaneeli extends JPanel {
         napitJaNopat.add(poimintanappi);
         
         JPanel inventaariopaneeli = new JPanel();
+        JPanel inventaarionappipaneeli = new JPanel(new GridLayout(1, 2));
+        inventaarionappipaneeli.add(inventaarionappi);
+        inventaarionappipaneeli.add(myyntinappi);
         inventaariopaneeli.add(new JLabel("Inventaario:"), BorderLayout.NORTH);
         inventaariopaneeli.add(inventaario);
-        inventaariopaneeli.add(inventaarionappi, BorderLayout.SOUTH);
+        inventaariopaneeli.add(inventaarionappipaneeli, BorderLayout.SOUTH);
         
         inventaarionappi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.kaytaTavaraa((Tavara)inventaario.getSelectedValue());
             }
+        });
+        
+        myyntinappi.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               controller.getKoti().myy((Tavara)inventaario.getSelectedValue());
+           }
         });
         
         this.add(napitJaNopat);
@@ -109,24 +121,28 @@ public class Nappipaneeli extends JPanel {
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(true);
             poimintanappi.setEnabled(false);
+            myyntinappi.setEnabled(false);
         }
         else if(tila.equals("liikenoppa")) {
             liikeNapit(false);
             liikenoppa.setEnabled(true);
             taistelunoppa.setEnabled(false);
             poimintanappi.setEnabled(true);
+            myyntinappi.setEnabled(false);
         }
         else if(tila.equals("liike")) {
             liikeNapit(true);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(false);
             poimintanappi.setEnabled(true);
+            myyntinappi.setEnabled(false);
         }
         else if(tila.equals("koti")) {
             liikeNapit(false);
             liikenoppa.setEnabled(false);
             taistelunoppa.setEnabled(false);
             poimintanappi.setEnabled(false);
+            myyntinappi.setEnabled(true);
         }
         
         List<Tavara> tavarat = controller.getPeli().getPelaaja().getInventaario().getTavarat();

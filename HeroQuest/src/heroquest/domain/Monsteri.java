@@ -11,7 +11,10 @@ import heroquest.util.Nimilista;
  * @author Merioksan Mikko
  */
 public class Monsteri extends Olento {
-    
+    /**
+     * Monsterin kuollessa pelaajan tienaamat kokemuspisteet.
+     */
+    private int expArvo;
     /**
      * Konstruktori, joka saa annettuna monsterin nimen.
      * 
@@ -22,6 +25,7 @@ public class Monsteri extends Olento {
      */
     public Monsteri(String nimi, int voima, int energia, int nopeus) {
         super(nimi, voima, energia, nopeus);
+        expArvo = 100;
     }
     /**
      * Konstruktori, jolle ei anneta nimeä. Tällöin monsterin nimeksi arvotaan satunnainen pelottava nimi Nimilista-luokan avulla
@@ -32,10 +36,18 @@ public class Monsteri extends Olento {
      * @param energia monsterin energia
      * @param nopeus monsterin nopeus
      */
-    public Monsteri(int voima, int energia, int nopeus) {
+    public Monsteri(int voima, int energia, int nopeus, int arvo) {
         super(voima, energia, nopeus);
         String nimi = Nimilista.getPelottavaNimi();
         this.setNimi(nimi);
+        this.setExpArvo(arvo);
+    }
+    
+    public int getExpArvo() {
+        return expArvo;
+    }
+    public void setExpArvo(int arvo) {
+        expArvo = arvo;
     }
     
     /**

@@ -4,6 +4,7 @@
  */
 package heroquest;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -13,6 +14,7 @@ import heroquest.domain.Kotikarttapala;
 import heroquest.domain.Ilmansuunta;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
+import heroquest.domain.kauppa.Tavara;
 /**
  * Pelilogiikan sisältävä luokka. MVC-mallin M.
  * 
@@ -69,8 +71,16 @@ public class Peli {
      * Metodi, joka poistaa pelistä kaikki kuolleet Monsterit.
      */
     public void poistaKuolleetMonsterit() {
-        int tapot = kartta.poistaKuolleetMonsterit();
+        List<Monsteri> kuolleet = kartta.poistaKuolleetMonsterit();
+        int tapot = 0;
+        int exp = 0;
+        for(Monsteri m : kuolleet) {
+            tapot++;
+            exp += m.getExpArvo();
+        }
+        
         pelaaja.lisaaTapot(tapot);
+        pelaaja.lisaaExp(exp);
     }
     
     /**
@@ -118,12 +128,17 @@ public class Peli {
      * @return tieto tavaroiden poiston onnistumisesta
      */
     public boolean tavaroidenPoiminta() {
-        if(pelaaja.getSijainti().getTavarat().size() <= 0) {
+        List<Tavara> tavarat = pelaaja.getSijainti().poimiTavarat();
+        if(tavarat.size() <= 0) {
             return false;
         }
         
-        pelaaja.lisaaTavarat(pelaaja.getSijainti().poimiTavarat());
-        
+        for(Tavara t : tavarat) {
+            if(t.equals(new Tavara("arvokasaarre.hqt"))) {
+                pelaaja.lisaaExp(50);
+            }
+            pelaaja.lisaaTavara(t);
+        }
         return true;
     }
     
@@ -205,10 +220,6 @@ public class Peli {
      * @return pelaajan tiedot String-muuttujassa
      */
     public String tallenna() {
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append(pelaaja.tallenna());
-        
-        return sb.toString();
+        return pelaaja.tallenna();
     }
 }

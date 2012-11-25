@@ -108,20 +108,20 @@ public class Kartta {
     /**
      * Metodi, joka poistaa kartalta kaikki kuolleet Monsterit.
      */
-    public int poistaKuolleetMonsterit() {
-        int tapot = 0;
+    public List<Monsteri> poistaKuolleetMonsterit() {
+        List<Monsteri> palautus = new ArrayList<Monsteri>();
         
         Iterator<Monsteri> iter = monsterit.listIterator();
         while(iter.hasNext()) {
             Monsteri m = iter.next();
             if(m.getEnergia() <= 0) {
                 m.getSijainti().monsteriPoistuu();
+                palautus.add(m);
                 iter.remove();
-                tapot++;
             }
         }
         
-        return tapot;
+        return palautus;
     }
     /**
      * Metodi, joka liikuttaa kaikkia pelissä olevia Monstereita.

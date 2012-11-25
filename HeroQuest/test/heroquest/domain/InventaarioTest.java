@@ -33,7 +33,7 @@ public class InventaarioTest {
     @Before
     public void setUp() {
         this.inv = new Inventaario();
-        this.inv.lisaaTavara(new Tavara("Murhamiekka", 5));
+        this.inv.lisaaTavara(new Tavara("arvokasaarre.hqt"));
     }
     
     @After
@@ -42,19 +42,13 @@ public class InventaarioTest {
     
     @Test
     public void lisaysLisaaTavaran() {
-        inv.lisaaTavara(new Tavara("Hattu", 5));
+        inv.lisaaTavara(new Tavara("arvokasaarre.hqt"));
         assertTrue(inv.getTavarat().size() > 1);
     }
     
     @Test
-    public void tyhjaaStringiaEiVoiLisata() {
-        inv.lisaaTavara(new Tavara("", 5));
-        assertTrue(inv.getTavarat().size() == 1);
-    }
-    
-    @Test
     public void poistaminenVahentaaTavaroita() {
-        inv.poistaTavara(new Tavara("Murhamiekka", 5));
+        inv.poistaTavara(new Tavara("arvokasaarre.hqt"));
         assertTrue(inv.getTavarat().isEmpty());
     }
 }

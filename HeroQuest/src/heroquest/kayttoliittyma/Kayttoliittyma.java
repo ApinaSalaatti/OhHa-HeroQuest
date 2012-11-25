@@ -31,7 +31,7 @@ public class Kayttoliittyma implements Runnable {
     
     @Override
     public void run() {
-        frame = new JFrame("HeroQuest by Merioksan Mikko!");
+        frame = new JFrame("Luolastokuningas II");
         frame.setPreferredSize(new Dimension(1200, 800));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         

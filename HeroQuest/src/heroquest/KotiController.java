@@ -11,6 +11,7 @@ import heroquest.domain.Kotikarttapala;
 import heroquest.domain.Karttapala;
 import heroquest.domain.kauppa.Kauppa;
 import heroquest.domain.kauppa.MyyntiTavara;
+import heroquest.domain.kauppa.Tavara;
 /**
  *
  * @author Merioksan Mikko
@@ -47,11 +48,29 @@ public class KotiController {
             controller.paivitaKali("Valitse ihmeessä ensin jokin tavara...\n");
         }
         else {
-            if(kauppa.osta(t, controller.getPeli().getPelaaja())) {
+            if(kauppa.myy(t, controller.getPeli().getPelaaja())) {
                 controller.paivitaKali("Hyvät kaupat teit!\n");
             }
             else {
                 controller.paivitaKali("Älä yritä, senkin köyhä!\n");
+            }
+        }
+    }
+    /**
+     * Tavaroiden myymisen mahdollistava metodi.
+     * 
+     * @param t myytävä tavara
+     */
+    public void myy(Tavara t) {
+        if(t == null) {
+            controller.paivitaKali("Et ole valinnut myytävää tavaraa!\n");
+        }
+        else {
+            if(kauppa.osta(t, controller.getPeli().getPelaaja())) {
+                controller.paivitaKali("Myyty!\n");
+            }
+            else {
+                controller.paivitaKali("Ei tullut kauppoja. :(\n");
             }
         }
     }

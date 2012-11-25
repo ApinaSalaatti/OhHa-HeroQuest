@@ -40,6 +40,7 @@ public class Pelaaja extends Olento {
         setLuokka(luokka);
         liikkeet = 0;
         tapot = 0;
+        varat = 100;
     }
     
     /**
@@ -118,21 +119,6 @@ public class Pelaaja extends Olento {
         return varat;
     }
     
-    /**
-     * @return pelaajan pistemäärä
-     */
-    public int getPisteet() {
-        int pisteet = 0;
-        pisteet += 100 * tapot;
-        String[] tavarat = inventaario.getTavaratTaulukkona();
-        for(String t : tavarat) {
-            if(t.equals("Arvokas aarre")) {
-                pisteet += 200;
-            }
-        }
-        return pisteet;
-    }
-    
     /*
      * Taistelumetodit:
      *  - hyökätessä pelaaja heittää voimansa verran noppia ja osuu jos noppa on viisi tai kuusi
@@ -179,7 +165,7 @@ public class Pelaaja extends Olento {
         }
         sb.append("\n");
         sb.append("Kultaduplooneja: " + getVarat() + "\n");
-        sb.append("Pisteet: " + getPisteet() + "\n");
+        sb.append("Kokemustaso: " + getTaso() + " (XP: " + getExp() + ")\n");
         
         return sb.toString();
     }
@@ -191,6 +177,7 @@ public class Pelaaja extends Olento {
      */
     @Override
     public String tallenna() {
-        return super.tallenna() + ";" + getLuokka() + "\n";
+        return super.tallenna() + ";" + getLuokka() + ";" + getTapot() + ";" + getVarat() + "\n";
+        
     }
 }

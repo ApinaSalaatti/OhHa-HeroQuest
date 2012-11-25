@@ -38,8 +38,8 @@ public class MonsteriTest {
     
     @Before
     public void setUp() {
-        monsteri1 = new Monsteri(5, 1, 5);
-        monsteri2 = new Monsteri(5, 1, 5);
+        monsteri1 = new Monsteri(5, 1, 5, 100);
+        monsteri2 = new Monsteri(5, 1, 5, 100);
         kartta = new Kartta(testikartta);
         palat = kartta.getKarttapalat();
         

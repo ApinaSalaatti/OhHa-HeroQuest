@@ -47,7 +47,7 @@ public class Kotipaneeli extends JPanel {
        
         
         JPanel karttaPanel = new JPanel();
-        JButton kartanvalintanappi = new JButton("Valitse luolasto");
+        JButton kartanvalintanappi = new JButton("Syöksy seikkailuun!");
         
         kartanvalintanappi.addActionListener(new ActionListener() {
             @Override
@@ -57,6 +57,7 @@ public class Kotipaneeli extends JPanel {
         });
         
         kartat = new JComboBox(Tiedostoapuri.kansioTauluksi("src/kartat"));
+        karttaPanel.add(new JLabel("Valitse luolasto:"));
         karttaPanel.add(kartat);
         karttaPanel.add(kartanvalintanappi);
         

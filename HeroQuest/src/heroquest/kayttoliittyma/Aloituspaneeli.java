@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 
 import sun.audio.AudioData;
 import sun.audio.AudioPlayer;
@@ -52,7 +53,7 @@ public class Aloituspaneeli extends JPanel {
         
         JLabel logo = new JLabel(new ImageIcon("src/kuvat/logo.png"));
         
-        JButton uusiPeli = luoUusiPeliNappi();
+        JButton uusiPeli = luoUusiPeliNappi(frame);
         JPanel uusiPeliPanel = new JPanel();
         uusiPeliPanel.setBackground(Color.WHITE);
         uusiPeliPanel.add(uusiPeli);
@@ -73,12 +74,17 @@ public class Aloituspaneeli extends JPanel {
         this.add(poistuPanel);
     }
     
-    public JButton luoUusiPeliNappi() {
+    public JButton luoUusiPeliNappi(final JFrame frame) {
         JButton uusiPeli = new JButton(new ImageIcon("src/kuvat/uusiPeli.png"));
         
         uusiPeli.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               String viesti = "Tervetuloa Luolakuningas II:n maailmaan, oi jalo sankari!\n";
+               viesti += "On kulunut 15 vuotta siitä, kun isäsi voitti ensimmäisen Luolakuningas-turnauksen. Tänä vuonna on vihdoin sinun aikasi loistaa!\n";
+               viesti += "Tehtävänäsi on löytää kaikki Wolframivuoren kätköihin piilotetut aarteet ja tulla isäsi tavoin kruunatuksi...\n\n";
+               viesti += "LUOLAKUNINKAAKSI!";
+               JOptionPane.showMessageDialog(frame, viesti);
                nakyma.show(container, "luonti");
            }
         });

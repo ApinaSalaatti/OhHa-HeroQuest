@@ -6,6 +6,7 @@ import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
+import heroquest.domain.Ansa;
 import heroquest.domain.kauppa.Tavara;
 import heroquest.util.Tiedostoapuri;
 /**
@@ -62,20 +63,9 @@ public class PeliTehdas {
     public Peli lataaPeli(String tiedostonimi) {
         Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi);
         
-        String[] pelaajanTiedot = lukija.nextLine().split(";");
-        
-        Pelaaja pelaaja = lataaPelaaja(pelaajanTiedot);
-        
-        Kartta kartta = luoKartta(lukija);
-        
-        int y = Integer.parseInt(pelaajanTiedot[0]);
-        int x = Integer.parseInt(pelaajanTiedot[1]);   
+        Pelaaja pelaaja = lataaPelaaja(lukija);
         
         Peli peli = new Peli(pelaaja);
-        
-        luoMonsterit(lukija, kartta);
-        sijoitaTavarat(lukija, kartta);
-        lataaNahdyt(lukija, kartta);
         
         return peli;
     }
@@ -87,14 +77,31 @@ public class PeliTehdas {
      * @param lukija Scanner-olio josta tiedot luetaan
      * @return rakennettu Pelaaja-olio
      */
-    public Pelaaja lataaPelaaja(String[] pelaajanTiedot) {
-        String nimi = pelaajanTiedot[2];
-        int voima = Integer.parseInt(pelaajanTiedot[3]);
-        int energia = Integer.parseInt(pelaajanTiedot[4]);
-        int nopeus = Integer.parseInt(pelaajanTiedot[5]);
+    public Pelaaja lataaPelaaja(Scanner lukija) {
+        String inventaario = lukija.nextLine();
+        String pelaaja = lukija.nextLine();
+        String[] pelaajanTiedot = pelaaja.split(";");
+        String nimi = pelaajanTiedot[0];
+        int voima = Integer.parseInt(pelaajanTiedot[1]);
+        int energia = Integer.parseInt(pelaajanTiedot[2]);
+        int nopeus = Integer.parseInt(pelaajanTiedot[3]);
+        int taso = Integer.parseInt(pelaajanTiedot[4]);
+        int exp = Integer.parseInt(pelaajanTiedot[5]);
         String luokka = pelaajanTiedot[6];
+        int tapot = Integer.parseInt(pelaajanTiedot[7]);
+        int varat = Integer.parseInt(pelaajanTiedot[8]);
         
-        return new Pelaaja(nimi, voima, energia, nopeus, luokka);
+        Pelaaja p = new Pelaaja(nimi, voima, energia, nopeus, luokka);
+        p.lisaaExp(exp);
+        p.lisaaTapot(tapot);
+        p.setVarat(varat);
+        
+        String[] tavarat = inventaario.split(";");
+        for(String t : tavarat) {
+            p.lisaaTavara(new Tavara(t));
+        }
+        
+        return p;
     }
     
     /**
@@ -192,9 +199,11 @@ public class PeliTehdas {
             String riviStr = lukija.nextLine();
             for(int x = 0; x < palat[0].length; x++) {
                 if(riviStr.charAt(x) == '1') {
-                    Monsteri m = new Monsteri(5, 1, 1);
-                    Karttapala pala = palat[y][x];
+                    Monsteri m = new Monsteri(5, 1, 1, 100);
                     kartta.lisaaMonsteri(m, y, x);
+                }
+                if(riviStr.charAt(x) == '2') {
+                    palat[y][x].viritaAnsa(new Ansa("Murhamiina", 10, "Astuit kammottavaan murhamiinaan!\n"));
                 }
             }
         }

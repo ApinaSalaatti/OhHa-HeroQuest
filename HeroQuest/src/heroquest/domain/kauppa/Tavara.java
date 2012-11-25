@@ -19,18 +19,41 @@ import heroquest.util.Tiedostoapuri;
  * @author Merioksan Mikko
  */
 public class Tavara {
+    /**
+     * Tiedosto josta tavara luettiin (tallentamista varten)
+     */
+    private String tiedosto;
+    /**
+     * Tavaran nimi
+     */
     private String nimi;
+    /**
+     * Tavaran arvo kultaduplooneina.
+     */
     private int arvo;
+    /**
+     * Tavaran vaikutus, kun sitä käytetään.
+     */
     private String toiminto;
+    /**
+     * Teksti, joka näytetään pelaajalle tavaraa käytettäessä.
+     */
     private String palautus;
+    /**
+     * Tieto siitä, poistetaanko tavara inventaariosta käytettäessä.
+     */
+    boolean kkayttoinen;
     
     public Tavara(String tiedosto) {
+        this.tiedosto = tiedosto;
+        
         Scanner lukija = Tiedostoapuri.tiedostoLukijaan("src/tavarat/" + tiedosto);
         
         this.nimi = lukija.nextLine();
         this.arvo = Integer.parseInt(lukija.nextLine());
         toiminto = lukija.nextLine();
         palautus = lukija.nextLine();
+        kkayttoinen = true;
     }
     
     public int getArvo() {
@@ -47,9 +70,14 @@ public class Tavara {
         nimi = n;
     }
     
+    public boolean kkayttoinen() {
+        return kkayttoinen;
+    }
+    
     /**
      * Tavaran käyttämisen toteuttava metodi.
      * Tavarat voivat vaikuttaa mihin tahansa pelin elementtiin, minkä vuoksi metodille annetaan parametrina kontrolleri.
+     * Tavaran aiheuttamat vaikutukset luetaan String-muuttujasta skriptinä.
      * 
      * @param pc kontrolleri, johon tavara vaikuttaa
      * @return tavaran käytön seurauksia kuvaileva viesti
@@ -90,5 +118,9 @@ public class Tavara {
     @Override
     public int hashCode() {
         return nimi.hashCode();
+    }
+    
+    public String tallenna() {
+        return tiedosto;
     }
 }

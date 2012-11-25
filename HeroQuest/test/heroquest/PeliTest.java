@@ -64,7 +64,7 @@ public class PeliTest {
     
     @Test
     public void taistelunAloitus() {
-        peli.lisaaMonsteri(new Monsteri(2, 2, 2), 2, 1);
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 2, 1);
         
         peli.pelaajanLiike(Ilmansuunta.ETELA);
         
@@ -74,7 +74,7 @@ public class PeliTest {
     @Test
     public void vuoronLopetusLiikuttaaMonstereita() {
         Karttapala pala = peli.getKartta().getKarttapalat()[2][5];
-        Monsteri m = new Monsteri(2, 2, 2);
+        Monsteri m = new Monsteri(2, 2, 2, 2);
         peli.lisaaMonsteri(m, 2, 5);
         peli.lopetaVuoro();
         
