@@ -6,7 +6,8 @@
 package heroquest.domain.kauppa;
 
 /**
- *
+ * Myytäviä tavaroita kuvaava luokka. Luokka säilyttää perus-tavaran ja kertoimen, jolla tavaran hintaa tulee nostaa.
+ * 
  * @author Merioksan Mikko
  */
 public class MyyntiTavara {

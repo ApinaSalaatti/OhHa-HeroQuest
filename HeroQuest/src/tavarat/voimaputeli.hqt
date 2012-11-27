@@ -1,4 +1,5 @@
 Voimaputeli
 100
-controller.getPeli().getPelaaja().setVoima(controller.getPeli().getPelaaja().getVoima() + 1)
+peli.getPelaaja().setVoima(peli.getPelaaja().getVoima() + 1)
 Paitasi repeää lihastesi pullistuessa!
+true

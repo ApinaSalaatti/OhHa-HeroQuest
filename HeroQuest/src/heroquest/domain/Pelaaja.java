@@ -27,6 +27,10 @@ public class Pelaaja extends Olento {
      * Pelaajan varakkuus. Rahalla voi ostaa kaikkea kivaa!
      */
     private int varat;
+    /**
+     * Kuvatiedoston nimi, jonka pelaaja on valinnut lärvikseen.
+     */
+    private String kuva;
     
     public Pelaaja(String nimi, int voima, int energia, int nopeus, String luokka) {
         super(nimi, voima, energia, nopeus);
@@ -34,6 +38,7 @@ public class Pelaaja extends Olento {
         liikkeet = 0;
         tapot = 0;
         varat = 100;
+        this.kuva = kuva;
     }
     public Pelaaja(int voima, int energia, int nopeus, String luokka) {
         super(voima, energia, nopeus);
@@ -41,6 +46,7 @@ public class Pelaaja extends Olento {
         liikkeet = 0;
         tapot = 0;
         varat = 100;
+        this.kuva= kuva;
     }
     
     /**
@@ -119,6 +125,13 @@ public class Pelaaja extends Olento {
         return varat;
     }
     
+    public void setKuva(String kuva) {
+        this.kuva = kuva;
+    }
+    public String getKuva() {
+        return kuva;
+    }
+    
     /*
      * Taistelumetodit:
      *  - hyökätessä pelaaja heittää voimansa verran noppia ja osuu jos noppa on viisi tai kuusi
@@ -164,6 +177,7 @@ public class Pelaaja extends Olento {
             sb.append("*");
         }
         sb.append("\n");
+        sb.append("Nopeus: " + getNopeus() + "\n");
         sb.append("Kultaduplooneja: " + getVarat() + "\n");
         sb.append("Kokemustaso: " + getTaso() + " (XP: " + getExp() + ")\n");
         
@@ -177,7 +191,7 @@ public class Pelaaja extends Olento {
      */
     @Override
     public String tallenna() {
-        return super.tallenna() + ";" + getLuokka() + ";" + getTapot() + ";" + getVarat() + "\n";
+        return super.tallenna() + ";" + getLuokka() + ";" + getTapot() + ";" + getVarat() + ";" + getKuva() + "\n";
         
     }
 }

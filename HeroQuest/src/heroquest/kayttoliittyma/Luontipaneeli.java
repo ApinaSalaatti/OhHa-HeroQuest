@@ -50,16 +50,10 @@ public class Luontipaneeli extends JPanel {
         luokkapaneeli.add(new JLabel("Luokka: "));
         luokkapaneeli.add(luokkalista);
         
-        JTextField koko = new JTextField();
-        koko.setColumns(3);
-        koko.setText("10");
-        JPanel kokopaneeli = new JPanel();
-        kokopaneeli.add(new JLabel("Kartan koko"));
-        kokopaneeli.add(koko);
-        
+        Kuvavalintapaneeli kuvavalintaPanel = new Kuvavalintapaneeli();
         
         JButton aloitusnappi = new JButton("Aloita seikkailu!");
-        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, controller));
+        aloitusnappi.addActionListener(new AloitusnappiKuuntelija(container, cards, nimi, luokkalista, kuvavalintaPanel, controller));
         JPanel nappipaneeli = new JPanel();
         nappipaneeli.add(aloitusnappi);
         
@@ -67,6 +61,7 @@ public class Luontipaneeli extends JPanel {
         tervehdys.setFont(new Font("tervehdys", 1, 30));
         this.add(tervehdys);
         this.add(nimipaneeli);
+        this.add(kuvavalintaPanel);
         this.add(luokkapaneeli);
         this.add(nappipaneeli);
     }

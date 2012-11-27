@@ -26,8 +26,8 @@ public class PeliTehdas {
      * @param pelaajanLuokka pelaajan hahmon hahmoluokka
      * @return rakennettu Peli-luokan olio
      */
-    public Peli luoPeli(String pelaajanNimi, String pelaajanLuokka) {
-        Pelaaja pelaaja = luoPelaaja(pelaajanNimi, pelaajanLuokka);
+    public Peli luoPeli(String pelaajanNimi, String pelaajanLuokka, String pelaajanKuva) {
+        Pelaaja pelaaja = luoPelaaja(pelaajanNimi, pelaajanLuokka, pelaajanKuva);
         
         Peli peli = new Peli(pelaaja);
         
@@ -71,7 +71,7 @@ public class PeliTehdas {
     }
     
     /**
-     * Metodi, joka käyttää purkaa annetusta merkkijonotaulukosta pelaajan tiedot.
+     * Metodi, joka käyttää purkaa annetusta Scannerista pelaajan tiedot.
      * Käytetään vain peliä tallennuksesta ladatessa, uutta peliä luodessa luodaan aina uusi pelaaja "normaalisti".
      * 
      * @param lukija Scanner-olio josta tiedot luetaan
@@ -90,15 +90,20 @@ public class PeliTehdas {
         String luokka = pelaajanTiedot[6];
         int tapot = Integer.parseInt(pelaajanTiedot[7]);
         int varat = Integer.parseInt(pelaajanTiedot[8]);
+        String kuva = pelaajanTiedot[9];
         
         Pelaaja p = new Pelaaja(nimi, voima, energia, nopeus, luokka);
+        p.setKuva(kuva);
         p.lisaaExp(exp);
         p.lisaaTapot(tapot);
         p.setVarat(varat);
         
-        String[] tavarat = inventaario.split(";");
-        for(String t : tavarat) {
-            p.lisaaTavara(new Tavara(t));
+        if(inventaario.length() > 0) {
+            String[] tavarat = inventaario.split(";");
+            System.out.println(tavarat[0]);
+            for(String t : tavarat) {
+                p.lisaaTavara(new Tavara(t));
+            }
         }
         
         return p;
@@ -157,7 +162,7 @@ public class PeliTehdas {
      * @param luokka hahmon hahmoluokka
      * @return rakennettu Pelaaja-luokan olio
      */
-    private Pelaaja luoPelaaja(String nimi, String luokka) {
+    private Pelaaja luoPelaaja(String nimi, String luokka, String kuva) {
         int voima = 0;
         int energia = 0;
         int nopeus = 0;
@@ -183,7 +188,9 @@ public class PeliTehdas {
             nopeus = 1;
         }
         
-        return new Pelaaja(nimi, voima, energia, nopeus, luokka);
+        Pelaaja p = new Pelaaja(nimi, voima, energia, nopeus, luokka);
+        p.setKuva(kuva);
+        return p;
     }
     
     /**

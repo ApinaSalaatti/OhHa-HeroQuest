@@ -80,10 +80,10 @@ public class Aloituspaneeli extends JPanel {
         uusiPeli.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               String viesti = "Tervetuloa Luolakuningas II:n maailmaan, oi jalo sankari!\n";
-               viesti += "On kulunut 15 vuotta siitä, kun isäsi voitti ensimmäisen Luolakuningas-turnauksen. Tänä vuonna on vihdoin sinun aikasi loistaa!\n";
+               String viesti = "Tervetuloa Luolastokuningas II:n maailmaan, oi jalo sankari!\n";
+               viesti += "On kulunut 15 vuotta siitä, kun isäsi voitti ensimmäisen Luolastokuningas-turnauksen. Tänä vuonna on vihdoin sinun aikasi loistaa!\n";
                viesti += "Tehtävänäsi on löytää kaikki Wolframivuoren kätköihin piilotetut aarteet ja tulla isäsi tavoin kruunatuksi...\n\n";
-               viesti += "LUOLAKUNINKAAKSI!";
+               viesti += "LUOLASTOKUNINKAAKSI!";
                JOptionPane.showMessageDialog(frame, viesti);
                nakyma.show(container, "luonti");
            }

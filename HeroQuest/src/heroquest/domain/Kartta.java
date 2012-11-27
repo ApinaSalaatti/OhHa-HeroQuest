@@ -85,6 +85,9 @@ public class Kartta {
         return lkm;
     }
     
+    public List<Monsteri> getMonsterit() {
+        return monsterit;
+    }
     /**
      * Lisätään kartalle yksi Monsteri annettuun Karttapalaan.
      * 
@@ -179,6 +182,19 @@ public class Kartta {
         
         if(seurX != 0 || seurY != 0) {
             asetaNakyvaksi(x+seurX, y+seurY, seurX, seurY);
+        }
+    }
+    
+    /**
+     * Metodi, joka paljastaa kartan kaikki ansat.
+     */
+    public void paljastaAnsat() {
+        for(int y = 0; y < kartta.length; y++) {
+            for(int x = 0; x < kartta[0].length; x++) {
+                if(kartta[y][x] != null && kartta[y][x].ansaPaikalla()) {
+                    kartta[y][x].paljastaAnsa();
+                }
+            }
         }
     }
     

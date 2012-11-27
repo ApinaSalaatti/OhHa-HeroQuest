@@ -181,15 +181,22 @@ public class Karttapala {
     public void viritaAnsa(Ansa a) {
         ansa = a;
     }
-    public void laukaiseAnsa(Olento o, PeliController pc) {
-        ansa.laukea(o, pc);
+    public String laukaiseAnsa(Olento o) {
+        String viesti = ansa.laukea(o);
         ansa = null;
+        return viesti;
     }
     /** 
      * @return tieto siitä, onko pelaaja löytänyt ansan
      */
     public boolean ansaHavaittu() {
         return ansa.havaittu();
+    }
+    /**
+     * Paljastetaan ansa
+     */
+    public void paljastaAnsa() {
+        ansa.paljastu();
     }
     /**
      * @return tieto siitä, onko ruudussa ansa
@@ -260,6 +267,9 @@ public class Karttapala {
         }
         else if(!pelaajaPaikalla() && monsteriPaikalla()) {
             return 3;
+        }
+        else if(ansaPaikalla() && ansa.havaittu()) {
+            return 6;
         }
         else if(aarrePaikalla()) {
             return 5;

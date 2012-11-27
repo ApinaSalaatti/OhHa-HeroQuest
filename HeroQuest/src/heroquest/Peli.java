@@ -4,16 +4,12 @@
  */
 package heroquest;
 
+import heroquest.domain.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
-import heroquest.domain.Kartta;
-import heroquest.domain.Karttapala;
-import heroquest.domain.Kotikarttapala;
-import heroquest.domain.Ilmansuunta;
-import heroquest.domain.Pelaaja;
-import heroquest.domain.Monsteri;
 import heroquest.domain.kauppa.Tavara;
 /**
  * Pelilogiikan sisältävä luokka. MVC-mallin M.
@@ -21,6 +17,10 @@ import heroquest.domain.kauppa.Tavara;
  * @author Merioksan Mikko
  */
 public class Peli {
+    /**
+     * Satunnaisuutta.
+     */
+    private Random random;
     /**
      * Käytössä oleva kartta.
      */
@@ -43,6 +43,7 @@ public class Peli {
     private Kotikarttapala kotipala;
     
     public Peli(Pelaaja p) {
+        random = new Random();
         pelaaja = p;
         taistelunAika = false;
         kotipala = new Kotikarttapala();
@@ -108,14 +109,39 @@ public class Peli {
      * 
      * @param suunta haluttu suunta
      */
-    public void pelaajanLiike(Ilmansuunta suunta) {
-        if(kartta.ulosKartalta(pelaaja.getSijainti(), suunta)) {
-            pelaajaSaapuuKotiin();
+    public String pelaajanLiike(Ilmansuunta suunta) {
+        String viesti = "";
+        if(pelaaja.getLiikkeet() > 0) {
+            if(kartta.ulosKartalta(pelaaja.getSijainti(), suunta)) {
+                pelaajaSaapuuKotiin();
+            }
+            else {
+                pelaaja.liiku(suunta);
+            }
+
+            if(pelaaja.getSijainti().ansaPaikalla()) {
+                viesti = pelaaja.getSijainti().laukaiseAnsa(pelaaja);
+            }
+            tuleekoTaistelu();
         }
         else {
-            pelaaja.liiku(suunta);
+            viesti = "Liikkeesi näyttävät olevan lopussa. Heitä noppaa!";
         }
-        tuleekoTaistelu();
+        
+        return viesti;
+    }
+    
+    /**
+     * Metodi, joka simuloi nopanheittoa. Heitetään pelaajan nopeuden mukaista määrää noppia.
+     * Metodia kutsutaan, kun pelaaja on käyttänyt kaikki liikkeensä.
+     */
+    public int liikenopanHeitto() {
+        int yhteensa = 0;
+        for(int i = 0; i < pelaaja.getNopeus(); i++) {
+            yhteensa += random.nextInt(6) + 1;
+        }
+        pelaaja.setLiikkeet(yhteensa);
+        return yhteensa;
     }
     
     public Karttapala getPelaajanSijainti() {
@@ -140,6 +166,27 @@ public class Peli {
             pelaaja.lisaaTavara(t);
         }
         return true;
+    }
+    
+    /**
+     * Metodi pelaajan inventaariossa olevien tavaroiden käyttämiseen.
+     * Jokainen tavara lähettää käytettäessä viestin, joka eteenpäin lähetetään käyttöliittymälle.
+     * 
+     * @param t tavara, jota pelaaja haluaa käyttää
+     */
+    public String kaytaTavaraa(Tavara t) {
+        String viesti = "";
+        if(t != null) {
+            viesti = t.kayta(this) + "\n";
+            if(t.kkayttoinen()) {
+                pelaaja.getInventaario().poistaTavara(t);
+            }
+        }
+        else {
+            viesti = "Valitse käytettävä tavara!\n";
+        }
+        
+        return viesti;
     }
     
     /**
@@ -212,6 +259,78 @@ public class Peli {
      */
     public boolean pelaajaKotona() {
         return pelaajaKotona;
+    }
+    
+    public String taistele() {
+        Olento aloittaja = null;
+        Olento seuraaja = null;
+        
+        // jos vastustajaa ei jostain syystä ollutkaan, ei voida taistellakaan. :(
+        if(getVastustaja() == null) {
+            return "Ei ole ketään ketä vastaan taistella (mitäs peliä tämä on??)!\n";
+        }
+        else {
+            
+            // tarkastetaan kumpi on nopeampi ja asetetaan aloittaja ja seuraaja sen mukaisesti.
+            if(pelaaja.getNopeus() >= getVastustaja().getNopeus()) {
+                aloittaja = pelaaja;
+                seuraaja = getVastustaja();
+            }
+            else {
+                aloittaja = getVastustaja();
+                seuraaja = pelaaja;
+            }
+            
+            StringBuilder taisteluviesti = new StringBuilder();
+            taisteluviesti.append("On taistelun aika!\n");
+            taisteluviesti.append("Vastassasi on pelottava monsteri " + getVastustaja().toString() + "\n");
+            
+            // aloittajan hyökkäys
+            int vahinko = hyokkays(aloittaja, seuraaja);
+            if(vahinko > 0) {
+                taisteluviesti.append(seuraaja.otaVahinkoa(vahinko));
+            }
+            else {
+                taisteluviesti.append(aloittaja.getNimi() + " löi ohi!\n");
+            }
+            
+            if(seuraaja.getEnergia() <= 0) {
+                // tarkistetaan josko kuollut Olento oli monsteri
+                poistaKuolleetMonsterit();
+            }
+            else {
+                // seuraajan hyökkäys
+                vahinko = hyokkays(seuraaja, aloittaja);
+                if(vahinko > 0) {
+                    taisteluviesti.append(aloittaja.otaVahinkoa(vahinko));
+                }
+                else {
+                    taisteluviesti.append(seuraaja.getNimi() + " löi ohi!\n");
+                }
+                if(aloittaja.getEnergia() <= 0) {
+                    // tarkistetaan josko kuollut Olento oli monsteri
+                    poistaKuolleetMonsterit();
+                }
+            }
+            
+            
+            return taisteluviesti.toString();
+        }
+    }
+    
+    /**
+     * Metodi, joka laskee yksittäisessä hyökkäyksessä tehdyn vahingon.
+     * <= 0 tarkoittaa ohilyöntiä.
+     * 
+     * @param hyokkaaja hyökkäävä Olento
+     * @param puolustaja puolustava Olento
+     * @return hyökkäyksen ja puolustuksen erotus
+     */
+    public int hyokkays(Olento hyokkaaja, Olento puolustaja) {
+        int hyokkays = hyokkaaja.hyokkaa();
+        int puolustus = puolustaja.puolustaudu();
+        
+        return hyokkays - puolustus;
     }
     
     /**

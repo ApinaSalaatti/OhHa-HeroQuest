@@ -7,17 +7,21 @@ package heroquest;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.List;
+
+import heroquest.domain.Ansa;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
+import heroquest.domain.kauppa.Tavara;
 import heroquest.domain.Ilmansuunta;
 /**
  *
  * @author ApinaSalaatti
  */
 public class PeliTest {
-    private static int[][] testikartta = {  {0, 0, 0, 0, 0, 0, 0, 0},
+    private static int[][] testikartta = {  {0, 1, 0, 0, 0, 0, 0, 0},
                                             {0, 1, 1, 1, 1, 1, 1, 0},
                                             {0, 1, 0, 0, 1, 1, 1, 0},
                                             {0, 1, 1, 1, 1, 1, 1, 0},
@@ -45,7 +49,7 @@ public class PeliTest {
         this.peli = new Peli(pelaaja);
         this.peli.setKartta(kartta);
         
-        pelaaja.setSijainti(peli.getKartta().getAloituspala());
+        peli.pelaajaPoistuuKotoa(peli.getKartta().getAloituspala());
     }
     
     @After
@@ -53,22 +57,54 @@ public class PeliTest {
     }
     
     @Test
+    public void liikenopanHeittoTuottaaOikeanLuvun() {
+        int min = peli.getPelaaja().getNopeus();
+        int max = peli.getPelaaja().getNopeus() * 6;
+        
+        int heitto = peli.liikenopanHeitto();
+        
+        assertTrue(heitto >= min && heitto <= max);
+    }
+    
+    @Test
     public void pelaajanLiikkuminen() {
         Ilmansuunta suunta = Ilmansuunta.ITA;
         Karttapala kohde = peli.getPelaaja().getSijainti().getNaapuri(suunta);
         
+        peli.liikenopanHeitto();
         peli.pelaajanLiike(suunta);
         
         assertEquals(peli.getPelaaja().getSijainti(), kohde);
     }
     
     @Test
+    public void ilmanLiikkeitaEiVoiLiikkua() {
+        Ilmansuunta suunta = Ilmansuunta.ITA;
+        Karttapala pala = peli.getPelaaja().getSijainti();
+        
+        peli.pelaajanLiike(suunta);
+        
+        assertEquals(peli.getPelaaja().getSijainti(), pala);
+    }
+    
+    @Test
     public void taistelunAloitus() {
         peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 2, 1);
         
+        peli.liikenopanHeitto();
         peli.pelaajanLiike(Ilmansuunta.ETELA);
         
         assertTrue(peli.taistelunAika());
+    }
+    
+    @Test
+    public void kuolleidenPoistaminen() {
+        Monsteri monsu = new Monsteri(2, 2, 2, 2);
+        peli.lisaaMonsteri(monsu, 2, 1);
+        monsu.otaVahinkoa(5);
+        peli.poistaKuolleetMonsterit();
+        List<Monsteri> monsterit = peli.getKartta().getMonsterit();
+        assertTrue(monsterit.isEmpty());
     }
     
     @Test
@@ -80,4 +116,70 @@ public class PeliTest {
         
         assertNotSame(m.getSijainti(), pala);
     }
+    
+    @Test
+    public void kartaltaUlosLiikkuminenViePelaajanKotiin() {
+        peli.liikenopanHeitto();
+        peli.pelaajanLiike(Ilmansuunta.POHJOINEN);
+        peli.pelaajanLiike(Ilmansuunta.POHJOINEN);
+        assertTrue(peli.pelaajaKotona());
+    }
+    
+    @Test
+    public void tavaroidenPoiminta() {
+        peli.getKartta().getAloituspala().addTavara(new Tavara("arvokasaarre.hqt"));
+        assertTrue(peli.tavaroidenPoiminta());
+    }
+    
+    @Test
+    public void tavaranKayttaminen() {
+        Tavara puteli = new Tavara("salaperainenputeli.hqt");
+        peli.getPelaaja().lisaaTavara(puteli);
+        peli.kaytaTavaraa(puteli);
+        
+        assertEquals(peli.getPelaaja().getNimi(), "Kakkapylly");
+    }
+    
+    @Test
+    public void tavaranKayttaminenPoistaaKertakayttoisen() {
+        Tavara puteli = new Tavara("salaperainenputeli.hqt");
+        peli.getPelaaja().lisaaTavara(puteli);
+        peli.kaytaTavaraa(puteli);
+        
+        assertTrue(peli.getPelaaja().getInventaario().getTavarat().isEmpty());
+    }
+    
+    @Test
+    public void aarteenLoytaminenLisaaExpaa() {
+        peli.getKartta().getAloituspala().addTavara(new Tavara("arvokasaarre.hqt"));
+        peli.tavaroidenPoiminta();
+        int xp = peli.getPelaaja().getExp();
+        assertTrue(xp == 50);
+    }
+    
+    @Test
+    public void ansaanAstuminenVahentaaEnergiaa() {
+        peli.getKartta().getKarttapalat()[2][1].viritaAnsa(new Ansa("Miina", 10, "AUTS!"));
+        peli.liikenopanHeitto();
+        peli.pelaajanLiike(Ilmansuunta.ETELA);
+        assertTrue(peli.getPelaaja().getEnergia() < 100);
+    }
+    
+    @Test
+    public void taistelu() {
+        peli.liikenopanHeitto();
+        
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 2, 1);
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 3, 1);
+        
+        peli.pelaajanLiike(Ilmansuunta.ETELA);
+        peli.taistele();
+        
+        peli.pelaajanLiike(Ilmansuunta.ETELA);
+        peli.taistele();
+        
+        assertTrue(peli.getKartta().getMonsterit().isEmpty());
+    }
+    
+    
 }

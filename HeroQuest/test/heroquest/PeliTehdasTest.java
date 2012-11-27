@@ -33,7 +33,7 @@ public class PeliTehdasTest {
     public void setUp() {
         this.pt = new PeliTehdas();
         peli = null;
-        peli = pt.luoPeli("Aarne", "Taikamaagi");
+        peli = pt.luoPeli("Aarne", "Taikamaagi", "harri.png");
     }
     
     @After

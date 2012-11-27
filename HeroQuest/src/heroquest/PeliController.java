@@ -53,10 +53,13 @@ public class PeliController {
      * @param luokka pelaajan hahmon hahmoluokka
      * @param kartanNimi pelaajan valitsema kartta
      */
-    public void aloitaPeli(String nimi, String luokka) {
+    public void aloitaPeli(String nimi, String luokka, String kuva) {
         tehdas = new PeliTehdas();
-        this.peli = tehdas.luoPeli(nimi, luokka);
+        this.peli = tehdas.luoPeli(nimi, luokka, kuva);
         this.koti = new KotiController(this);
+        
+        // kopioidaan karttojen ja pelaajan alkutiedot pelidata-kansioon
+        kopioiData();
         
         paivitaKali("Sijaintisi:\n" + peli.getPelaajanSijainti());
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
@@ -126,7 +129,7 @@ public class PeliController {
      */
     public void pelaajanLiike(Ilmansuunta suunta) {
         Karttapala vanha = peli.getPelaaja().getSijainti();
-        peli.pelaajanLiike(suunta);
+        String viesti = peli.pelaajanLiike(suunta);
         Karttapala uusi = peli.getPelaaja().getSijainti();
         
         if(vanha.equals(uusi)) {
@@ -136,9 +139,7 @@ public class PeliController {
             paivitaKali("Siirryit onnistuneesti! Sijaintisi nyt:\n" + peli.getPelaaja().getSijainti() + "\n");
         }
         
-        if(uusi.ansaPaikalla()) {
-            uusi.laukaiseAnsa(peli.getPelaaja(), this);
-        }
+        paivitaKali(viesti);
         
         if(peli.getPelaaja().getLiikkeet() == 0) {
             peli.lopetaVuoro();
@@ -147,16 +148,11 @@ public class PeliController {
     }
     
     /**
-     * Metodi, joka simuloi nopanheittoa. Heitetään pelaajan nopeuden mukaista määrää noppia.
-     * Metodia kutsutaan, kun pelaaja on käyttänyt kaikki liikkeensä.
+     * Kutsutaan nopanheittoa simuloivaa metodia.
      */
     public void liikenopanHeitto() {
-        int yhteensa = 0;
-        for(int i = 0; i < peli.getPelaaja().getNopeus(); i++) {
-            yhteensa += random.nextInt(6) + 1;
-        }
-        peli.getPelaaja().setLiikkeet(yhteensa);
-        paivitaKali("Mainio heitto: " + yhteensa + "\n");
+        int heitto = peli.liikenopanHeitto();
+        paivitaKali("Mainio heitto: " + heitto + "\n");
     }
     
     /**
@@ -178,17 +174,7 @@ public class PeliController {
      * @param t tavara, jota pelaaja haluaa käyttää
      */
     public void kaytaTavaraa(Tavara t) {
-        String viesti = null;
-        if(t != null) {
-            viesti = t.kayta(this) + "\n";
-            paivitaKali(viesti);
-            if(t.kkayttoinen()) {
-                peli.getPelaaja().getInventaario().poistaTavara(t);
-            }
-        }
-        else {
-            viesti = "Valitse käytettävä tavara!\n";
-        }
+        String viesti = peli.kaytaTavaraa(t);
         
         paivitaKali(viesti);
     }
@@ -230,82 +216,28 @@ public class PeliController {
      * Mikäli hitaampi olento selviää hyökkäyksestä, on sen vuoro hyökätä.
      */
     public void taistele() {
-        Olento aloittaja = null;
-        Olento seuraaja = null;
-        
-        // jos vastustajaa ei jostain syystä ollutkaan, ei voida taistellakaan. :(
-        if(peli.getVastustaja() == null) {
-            paivitaKali("Ei ole ketään ketä vastaan taistella (mitäs peliä tämä on??)!");
-        }
-        else {
-            
-            // tarkastetaan kumpi on nopeampi ja asetetaan aloittaja ja seuraaja sen mukaisesti.
-            if(peli.getPelaaja().getNopeus() >= peli.getVastustaja().getNopeus()) {
-                aloittaja = peli.getPelaaja();
-                seuraaja = peli.getVastustaja();
-            }
-            else {
-                aloittaja = peli.getVastustaja();
-                seuraaja = peli.getPelaaja();
-            }
-            
-            StringBuilder taisteluviesti = new StringBuilder();
-            taisteluviesti.append("On taistelun aika!\n");
-            taisteluviesti.append("Vastassasi on pelottava monsteri " + peli.getVastustaja().toString() + "\n");
-            
-            // aloittajan hyökkäys
-            int vahinko = hyokkays(aloittaja, seuraaja);
-            if(vahinko > 0) {
-                taisteluviesti.append(seuraaja.otaVahinkoa(vahinko));
-            }
-            else {
-                taisteluviesti.append(aloittaja.getNimi() + " löi ohi!\n");
-            }
-            
-            if(seuraaja.getEnergia() <= 0) {
-                // tarkistetaan josko kuollut Olento oli monsteri
-                peli.poistaKuolleetMonsterit();
-            }
-            else {
-                // seuraajan hyökkäys
-                vahinko = hyokkays(seuraaja, aloittaja);
-                if(vahinko > 0) {
-                    taisteluviesti.append(aloittaja.otaVahinkoa(vahinko));
-                }
-                else {
-                    taisteluviesti.append(seuraaja.getNimi() + " löi ohi!\n");
-                }
-                if(aloittaja.getEnergia() <= 0) {
-                // tarkistetaan josko kuollut Olento oli monsteri
-                peli.poistaKuolleetMonsterit();
-                }
-            }
-            
-            
-            paivitaKali(taisteluviesti.toString());
-        }
+        paivitaKali(peli.taistele());
     }
     
     /**
-     * Metodi, joka laskee yksittäisessä hyökkäyksessä tehdyn vahingon.
-     * <= 0 tarkoittaa ohilyöntiä.
-     * 
-     * @param hyokkaaja hyökkäävä Olento
-     * @param puolustaja puolustava Olento
-     * @return hyökkäyksen ja puolustuksen erotus
-     */
-    public int hyokkays(Olento hyokkaaja, Olento puolustaja) {
-        int hyokkays = hyokkaaja.hyokkaa();
-        int puolustus = puolustaja.puolustaudu();
-        
-        return hyokkays - puolustus;
-    }
-    
-    /**
-     * Pelin tallentava metodi. Yksinkertaisesti kirjoitetaan pelaajan tiedot tekstitiedostoon.
+     * Pelin tallentava metodi. Tallennetaan pelin tiedot annetun nimiseen tallennuskansioon.
      */
     public void tallenna(String tiedostonimi) {
-        Tiedostoapuri.tallennaPeli(peli.tallenna(), tiedostonimi);
+        Tiedostoapuri.tallennaPeli(peli, tiedostonimi);
+    }
+    
+    /**
+     * Pelin aikana pelaajan ja karttojen tietoja tallennetaan aina kotiin tultaessa "pelidata"-nimiseen tallennukseen
+     */
+    public void tallenna() {
+        Tiedostoapuri.tallennaPeli(peli, "pelidata");
+    }
+    
+    /**
+     * Pelin alussa kopioidaan pelidata kuten karttojen ja pelaajan tiedot pelidata-kansioon.
+     */
+    public void kopioiData() {
+        Tiedostoapuri.kopioiData(peli);
     }
     
     /**

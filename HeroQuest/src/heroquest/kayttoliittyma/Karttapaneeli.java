@@ -30,26 +30,22 @@ public class Karttapaneeli extends JPanel {
     
     private void luoKomponentit() {
         // ladataan kartan piirtämiseen vaaditut kuvat
-        BufferedImage lattia = Kuvienkasittely.lataaKuva("lattia.png");
-        ImageIcon lattiaIcon = new ImageIcon(lattia);
-        BufferedImage seina = Kuvienkasittely.lataaKuva("seina.png");
-        ImageIcon seinaIcon = new ImageIcon(seina);
-        BufferedImage lattiaPelaajaPaikalla = Kuvienkasittely.lataaKuva("lattiaPelaajaPaikalla.png");
-        ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon(lattiaPelaajaPaikalla);
-        BufferedImage lattiaMonsteriPaikalla = Kuvienkasittely.lataaKuva("lattiaMonsteriPaikalla.png");
-        ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon(lattiaMonsteriPaikalla);
-        BufferedImage lattiaTaistelu = Kuvienkasittely.lataaKuva("lattiaTaistelu.png");
-        ImageIcon lattiaTaisteluIcon = new ImageIcon(lattiaTaistelu);
-        BufferedImage lattiaAarrePaikalla = Kuvienkasittely.lataaKuva("lattiaAarrePaikalla.png");
-        ImageIcon lattiaAarrePaikallaIcon = new ImageIcon(lattiaAarrePaikalla);
+        ImageIcon lattiaIcon = new ImageIcon("src/kuvat/lattia.png");
+        ImageIcon seinaIcon = new ImageIcon("src/kuvat/seina.png");
+        ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon("src/kuvat/lattiaPelaajaPaikalla.png");
+        ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon("src/kuvat/lattiaMonsteriPaikalla.png");
+        ImageIcon lattiaTaisteluIcon = new ImageIcon("lattiaTaistelu.png");
+        ImageIcon lattiaAarrePaikallaIcon = new ImageIcon("src/kuvat/lattiaAarrePaikalla.png");
+        ImageIcon lattiaAnsaPaikallaIcon = new ImageIcon("src/kuvat/lattiaAnsaPaikalla.png");
         
-        laatat = new ImageIcon[6];
+        laatat = new ImageIcon[7];
         laatat[0] = seinaIcon;
         laatat[1] = lattiaIcon;
         laatat[2] = lattiaPelaajaPaikallaIcon;
         laatat[3] = lattiaMonsteriPaikallaIcon;
         laatat[4] = lattiaTaisteluIcon;
         laatat[5] = lattiaAarrePaikallaIcon;
+        laatat[6] = lattiaAnsaPaikallaIcon;
     }
     
     /**

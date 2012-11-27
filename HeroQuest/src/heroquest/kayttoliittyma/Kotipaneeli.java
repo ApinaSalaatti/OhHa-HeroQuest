@@ -11,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
@@ -33,6 +34,7 @@ public class Kotipaneeli extends JPanel {
     private PeliController controller;
     private Kauppapaneeli kauppaPanel;
     private JComboBox kartat;
+    private JPanel pelaajanKuva;
     
     public Kotipaneeli(PeliController pc) {
         this.controller = pc;
@@ -41,7 +43,8 @@ public class Kotipaneeli extends JPanel {
     
     private void luoKomponentit() {
         this.setLayout(new GridLayout(3, 1));
-        this.add(new JLabel("Kotona ollaan!"));
+        pelaajanKuva = new JPanel();
+        this.add(pelaajanKuva);
         
         kauppaPanel = new Kauppapaneeli(controller);
        
@@ -66,6 +69,8 @@ public class Kotipaneeli extends JPanel {
     }
     
     public void paivita() {
+        pelaajanKuva.removeAll();
+        pelaajanKuva.add(new JLabel(new ImageIcon("src/kuvat/naamat/" + controller.getPeli().getPelaaja().getKuva())));
         kauppaPanel.paivita();
     }
 }

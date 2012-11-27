@@ -10,7 +10,7 @@ import javax.script.ScriptEngine;
 import java.io.File;
 import java.util.Scanner;
 
-import heroquest.PeliController;
+import heroquest.Peli;
 import heroquest.util.Tiedostoapuri;
 
 /**
@@ -53,7 +53,8 @@ public class Tavara {
         this.arvo = Integer.parseInt(lukija.nextLine());
         toiminto = lukija.nextLine();
         palautus = lukija.nextLine();
-        kkayttoinen = true;
+        
+        kkayttoinen = Boolean.parseBoolean(lukija.nextLine());
     }
     
     public int getArvo() {
@@ -70,6 +71,11 @@ public class Tavara {
         nimi = n;
     }
     
+    /**
+     * Palauttaa tiedon, onko tavara kertakäyttöinen vai ei.
+     * 
+     * @return tavaran kertakäyttöisyys
+     */
     public boolean kkayttoinen() {
         return kkayttoinen;
     }
@@ -82,12 +88,12 @@ public class Tavara {
      * @param pc kontrolleri, johon tavara vaikuttaa
      * @return tavaran käytön seurauksia kuvaileva viesti
      */
-    public String kayta(PeliController pc) {
+    public String kayta(Peli p) {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         
         try {
-            engine.put("controller", pc);
+            engine.put("peli", p);
             engine.eval(toiminto);
         }
         catch(Exception e) {
@@ -120,6 +126,9 @@ public class Tavara {
         return nimi.hashCode();
     }
     
+    /**
+     * Peliä tallentaessa, tallennetaan tiedosto, josta tavaran tiedot voi lukea.
+     */
     public String tallenna() {
         return tiedosto;
     }

@@ -1,0 +1,5 @@
+Ansojenpaljastaja
+300
+if(peli.getKartta() != null) peli.getKartta().paljastaAnsat();
+Tappavat salaisuudet paljastuvat!
+true

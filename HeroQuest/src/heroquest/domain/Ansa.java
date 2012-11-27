@@ -35,9 +35,17 @@ public class Ansa {
         havaittu = false;
     }
     
+    /**
+     * Tekee ansasta näkyvän kartalla.
+     */
     public void paljastu() {
         havaittu = true;
     }
+    /**
+     * Palauttaa tiedon, onko ansa löydetty.
+     * 
+     * @return tieto ansan näkymisestä
+     */
     public boolean havaittu() {
         return havaittu;
     }
@@ -47,9 +55,9 @@ public class Ansa {
      * @param o ansan laukaissut olento
      * @param pc käytössä oleva controlleri
      */
-    public void laukea(Olento o, PeliController pc) {
+    public String laukea(Olento o) {
         paljastu();
         o.otaVahinkoa(vahinko);
-        pc.paivitaKali(viesti);
+        return viesti;
     }
 }

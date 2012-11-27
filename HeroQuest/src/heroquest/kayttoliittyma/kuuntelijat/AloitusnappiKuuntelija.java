@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import heroquest.PeliController;
+import heroquest.kayttoliittyma.Kuvavalintapaneeli;
 
 /**
  * ActionListenerin toteuttava luokka, jonka avulla lähetetään pelin alussa pelaajan valitsemat tiedot Peli-luokalle
@@ -23,13 +24,15 @@ public class AloitusnappiKuuntelija implements ActionListener {
     private CardLayout layout;
     private JTextField nimi;
     private JComboBox luokka;
+    private Kuvavalintapaneeli kuva;
     private PeliController controller;
     
-    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, PeliController pc) {
+    public AloitusnappiKuuntelija(Container c, CardLayout lo, JTextField n, JComboBox l, Kuvavalintapaneeli k, PeliController pc) {
         this.container = c;
         this.layout = lo;
         this.nimi = n;
         this.luokka = l;
+        this.kuva = k;
         this.controller = pc;
     }
     
@@ -37,8 +40,9 @@ public class AloitusnappiKuuntelija implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String nimiStr = nimi.getText();
         String luokkaStr = luokka.getSelectedItem().toString();
+        String kuvaStr = kuva.getValittu();
         
-        controller.aloitaPeli(nimiStr, luokkaStr);
+        controller.aloitaPeli(nimiStr, luokkaStr, kuvaStr);
         
         layout.show(container, "peli");
 
