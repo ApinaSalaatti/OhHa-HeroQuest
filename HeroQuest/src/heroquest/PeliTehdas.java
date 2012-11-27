@@ -1,6 +1,8 @@
 package heroquest;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
@@ -8,6 +10,7 @@ import heroquest.domain.Pelaaja;
 import heroquest.domain.Monsteri;
 import heroquest.domain.Ansa;
 import heroquest.domain.kauppa.Tavara;
+import heroquest.domain.kauppa.Kauppa;
 import heroquest.util.Tiedostoapuri;
 /**
  * Tehdasluokka joka luo pelin, pelaajan ja kartan annettujen parametrien pohjalta.
@@ -41,15 +44,20 @@ public class PeliTehdas {
      * @return 
      */
     public Kartta luoLuolasto(String kartanNimi) {
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("src/kartat/" + kartanNimi);
+        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/pelidata/kartat/" + kartanNimi);
         
-        Kartta kartta = luoKartta(lukija);
+        Kartta kartta = luoKartta(lukija, kartanNimi);
         lukija.nextLine();
         
         luoMonsterit(lukija, kartta);
         lukija.nextLine();
         
         sijoitaTavarat(lukija, kartta);
+        
+        if(lukija.hasNextLine()) {
+            lukija.nextLine();
+            lataaNahdyt(lukija, kartta);
+        }
         
         return kartta;
     }
@@ -60,12 +68,17 @@ public class PeliTehdas {
      * @param tiedostonimi tiedosto josta pelin tiedot luetaan
      * @return rakennettu Peli-luokan olio
      */
-    public Peli lataaPeli(String tiedostonimi) {
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi);
-        
+    public Peli lataaPeli(String tiedostonimi, PeliController pc) {
+        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi + "/pelaaja.hqs");
         Pelaaja pelaaja = lataaPelaaja(lukija);
         
         Peli peli = new Peli(pelaaja);
+        
+        lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi + "/kauppa.hqs");
+        Kauppa kauppa = lataaKauppa(lukija);
+        pc.getKoti().setKauppa(kauppa);
+        
+        Tiedostoapuri.kopioiData(peli, tiedostonimi);
         
         return peli;
     }
@@ -100,7 +113,6 @@ public class PeliTehdas {
         
         if(inventaario.length() > 0) {
             String[] tavarat = inventaario.split(";");
-            System.out.println(tavarat[0]);
             for(String t : tavarat) {
                 p.lisaaTavara(new Tavara(t));
             }
@@ -109,13 +121,25 @@ public class PeliTehdas {
         return p;
     }
     
+    public Kauppa lataaKauppa(Scanner lukija) {
+        List<Tavara> tavarat = new ArrayList<Tavara>();
+        if(lukija.hasNextLine()) {
+            String[] tavaratStr = lukija.nextLine().split(";");
+            for(String t : tavaratStr) {
+                tavarat.add(new Tavara(t));
+            }
+        }
+        
+        return new Kauppa(tavarat);
+    }
+    
     /**
      * Metodi, jossa luetaan kartta Scannerista int[][] taulukkoon ja lähetetään se sitten Kartta-oliolle uuden kartan pohjaksi
      * 
      * @param lukija lukija joka sisältää karttadatan
      * @return rakennettu Kartta-luokan olio
      */
-    private Kartta luoKartta(Scanner lukija) {
+    private Kartta luoKartta(Scanner lukija, String nimi) {
         int x = Integer.parseInt(lukija.nextLine());
         int y = Integer.parseInt(lukija.nextLine());
         int[][] kartta = new int[y][x];
@@ -132,7 +156,7 @@ public class PeliTehdas {
             }
         }
         
-        return new Kartta(kartta);
+        return new Kartta(kartta, nimi);
     }
     
     /**

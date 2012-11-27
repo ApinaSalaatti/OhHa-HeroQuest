@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import heroquest.domain.kauppa.Tavara;
+import heroquest.util.Tiedostoapuri;
 /**
  * Pelilogiikan sisältävä luokka. MVC-mallin M.
  * 
@@ -235,6 +236,7 @@ public class Peli {
      * Pelaajan kotona olevaksi asettava metodi
      */
     public void pelaajaSaapuuKotiin() {
+        Tiedostoapuri.tallennaData(this);
         if(pelaaja.getSijainti() != null) {
             pelaaja.getSijainti().pelaajaPoistuu();
         }
@@ -331,14 +333,5 @@ public class Peli {
         int puolustus = puolustaja.puolustaudu();
         
         return hyokkays - puolustus;
-    }
-    
-    /**
-     * Palautetaan pelaajan tiedot tallennettavaksi tiedostoon
-     * 
-     * @return pelaajan tiedot String-muuttujassa
-     */
-    public String tallenna() {
-        return pelaaja.tallenna();
     }
 }

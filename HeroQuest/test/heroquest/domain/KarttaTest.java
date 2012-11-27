@@ -40,7 +40,7 @@ public class KarttaTest {
     
     @Before
     public void setUp() {
-        kartta = new Kartta(testiKartta);
+        kartta = new Kartta(testiKartta, "testikartta.hqm");
     }
     
     @After

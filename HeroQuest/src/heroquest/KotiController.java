@@ -31,6 +31,13 @@ public class KotiController {
         this.kauppa = new Kauppa();
     }
     
+    public Kauppa getKauppa() {
+        return kauppa;
+    }
+    public void setKauppa(Kauppa k) {
+        kauppa = k;
+    }
+    
     /**
      * @return kaupan valikoima List-oliossa
      */

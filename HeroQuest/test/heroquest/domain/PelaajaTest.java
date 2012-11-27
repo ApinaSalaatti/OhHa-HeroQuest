@@ -41,7 +41,7 @@ public class PelaajaTest {
     @Before
     public void setUp() {
         pelaaja = new Pelaaja(5, 5, 5, "Maagikko");
-        kartta = new Kartta(testiKartta);
+        kartta = new Kartta(testiKartta, "testikartta.hqm");
         pelaaja.setSijainti(kartta.getAloituspala());
     }
     

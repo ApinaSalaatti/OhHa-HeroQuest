@@ -19,6 +19,10 @@ import heroquest.util.KarttaGeneraattori;
  */
 public class Kartta {
     /**
+     * Tiedoston nimi, josta kartta luettiin.
+     */
+    private String nimi;
+    /**
      * Kaikki karttaan liittyvät karttapalat taulukossa.
      */
     private Karttapala[][] kartta;
@@ -31,7 +35,8 @@ public class Kartta {
      */
     private ArrayList<Monsteri> monsterit;
     
-    public Kartta(int[][] lahde) {
+    public Kartta(int[][] lahde, String nimi) {
+        this.nimi = nimi;
         kartta = new Karttapala[lahde.length][lahde[0].length];
         
         KarttaGeneraattori generaattori = new KarttaGeneraattori();
@@ -39,6 +44,10 @@ public class Kartta {
         kartta = generaattori.getKartta();
         nahty = new Karttapala[kartta.length][kartta[0].length];
         monsterit = new ArrayList<Monsteri>();
+    }
+    
+    public String getNimi() {
+        return nimi;
     }
     
     /**
@@ -206,6 +215,8 @@ public class Kartta {
     public String tallenna() {
         StringBuilder sb = new StringBuilder();
         
+        sb.append(nimi + "\n");
+        
         // kartan koko
         sb.append(kartta.length + "\n");
         sb.append(kartta[0].length + "\n");
@@ -249,6 +260,8 @@ public class Kartta {
             }
             sb.append("\n");
         }
+        
+        sb.append("\n");
         
         return sb.toString();
     }

@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 
 import heroquest.Peli;
+import heroquest.PeliController;
+import heroquest.domain.kauppa.Kauppa;
 import heroquest.domain.Karttapala;
 
 /**
@@ -68,19 +70,28 @@ public class Tiedostoapuri {
      * @param kirjoitettava pelidata joka tiedostoon kirjoitetaan
      * @param tiedostonimi tallennettavan tiedoston nimi
      */
-    public static void tallennaPeli(Peli peli, String tiedostonimi) {
+    public static void tallennaPeli(PeliController pc, String tiedostonimi) {
+        Peli peli = pc.getPeli();
+        Kauppa kauppa = pc.getKoti().getKauppa();
         String kohde = "tallennukset/" + tiedostonimi + "/";
         new File(kohde).mkdir();
         new File(kohde + "kartat/").mkdir();
         try {
+            // pelaajan tiedot
             FileWriter fw = new FileWriter(kohde + "pelaaja.hqs");
             fw.write(peli.getPelaaja().tallenna());
             fw.close();
             
+            // kaupan tiedot
+            fw = new FileWriter(kohde + "kauppa.hqs");
+            fw.write(kauppa.tallenna());
+            fw.close();
+            
+            // karttojen tiedot
             String[] kartat = kansioTauluksi("tallennukset/pelidata/kartat/");
             for(String kartta : kartat) {
                 fw = new FileWriter(kohde + "kartat/" + kartta);
-                Scanner lukija = tiedostoLukijaan("src/kartat/" + kartta);
+                Scanner lukija = tiedostoLukijaan("tallennukset/pelidata/kartat/" + kartta);
                 while(lukija.hasNextLine()) {
                     fw.write(lukija.nextLine() + "\n");
                 }
@@ -94,27 +105,52 @@ public class Tiedostoapuri {
     }
     
     /**
-     * TODO: mites tää tehtäis?!
      * Tallennettaan väliaikainen pelidata.
      */
-    public void tallennaData() {
-        
+    public static void tallennaData(Peli peli) {
+        if(peli.getKartta() != null) {
+            Scanner lukija = new Scanner(peli.getKartta().tallenna());
+            String kohde = "tallennukset/pelidata/kartat/" + lukija.nextLine();
+
+            try {
+                FileWriter fw = new FileWriter(kohde);
+                while(lukija.hasNextLine()) {
+                    fw.write(lukija.nextLine() + "\n");
+                }
+                fw.close();
+
+            }
+            catch(Exception e) {
+                System.out.println("Kammottava virhe!");
+                e.printStackTrace();
+            }
+        }
     }
     
     /**
-     * Kopioidaan karttojen ja pelaajan alkudata "pelidata"-nimiseen tallennuskansioon
+     * Kopioidaan karttojen ja pelaajan alkudata "pelidata"-nimiseen tallennuskansioon.
+     * Jos parametri "tallennus" on tyhjä, luetaan data alkuperäistiedostoista.
      */
-    public static void kopioiData(Peli peli) {
+    public static void kopioiData(Peli peli, String tallennus) {
         String kohde = "tallennukset/pelidata/";
+        String polku;
+        if(tallennus.equals("")) {
+            polku = "src/kartat/";
+        }
+        else {
+            polku = "tallennukset/" + tallennus + "/kartat/";
+        }
+        
+        String[] kartat = kansioTauluksi(polku);
+        
         try {
             FileWriter fw = new FileWriter(kohde + "pelaaja.hqs");
             fw.write(peli.getPelaaja().tallenna());
             fw.close();
             
-            String[] kartat = kansioTauluksi("src/kartat/");
             for(String kartta : kartat) {
                 fw = new FileWriter(kohde + "kartat/" + kartta);
-                Scanner lukija = tiedostoLukijaan("src/kartat/" + kartta);
+                Scanner lukija = tiedostoLukijaan(polku + kartta);
                 while(lukija.hasNextLine()) {
                     fw.write(lukija.nextLine() + "\n");
                 }

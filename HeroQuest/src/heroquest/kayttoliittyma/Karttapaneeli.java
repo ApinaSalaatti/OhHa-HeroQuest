@@ -34,7 +34,7 @@ public class Karttapaneeli extends JPanel {
         ImageIcon seinaIcon = new ImageIcon("src/kuvat/seina.png");
         ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon("src/kuvat/lattiaPelaajaPaikalla.png");
         ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon("src/kuvat/lattiaMonsteriPaikalla.png");
-        ImageIcon lattiaTaisteluIcon = new ImageIcon("lattiaTaistelu.png");
+        ImageIcon lattiaTaisteluIcon = new ImageIcon("src/kuvat/lattiaTaistelu.png");
         ImageIcon lattiaAarrePaikallaIcon = new ImageIcon("src/kuvat/lattiaAarrePaikalla.png");
         ImageIcon lattiaAnsaPaikallaIcon = new ImageIcon("src/kuvat/lattiaAnsaPaikalla.png");
         

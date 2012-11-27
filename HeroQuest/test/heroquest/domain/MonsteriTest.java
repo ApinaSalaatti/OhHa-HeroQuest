@@ -40,7 +40,7 @@ public class MonsteriTest {
     public void setUp() {
         monsteri1 = new Monsteri(5, 1, 5, 100);
         monsteri2 = new Monsteri(5, 1, 5, 100);
-        kartta = new Kartta(testikartta);
+        kartta = new Kartta(testikartta, "testikartta.hqm");
         palat = kartta.getKarttapalat();
         
         monsteri1.setSijainti(palat[1][1]);

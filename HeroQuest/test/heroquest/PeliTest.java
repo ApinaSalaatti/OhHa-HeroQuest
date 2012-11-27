@@ -45,7 +45,7 @@ public class PeliTest {
     @Before
     public void setUp() {
         Pelaaja pelaaja = new Pelaaja("Aarne", 100, 100, 100, "Soturitappaja");
-        Kartta kartta = new Kartta(testikartta);
+        Kartta kartta = new Kartta(testikartta, "testikartta.hqm");
         this.peli = new Peli(pelaaja);
         this.peli.setKartta(kartta);
         

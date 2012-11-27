@@ -58,8 +58,8 @@ public class PeliController {
         this.peli = tehdas.luoPeli(nimi, luokka, kuva);
         this.koti = new KotiController(this);
         
-        // kopioidaan karttojen ja pelaajan alkutiedot pelidata-kansioon
-        kopioiData();
+        // Pelin alussa kopioidaan pelidata kuten karttojen ja pelaajan tiedot pelidata-kansioon.
+        Tiedostoapuri.kopioiData(peli, "");
         
         paivitaKali("Sijaintisi:\n" + peli.getPelaajanSijainti());
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
@@ -212,8 +212,7 @@ public class PeliController {
     }
     
     /*
-     * Taistelumetodi. Taistelussa nopeampi hahmo hyökkää ensin ja hitaampi puolustaa.
-     * Mikäli hitaampi olento selviää hyökkäyksestä, on sen vuoro hyökätä.
+     * Kutsutaan Peli-luokan taistele-metodia.
      */
     public void taistele() {
         paivitaKali(peli.taistele());
@@ -223,21 +222,8 @@ public class PeliController {
      * Pelin tallentava metodi. Tallennetaan pelin tiedot annetun nimiseen tallennuskansioon.
      */
     public void tallenna(String tiedostonimi) {
-        Tiedostoapuri.tallennaPeli(peli, tiedostonimi);
-    }
-    
-    /**
-     * Pelin aikana pelaajan ja karttojen tietoja tallennetaan aina kotiin tultaessa "pelidata"-nimiseen tallennukseen
-     */
-    public void tallenna() {
-        Tiedostoapuri.tallennaPeli(peli, "pelidata");
-    }
-    
-    /**
-     * Pelin alussa kopioidaan pelidata kuten karttojen ja pelaajan tiedot pelidata-kansioon.
-     */
-    public void kopioiData() {
-        Tiedostoapuri.kopioiData(peli);
+        Tiedostoapuri.tallennaData(peli);
+        Tiedostoapuri.tallennaPeli(this, tiedostonimi);
     }
     
     /**
@@ -247,7 +233,7 @@ public class PeliController {
      */
     public void lataa(String tiedostonimi) {
         PeliTehdas pt = new PeliTehdas();
-        this.peli = pt.lataaPeli(tiedostonimi);
+        this.peli = pt.lataaPeli(tiedostonimi, this);
         
         paivitaKali("Sijaintisi: " + peli.getPelaaja().getSijainti());
         paivitaKali("Peli ladattu!\n");

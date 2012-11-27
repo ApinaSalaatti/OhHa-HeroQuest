@@ -18,8 +18,17 @@ import heroquest.domain.Inventaario;
  * @author Merioksan Mikko
  */
 public class Kauppa {
+    /**
+     * Kaupan inventaario, joka sisältää siis kaupassa myynnissä olevat tavarat.
+     */
     private Inventaario tavarat;
+    /**
+     * Prosentti, jonka kauppa lisää myymiensä tavaroiden arvoon.
+     */
     private double myyntiProsentti;
+    /**
+     * Prosentti, jonka kauppa poistaa ostamiensa tavaroiden arvosta.
+     */
     private double ostoProsentti;
     
     public Kauppa() {
@@ -28,8 +37,20 @@ public class Kauppa {
         tavarat.lisaaTavara(new Tavara("voimaputeli.hqt"));
         tavarat.lisaaTavara(new Tavara("ansojenpaljastaja.hqt"));
         myyntiProsentti = 1.5;
-        ostoProsentti = 0.5;
-        
+        ostoProsentti = 0.5;   
+    }
+    /**
+     * Konstruktori, jonka avulla luodaan kauppa jossa on myytävänä tietyt tavarat.
+     * 
+     * @param tavarat 
+     */
+    public Kauppa(List<Tavara> tavarat) {
+        this.tavarat = new Inventaario();
+        for(Tavara t: tavarat) {
+            this.tavarat.lisaaTavara(t);
+        }
+        myyntiProsentti = 1.5;
+        ostoProsentti = 0.5;  
     }
     
     /**
@@ -112,5 +133,14 @@ public class Kauppa {
         }
         
         return false;
+    }
+    
+    /**
+     * Peliä tallennettaessa, tallennetaan kaupassa sillä hetkellä myynnissä olevat tavarat.
+     * 
+     * @return kaupan inventaarion tavarat
+     */
+    public String tallenna() {
+        return tavarat.tallenna();
     }
 }
