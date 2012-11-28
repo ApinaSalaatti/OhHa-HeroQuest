@@ -166,7 +166,7 @@ public class PeliTest {
     }
     
     @Test
-    public void taistelu() {
+    public void taisteluTappaaHirviot() {
         peli.liikenopanHeitto();
         
         peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 2, 1);

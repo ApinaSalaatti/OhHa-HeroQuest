@@ -206,6 +206,12 @@ public class Karttapala {
     }
     
     /**
+     * @return tieto siitä, onko ruudussa tavaroita (mutta ei aarretta)
+     */
+    public boolean tavaraaPaikalla() {
+        return !tavarat.isEmpty();
+    }
+    /**
      * @return tieto siitä, onko ruudussa aarre
      */
     public boolean aarrePaikalla() {
@@ -246,6 +252,10 @@ public class Karttapala {
             rakentaja.append("Ruudussa on kamala monsteri: " + monsteri.toString() + "!!!\n");
         }
         
+        if(tavaraaPaikalla()) {
+            rakentaja.append("Ruudussa sijaitsee jännittävää poimittavaa tavaraa!\n");
+        }
+        
         if(aarrePaikalla()) {
             rakentaja.append("Ruudussa sijaitsee suunnattoman arvokas kulta-aarre!\n");
         }
@@ -273,6 +283,9 @@ public class Karttapala {
         }
         else if(aarrePaikalla()) {
             return 5;
+        }
+        else if(tavaraaPaikalla()) {
+            return 7;
         }
         else {
             return 1;

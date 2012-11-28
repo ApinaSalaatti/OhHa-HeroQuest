@@ -35,6 +35,7 @@ public class Kauppa {
         this.tavarat = new Inventaario();
         tavarat.lisaaTavara(new Tavara("salaperainenputeli.hqt"));
         tavarat.lisaaTavara(new Tavara("voimaputeli.hqt"));
+        tavarat.lisaaTavara(new Tavara("energiaputeli.hqt"));
         tavarat.lisaaTavara(new Tavara("ansojenpaljastaja.hqt"));
         myyntiProsentti = 1.5;
         ostoProsentti = 0.5;   

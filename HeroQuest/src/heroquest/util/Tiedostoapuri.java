@@ -88,10 +88,10 @@ public class Tiedostoapuri {
             fw.close();
             
             // karttojen tiedot
-            String[] kartat = kansioTauluksi("tallennukset/pelidata/kartat/");
+            String[] kartat = kansioTauluksi("pelidata/kartat/");
             for(String kartta : kartat) {
                 fw = new FileWriter(kohde + "kartat/" + kartta);
-                Scanner lukija = tiedostoLukijaan("tallennukset/pelidata/kartat/" + kartta);
+                Scanner lukija = tiedostoLukijaan("pelidata/kartat/" + kartta);
                 while(lukija.hasNextLine()) {
                     fw.write(lukija.nextLine() + "\n");
                 }
@@ -110,7 +110,7 @@ public class Tiedostoapuri {
     public static void tallennaData(Peli peli) {
         if(peli.getKartta() != null) {
             Scanner lukija = new Scanner(peli.getKartta().tallenna());
-            String kohde = "tallennukset/pelidata/kartat/" + lukija.nextLine();
+            String kohde = "pelidata/kartat/" + lukija.nextLine();
 
             try {
                 FileWriter fw = new FileWriter(kohde);
@@ -132,7 +132,7 @@ public class Tiedostoapuri {
      * Jos parametri "tallennus" on tyhjä, luetaan data alkuperäistiedostoista.
      */
     public static void kopioiData(Peli peli, String tallennus) {
-        String kohde = "tallennukset/pelidata/";
+        String kohde = "pelidata/";
         String polku;
         if(tallennus.equals("")) {
             polku = "src/kartat/";

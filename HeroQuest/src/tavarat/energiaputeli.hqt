@@ -1,0 +1,5 @@
+Energiaputeli
+100
+peli.getPelaaja().setEnergia(peli.getPelaaja().getEnergia() + 5);
+Elinvoimasi palautuu!
+true

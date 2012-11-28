@@ -44,7 +44,7 @@ public class PeliTehdas {
      * @return 
      */
     public Kartta luoLuolasto(String kartanNimi) {
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/pelidata/kartat/" + kartanNimi);
+        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("pelidata/kartat/" + kartanNimi);
         
         Kartta kartta = luoKartta(lukija, kartanNimi);
         lukija.nextLine();
@@ -254,6 +254,9 @@ public class PeliTehdas {
             for(int x = 0; x < palat[0].length; x++) {
                 if(riviStr.charAt(x) == '1') {
                     palat[y][x].addTavara(new Tavara("arvokasaarre.hqt"));
+                }
+                else if(riviStr.charAt(x) == '2') {
+                    palat[y][x].addTavara(new Tavara("voimaputeli.hqt"));
                 }
             }
         }
