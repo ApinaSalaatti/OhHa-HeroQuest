@@ -6,11 +6,13 @@
 package heroquest.kayttoliittyma;
 
 import java.util.List;
+import java.util.HashMap;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
@@ -35,6 +37,7 @@ public class Kotipaneeli extends JPanel {
     private Kauppapaneeli kauppaPanel;
     private JComboBox kartat;
     private JPanel pelaajanKuva;
+    private Saavutuspaneeli saavutukset;
     
     public Kotipaneeli(PeliController pc) {
         this.controller = pc;
@@ -43,8 +46,13 @@ public class Kotipaneeli extends JPanel {
     
     private void luoKomponentit() {
         this.setLayout(new GridLayout(3, 1));
+        JPanel ylapuoli = new JPanel(new GridLayout(1, 2));
         pelaajanKuva = new JPanel();
-        this.add(pelaajanKuva);
+        saavutukset = new Saavutuspaneeli(controller);
+        
+        ylapuoli.add(pelaajanKuva);
+        ylapuoli.add(saavutukset);
+        this.add(ylapuoli);
         
         kauppaPanel = new Kauppapaneeli(controller);
        
@@ -72,5 +80,6 @@ public class Kotipaneeli extends JPanel {
         pelaajanKuva.removeAll();
         pelaajanKuva.add(new JLabel(new ImageIcon("src/kuvat/naamat/" + controller.getPeli().getPelaaja().getKuva())));
         kauppaPanel.paivita();
+        saavutukset.paivita();
     }
 }

@@ -139,11 +139,11 @@ public class Kartta {
      * Metodi, joka liikuttaa kaikkia pelissä olevia Monstereita.
      * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
      */
-    public void monsterienLiike(boolean taistelu) {
+    public void monsterienLiike(boolean taistelu, Pelaaja p) {
         // hirviöt liikkuvat vain jos pelaaja ei ole taistelussa
         if(!taistelu) {
             for(Monsteri m : monsterit) {
-                m.liiku();
+                m.liiku(p, getKarttapalat());
             }
         }
     }

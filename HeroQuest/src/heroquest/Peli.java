@@ -195,7 +195,7 @@ public class Peli {
      * Tämä tehdään yleensä kun pelaaja on käyttäny kaikki liikkeensä.
      */
     private void monsterienLiike() {
-        kartta.monsterienLiike(taistelunAika);
+        kartta.monsterienLiike(taistelunAika, pelaaja);
     }
     
     /**

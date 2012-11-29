@@ -16,6 +16,10 @@ public class Monsteri extends Olento {
      */
     private int expArvo;
     /**
+     * Monsterin aivot, joiden avulla lasketaan suunta joka on lyhin reitti kohti pelaajaa.
+     */
+    private MonsterinAivot aivot;
+    /**
      * Konstruktori, joka saa annettuna monsterin nimen.
      * 
      * @param nimi monsterin nimi
@@ -56,6 +60,24 @@ public class Monsteri extends Olento {
      */
     public void liiku() {
         Ilmansuunta suunta = Ilmansuunta.satunnainen();
+        Karttapala kohde = this.getSijainti().getNaapuri(suunta);
+        
+        if(kohde != null && !kohde.monsteriPaikalla()) {
+            Karttapala vanha = this.getSijainti();
+            if(this.setSijainti(kohde)) {
+                vanha.monsteriPoistuu();
+                kohde.monsteriSaapuu(this);
+            }
+        }
+    }
+    
+    /**
+     * Metodi joka liikuttaa Monsteria yhden askeleen kohti pelaajaa. Oikea suunta lasketaan nerokkaan Aivo-luokan avulla.
+     * 
+     * @param p pelaaja jota kohti syöksytään
+     */
+    public void liiku(Pelaaja p, Karttapala[][] kartta) {
+        Ilmansuunta suunta = aivot.annaSuunta(this, p, kartta);
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);
         
         if(kohde != null && !kohde.monsteriPaikalla()) {

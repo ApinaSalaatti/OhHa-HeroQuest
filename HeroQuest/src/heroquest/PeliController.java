@@ -1,6 +1,7 @@
 package heroquest;
 
 import java.util.Random;
+import java.util.Collection;
 
 import heroquest.util.Tiedostoapuri;
 import heroquest.domain.Olento;
@@ -37,12 +38,17 @@ public class PeliController {
      * Ali-kontrolleri, joka sisältää kaikki pelaajan kotona hoidettavat toimenpiteet
      */
     private KotiController koti;
+    /**
+     * Saavutuksia valvova luokka. Siis saavutuksia! 
+     */
+    private Saavutusmanageri saavutusmanageri;
     
     public PeliController(Kayttoliittyma k) {
         this.random = new Random();
         this.kali = k;
         this.koti = new KotiController(this);
         this.tehdas = new PeliTehdas();
+        this.saavutusmanageri = new Saavutusmanageri(this);
     }
     
     /**
@@ -109,7 +115,16 @@ public class PeliController {
             peli.getKartta().paivitaNahdyt(peli.getPelaaja().getSijainti());
             peli.tuleekoTaistelu();
         }
-        kali.paivita(tapahtuma);
+        
+        if(!tapahtuma.equals("")) {
+            kali.paivita(tapahtuma);
+        }
+        
+        // tarkastetaan saavutettiinko saavutuksia
+        String saavutus = saavutusmanageri.tarkistaSaavutukset(tapahtuma);
+        if(!saavutus.equals("")) {
+            kali.paivita(saavutus);
+        }
     }
     
     /**
@@ -136,10 +151,13 @@ public class PeliController {
             paivitaKali("Ei sinne voi liikkua! >:-(\n");
         }
         else {
+            paivitaKali("Liikkeitä jäljellä: " + peli.getPelaaja().getLiikkeet() + "\n");
             paivitaKali("Siirryit onnistuneesti! Sijaintisi nyt:\n" + peli.getPelaaja().getSijainti() + "\n");
         }
         
-        paivitaKali(viesti);
+        if(!viesti.equals("") && viesti != null) {
+            paivitaKali(viesti);
+        }
         
         if(peli.getPelaaja().getLiikkeet() == 0) {
             peli.lopetaVuoro();
@@ -209,6 +227,13 @@ public class PeliController {
         else {
             return "liikenoppa";
         }
+    }
+    
+    /**
+     * @return lista kaikista saavutetetuista ja saavuttamattomista saavutuksista
+     */
+    public Collection<Saavutus> getSaavutukset() {
+        return saavutusmanageri.getSaavutukset();
     }
     
     /*
