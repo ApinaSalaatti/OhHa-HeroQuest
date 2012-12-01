@@ -32,6 +32,7 @@ public class Saavutuspaneeli extends JPanel {
     private void luoKomponentit() {
         this.setLayout(new BorderLayout());
         saavutukset = new JTextArea();
+        saavutukset.setEditable(false);
         
         EtchedBorder eb = new EtchedBorder();
         TitledBorder tb = BorderFactory.createTitledBorder(eb, "Saavutuksesi");

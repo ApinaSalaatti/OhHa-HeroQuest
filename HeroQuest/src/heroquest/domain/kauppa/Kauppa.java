@@ -33,6 +33,7 @@ public class Kauppa {
     
     public Kauppa() {
         this.tavarat = new Inventaario();
+        tavarat.lisaaTavara(new Tavara("kotiportaali.hqt"));
         tavarat.lisaaTavara(new Tavara("salaperainenputeli.hqt"));
         tavarat.lisaaTavara(new Tavara("voimaputeli.hqt"));
         tavarat.lisaaTavara(new Tavara("energiaputeli.hqt"));

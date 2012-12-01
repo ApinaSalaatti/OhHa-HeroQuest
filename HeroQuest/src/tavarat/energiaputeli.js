@@ -1,0 +1,1 @@
+peli.getPelaaja().setEnergia(peli.getPelaaja().getEnergia() + 1);

@@ -1,5 +1,5 @@
 Ansojenpaljastaja
 300
-if(peli.getKartta() != null) peli.getKartta().paljastaAnsat();
+src/tavarat/ansojenpaljastaja.js
 Tappavat salaisuudet paljastuvat!
 true

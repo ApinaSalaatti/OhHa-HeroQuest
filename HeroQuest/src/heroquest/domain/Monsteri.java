@@ -29,6 +29,7 @@ public class Monsteri extends Olento {
      */
     public Monsteri(String nimi, int voima, int energia, int nopeus) {
         super(nimi, voima, energia, nopeus);
+        aivot = new MonsterinAivot();
         expArvo = 100;
     }
     /**
@@ -42,6 +43,7 @@ public class Monsteri extends Olento {
      */
     public Monsteri(int voima, int energia, int nopeus, int arvo) {
         super(voima, energia, nopeus);
+        aivot = new MonsterinAivot();
         String nimi = Nimilista.getPelottavaNimi();
         this.setNimi(nimi);
         this.setExpArvo(arvo);

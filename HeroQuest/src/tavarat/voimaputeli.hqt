@@ -1,5 +1,5 @@
 Voimaputeli
 100
-peli.getPelaaja().setVoima(peli.getPelaaja().getVoima() + 1)
+src/tavarat/voimaputeli.js
 Paitasi repeää lihastesi pullistuessa!
 true

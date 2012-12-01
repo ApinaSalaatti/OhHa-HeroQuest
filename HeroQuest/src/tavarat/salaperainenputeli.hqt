@@ -1,5 +1,5 @@
 Mystinen Puteli
 50
-peli.getPelaaja().setNimi("Kakkapylly");
+src/tavarat/salaperainenputeli.js
 Sielusi kirjassa avataan uusi luku...
 true

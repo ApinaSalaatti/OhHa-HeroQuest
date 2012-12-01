@@ -240,7 +240,15 @@ public class Kartta {
                 }
                 else if(data.equals("monsterit")) {
                     if(kartta[y][x] != null) {
-                        sb.append((kartta[y][x].monsteriPaikalla()) ? "1" : "0");
+                        if(kartta[y][x].monsteriPaikalla()) {
+                            sb.append("1");
+                        }
+                        else if(kartta[y][x].ansaPaikalla()) {
+                            sb.append("2");
+                        }
+                        else {
+                            sb.append("0");
+                        }
                     }
                     else {
                         sb.append("0");

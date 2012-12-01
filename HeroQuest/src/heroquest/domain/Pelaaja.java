@@ -38,7 +38,6 @@ public class Pelaaja extends Olento {
         liikkeet = 0;
         tapot = 0;
         varat = 100;
-        this.kuva = kuva;
     }
     public Pelaaja(int voima, int energia, int nopeus, String luokka) {
         super(voima, energia, nopeus);
@@ -46,7 +45,6 @@ public class Pelaaja extends Olento {
         liikkeet = 0;
         tapot = 0;
         varat = 100;
-        this.kuva= kuva;
     }
     
     /**
@@ -100,7 +98,7 @@ public class Pelaaja extends Olento {
      */
     public void lisaaTapot(int t) {
         tapot += t;
-        if(tapot > 2) {
+        if(tapot > 2 && !this.getNimi().contains("Mörkökiller")) {
             this.setNimi("\"Mörkökiller\" " + this.getNimi());
         }
     }

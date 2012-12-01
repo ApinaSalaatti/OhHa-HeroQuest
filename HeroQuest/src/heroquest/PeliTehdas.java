@@ -19,6 +19,10 @@ import heroquest.util.Tiedostoapuri;
  * 
  */
 public class PeliTehdas {
+    /**
+     * Kaikki karttapaloilla mahdollisesti oleilevat tavarat taulukossa. Indeksi 0 tarkoittaa "ei tavaraa", jota ei siis koskaan käytetä (toivottavasti)
+     */
+    private static String[] tavarat = { null, "arvokasaarre.hqt", "voimaputeli.hqt", "energiaputeli.hqt", "ansojenpaljastaja.hqt", "kotiportaali.hqt" };
     public PeliTehdas() {
     }
     
@@ -90,7 +94,7 @@ public class PeliTehdas {
      * @param lukija Scanner-olio josta tiedot luetaan
      * @return rakennettu Pelaaja-olio
      */
-    public Pelaaja lataaPelaaja(Scanner lukija) {
+    private Pelaaja lataaPelaaja(Scanner lukija) {
         String inventaario = lukija.nextLine();
         String pelaaja = lukija.nextLine();
         String[] pelaajanTiedot = pelaaja.split(";");
@@ -121,7 +125,7 @@ public class PeliTehdas {
         return p;
     }
     
-    public Kauppa lataaKauppa(Scanner lukija) {
+    private Kauppa lataaKauppa(Scanner lukija) {
         List<Tavara> tavarat = new ArrayList<Tavara>();
         if(lukija.hasNextLine()) {
             String[] tavaratStr = lukija.nextLine().split(";");
@@ -166,7 +170,7 @@ public class PeliTehdas {
      * @param kartta Kartta johon nähdyt palat asetetaan
      * 
      */
-    public void lataaNahdyt(Scanner lukija, Kartta kartta) {
+    private void lataaNahdyt(Scanner lukija, Kartta kartta) {
         Karttapala[][] palat = kartta.getKarttapalat();
         
         for(int y = 0; y < palat.length; y++) {
@@ -252,11 +256,15 @@ public class PeliTehdas {
         for(int y = 0; y < palat.length; y++) {
             String riviStr = lukija.nextLine();
             for(int x = 0; x < palat[0].length; x++) {
-                if(riviStr.charAt(x) == '1') {
-                    palat[y][x].addTavara(new Tavara("arvokasaarre.hqt"));
+                if(riviStr.charAt(x) != '0') {
+                    int tavaraIndx = Integer.parseInt(riviStr.charAt(x) + "");
+                    palat[y][x].addTavara(new Tavara(tavarat[tavaraIndx]));
                 }
                 else if(riviStr.charAt(x) == '2') {
                     palat[y][x].addTavara(new Tavara("voimaputeli.hqt"));
+                }
+                else if(riviStr.charAt(x) == '3') {
+                    palat[y][x].addTavara(new Tavara("luurankoavain.hqt"));
                 }
             }
         }

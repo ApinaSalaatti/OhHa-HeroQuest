@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import heroquest.Peli;
 import heroquest.util.Tiedostoapuri;
+import heroquest.domain.Ilmansuunta;
 
 /**
  * Olentojen inventaarioissa ja pelaajan kodin kaupassa majailevia tavaroita kuvaava luokka.
@@ -93,8 +94,16 @@ public class Tavara {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         
         try {
+            // asetetaan scriptaus-moottorille muuttujia. Ilmansuunnat annetaan, jotta skriptit voivat vaikuttaa myös viereisiin ruutuihin.
+            engine.put("etela", Ilmansuunta.ETELA);
+            engine.put("pohjoinen", Ilmansuunta.POHJOINEN);
+            engine.put("ita", Ilmansuunta.ITA);
+            engine.put("lansi", Ilmansuunta.LANSI);
             engine.put("peli", p);
-            engine.eval(toiminto);
+            
+            if(toiminto != null && !toiminto.equals("")) {
+                engine.eval(new java.io.FileReader(toiminto));
+            }
         }
         catch(Exception e) {
             System.out.println("Oi ei, tuli virhe: ");

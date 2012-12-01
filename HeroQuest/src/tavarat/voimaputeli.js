@@ -1,0 +1,1 @@
+peli.getPelaaja().setVoima(peli.getPelaaja().getVoima() + 1)

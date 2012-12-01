@@ -15,6 +15,7 @@ import heroquest.util.Nimilista;
  * @author Merioksan Mikko
  */
 public abstract class Olento {
+    private static int[] tarvittavaExp = { 0, 300, 1000, 2000, 5000, 10000 };
     /**
      * Hahmon nimi
      */
@@ -143,7 +144,7 @@ public abstract class Olento {
      * 
      * @param energia käyttäjältä syötteenä saatu energia.
      */
-    private void setEnergia(int energia) {
+    public void setEnergia(int energia) {
         if(energia <= 0) {
             this.energia = 1;
         }
@@ -190,10 +191,13 @@ public abstract class Olento {
         return taso;
     }
     /**
-     * Nostaa olennon kokemustasoa yhdellä.
+     * Nostaa olennon kokemustasoa yhdellä. Tasonnousu on yksinkertaista: voima, energia ja nopeus lisääntyvät yhdellä.
      */
     public void nouseTaso() {
         taso++;
+        voima++;
+        energia++;
+        nopeus++;
     }
     
     public int getExp() {
@@ -206,6 +210,17 @@ public abstract class Olento {
      */
     public void lisaaExp(int xp) {
         exp += xp;
+        
+        // noustaan tasoja tarvittaessa
+        boolean valmis = false;
+        while(!valmis) {
+            if(exp >= tarvittavaExp[taso]) {
+                nouseTaso();
+            }
+            else {
+                valmis = true;
+            }
+        }
     }
     
     /**
@@ -239,9 +254,19 @@ public abstract class Olento {
             inventaario.lisaaTavara(t);
         }
     }
+    /**
+     * Lisätään tavara hahmon inventaarioon
+     * 
+     * @param t 
+     */
     public void lisaaTavara(Tavara t) {
         inventaario.lisaaTavara(t);
     }
+    /**
+     * Poistetaan parametrina annettu tavara Olennon inventaariosta
+     * @param t poistettava tavara
+     * @return true, jos poistaminen onnistui
+     */
     public boolean poistaTavara(Tavara t) {
         return inventaario.poistaTavara(t);
     }
