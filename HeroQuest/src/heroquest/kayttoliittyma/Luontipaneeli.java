@@ -15,13 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 import heroquest.PeliController;
-import heroquest.domain.Kartta;
-import heroquest.domain.Pelaaja;
-import heroquest.util.Tiedostoapuri;
 import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
 /**
- *
- * @author merioksa
+ * Käyttöliittymä uuden hahmon luomiseen. Kysyy käyttäjältä hahmon luomiseksi vaaditut tiedot.
+ * 
+ * @author Merioksan Mikko
  */
 public class Luontipaneeli extends JPanel {
     private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };

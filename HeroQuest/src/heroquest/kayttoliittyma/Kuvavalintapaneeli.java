@@ -9,18 +9,24 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.Container;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import heroquest.util.Tiedostoapuri;
 /**
- *
+ * Simppeli käyttöliittymäkomponentti, joka yksinkertaisesti näyttää kaikki "naamat" kansiossa sijaitsevat kuvatiedostot, ja antaa valita niistä yhden.
+ * 
  * @author Merioksan Mikko
  */
 public class Kuvavalintapaneeli extends JPanel {
+    /**
+     * Kuvatiedostojen nimet taulukossa
+     */
     String[] naamat;
+    /**
+     * Valitun kuvan indeksi naamat-taulussa.
+     */
     int valittu;
     
     public Kuvavalintapaneeli() {
@@ -38,6 +44,7 @@ public class Kuvavalintapaneeli extends JPanel {
             naamaPanel.add(new JLabel(new ImageIcon("src/kuvat/naamat/" + naama)), naama);
         }
         
+        // nappi, joka vaihtaa esitetyn kuvan sekä valitun kuvan indeksin.
         JButton vaihtonappi = new JButton("Seuraava kuva");
         vaihtonappi.addActionListener(new ActionListener() {
            @Override

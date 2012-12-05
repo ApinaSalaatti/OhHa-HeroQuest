@@ -12,7 +12,8 @@ import java.awt.Font;
 
 import heroquest.PeliController;
 /**
- *
+ * Näkymä, joka esitetään pelaajalle kun tämä kuolee.
+ * 
  * @author Merioksan Mikko
  */
 public class Lopetuspaneeli extends JPanel {
@@ -29,13 +30,13 @@ public class Lopetuspaneeli extends JPanel {
     private void luoKomponentit() {
         this.setLayout(new GridLayout(3, 1));
         nimi = new JLabel();
-        nimi.setFont(new Font("nimi", 1, 50));
+        nimi.setFont(new Font("Arial", 1, 50));
         
         tapot = new JLabel();
-        tapot.setFont(new Font("tapot", 1, 50));
+        tapot.setFont(new Font("Arial", 1, 50));
         
         heihei = new JLabel();
-        heihei.setFont(new Font("heihei", 1, 50));
+        heihei.setFont(new Font("Arial", 1, 50));
         
         this.add(nimi);
         this.add(tapot);

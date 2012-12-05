@@ -14,7 +14,8 @@ import heroquest.PeliController;
 import heroquest.PeliController;
 import heroquest.domain.Ilmansuunta;
 /**
- *
+ * Pelin eri näkymien näyttämistä säätelevä komponentti.
+ * 
  * @author Merioksan Mikko
  */
 public class Pelipaneeli extends JPanel {

@@ -13,7 +13,8 @@ import heroquest.domain.kauppa.Kauppa;
 import heroquest.domain.kauppa.MyyntiTavara;
 import heroquest.domain.kauppa.Tavara;
 /**
- *
+ * Ali-kontrolleri, joka kontrolloi pelaajan kodin tapahtumia.
+ * 
  * @author Merioksan Mikko
  */
 public class KotiController {

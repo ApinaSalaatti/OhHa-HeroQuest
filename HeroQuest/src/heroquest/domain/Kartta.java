@@ -101,7 +101,8 @@ public class Kartta {
      * Lisätään kartalle yksi Monsteri annettuun Karttapalaan.
      * 
      * @param m lisättävä Monsteri
-     * @param pala Karttapala, johon monsteri lisätään
+     * @param y y-koordinaatti, johon Monsteri lisätään
+     * @param x x-koordinaatti, johon Monsteri lisätään
      */
     public void lisaaMonsteri(Monsteri m, int y, int x) {
         m.setSijainti(kartta[y][x]);

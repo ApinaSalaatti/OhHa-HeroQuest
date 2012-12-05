@@ -18,7 +18,8 @@ import java.awt.event.ActionListener;
 import heroquest.PeliController;
 import heroquest.util.Tiedostoapuri;
 /**
- *
+ * Ikkunan yläreunaa koristava valikko, josta pääsee nopeasti käsiksi pelin lataus- ja tallennus-ominaisuuksiin.
+ * 
  * @author Merioksan Mikko
  */
 public class Ylavalikko extends JMenuBar {
@@ -80,8 +81,13 @@ public class Ylavalikko extends JMenuBar {
                     "tallennus"
                 );
                 if(tiedostonimi != null && tiedostonimi.length() > 0) {
-                    controller.lataa(tiedostonimi);
-                    nakyma.show(container, "peli");
+                    try {
+                        controller.lataa(tiedostonimi);
+                        nakyma.show(container, "peli");
+                    }
+                    catch(Exception ex) {
+                        JOptionPane.showMessageDialog(frame, "Tallennuksen lataaminen epäonnistui. Yritä uudelleen!");
+                    }
                 }
             }
         });

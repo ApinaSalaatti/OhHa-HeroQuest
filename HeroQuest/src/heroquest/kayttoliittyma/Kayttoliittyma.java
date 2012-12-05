@@ -13,7 +13,8 @@ import java.awt.Dimension;
 
 import heroquest.PeliController;
 /**
- *
+ * Graafisen käyttöliittymän pääkomponentti. Luo ikkunan, jonka sisään kaikki pelin komponentit luodaan.
+ * 
  * @author Merioksan Mikko
  */
 public class Kayttoliittyma implements Runnable {

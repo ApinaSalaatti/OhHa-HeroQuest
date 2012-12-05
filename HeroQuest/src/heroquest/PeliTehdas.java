@@ -38,6 +38,9 @@ public class PeliTehdas {
         
         Peli peli = new Peli(pelaaja);
         
+        // Pelin alussa kopioidaan pelidata kuten karttojen ja pelaajan tiedot pelidata-kansioon.
+        Tiedostoapuri.kopioiData(peli, "");
+        
         return peli;
     }
     
@@ -45,10 +48,17 @@ public class PeliTehdas {
      * Metodi, joka pelaajan siirtyessä luolastoon luo kyseisen luolaston .hqm -karttatiedoston perusteella.
      * 
      * @param kartanNimi
-     * @return 
+     * @return valmis kartta
      */
     public Kartta luoLuolasto(String kartanNimi) {
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("pelidata/kartat/" + kartanNimi);
+        Scanner lukija = null;
+        try {
+            lukija = Tiedostoapuri.tiedostoLukijaan("pelidata/kartat/" + kartanNimi);
+        }
+        catch(Exception e) {
+            System.out.println("Ongelma luolastoa luotaessa:");
+            e.printStackTrace();
+        }
         
         Kartta kartta = luoKartta(lukija, kartanNimi);
         lukija.nextLine();
@@ -72,7 +82,7 @@ public class PeliTehdas {
      * @param tiedostonimi tiedosto josta pelin tiedot luetaan
      * @return rakennettu Peli-luokan olio
      */
-    public Peli lataaPeli(String tiedostonimi, PeliController pc) {
+    public Peli lataaPeli(String tiedostonimi, PeliController pc) throws Exception {
         Scanner lukija = Tiedostoapuri.tiedostoLukijaan("tallennukset/" + tiedostonimi + "/pelaaja.hqs");
         Pelaaja pelaaja = lataaPelaaja(lukija);
         
@@ -125,6 +135,12 @@ public class PeliTehdas {
         return p;
     }
     
+    /**
+     * Ladataan annetusta Scannerista lista kaupan tavaroista ja luodaan niistä uusi kauppa.
+     * 
+     * @param lukija Scanner-olio josta tavarat luetaan
+     * @return tavaroiden perusteella rakennettu kauppa.
+     */
     private Kauppa lataaKauppa(Scanner lukija) {
         List<Tavara> tavarat = new ArrayList<Tavara>();
         if(lukija.hasNextLine()) {
@@ -225,7 +241,6 @@ public class PeliTehdas {
      * Metodi, joka lisää monsterit kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
      * 
      * @param lukija karttadatan sisältävä Scanner-olio
-     * @param peli Peli-olio johon monsterit lisätään
      * @param kartta Kartta-olio johon monsterit lisätään.
      */
     private void luoMonsterit(Scanner lukija, Kartta kartta) {
@@ -248,7 +263,6 @@ public class PeliTehdas {
      * Sijoitetaan tavarat kartalle annetun Scanner-olion sisältämän karttadatan perusteella.
      * 
      * @param lukija Scanner-olio jossa karttadata
-     * @param peli Peli johon tavarat lisätään
      * @param kartta Kartta johon tavarat lisätään
      */
     private void sijoitaTavarat(Scanner lukija, Kartta kartta) {

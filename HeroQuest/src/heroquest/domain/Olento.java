@@ -99,7 +99,7 @@ public abstract class Olento {
      * Nimi ei voi olla tyhjä tai pelkkää white spacea, eikä saa sen puoleen sisältää tyhmiä ylimääräisiä spaceja alussa eikä lopussa.
      * Mikäli nimi on epäkelpo, arvotaan hahmolle hauska nimi apuluokan Nimilista avulla.
      * 
-     * @see heroquest.util.Nimilista#annaHauskaNimi()
+     * @see heroquest.util.Nimilista#getHauskaNimi()
      * 
      * @param nimi Käyttäjän antama (tai pelilogiikan muokkaama) syöte
      */

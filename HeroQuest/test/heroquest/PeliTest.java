@@ -150,6 +150,15 @@ public class PeliTest {
     }
     
     @Test
+    public void tavaranKayttaminenEiPoistaMonikayttoista() {
+        Tavara puteli = new Tavara("arvokasaarre.hqt");
+        peli.getPelaaja().lisaaTavara(puteli);
+        peli.kaytaTavaraa(puteli);
+        
+        assertFalse(peli.getPelaaja().getInventaario().getTavarat().isEmpty());
+    }
+    
+    @Test
     public void aarteenLoytaminenLisaaExpaa() {
         peli.getKartta().getAloituspala().addTavara(new Tavara("arvokasaarre.hqt"));
         peli.tavaroidenPoiminta();
@@ -181,5 +190,12 @@ public class PeliTest {
         assertTrue(peli.getKartta().getMonsterit().isEmpty());
     }
     
-    
+    @Test
+    public void hirvionTappaminenLisaaExpaa() {
+        peli.lisaaMonsteri(new Monsteri(2, 2, 2, 2), 1, 1);
+        
+        peli.taistele();
+        
+        assertTrue(peli.getPelaaja().getExp() > 0);
+    }
 }

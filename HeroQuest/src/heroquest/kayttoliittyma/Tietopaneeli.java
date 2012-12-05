@@ -15,10 +15,10 @@ import heroquest.PeliController;
 import heroquest.domain.Pelaaja;
 import javax.swing.JOptionPane;
 /**
- *
+ * Komponentti, jolla pelaajan tiedot ja kontrollinapit sijaitsevat.
+ * 
  * @author Merioksan Mikko
  */
-// JPanel-luokan alaluokka jolle tulostetaan pelaajan tiedot
 public class Tietopaneeli extends JPanel {
     private PeliController controller;
     private JTextArea nimiJaLuokka;

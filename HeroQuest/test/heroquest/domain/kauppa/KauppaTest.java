@@ -43,6 +43,7 @@ public class KauppaTest {
     @Test
     public void ostaminen() {
         kauppa.lisaaTavara(tavara);
+        pelaaja.setVarat(10000);
         assertTrue(kauppa.myy(kauppa.getTavarat().get(0), pelaaja));
     }
     

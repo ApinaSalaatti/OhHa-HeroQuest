@@ -35,7 +35,7 @@ public class Monsteri extends Olento {
     /**
      * Konstruktori, jolle ei anneta nimeä. Tällöin monsterin nimeksi arvotaan satunnainen pelottava nimi Nimilista-luokan avulla
      * 
-     * @see heroquest.util.Nimilista#pelottavatNimet()
+     * @see heroquest.util.Nimilista#getPelottavaNimi()
      * 
      * @param voima monsterin voima
      * @param energia monsterin energia
@@ -80,6 +80,11 @@ public class Monsteri extends Olento {
      */
     public void liiku(Pelaaja p, Karttapala[][] kartta) {
         Ilmansuunta suunta = aivot.annaSuunta(this, p, kartta);
+        
+        if(suunta == null) {
+            suunta = Ilmansuunta.satunnainen();
+        }
+        
         Karttapala kohde = this.getSijainti().getNaapuri(suunta);
         
         if(kohde != null && !kohde.monsteriPaikalla()) {

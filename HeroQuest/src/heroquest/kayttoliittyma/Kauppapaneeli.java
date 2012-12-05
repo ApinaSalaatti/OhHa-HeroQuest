@@ -22,7 +22,8 @@ import heroquest.domain.kauppa.MyyntiTavara;
 import heroquest.KotiController;
 
 /**
- *
+ * Käyttöliittymäkomponentti, joka näyttää pelaajan kodin kaupan tarjonnan.
+ * 
  * @author Merioksan Mikko
  */
 public class Kauppapaneeli extends JPanel {

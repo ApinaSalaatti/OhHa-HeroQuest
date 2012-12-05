@@ -99,7 +99,7 @@ public class Kauppa {
      * Metodi, joka tarkastaa onko pelaajalla varaa haluttuun tuotteeseen.
      * Mikäli ostaminen onnistuu, lisätään tavara pelaajan inventaarioon ja poistetaan kaupan vaikoimasta.
      * 
-     * @param t tavara jonka pelaaja haluaa ostaa
+     * @param tavara tavara jonka pelaaja haluaa ostaa
      * @param p ostoa yrittävä pelaaja
      * @return onnistuiko kauppa
      */

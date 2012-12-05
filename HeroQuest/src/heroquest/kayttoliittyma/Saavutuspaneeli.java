@@ -17,7 +17,8 @@ import javax.swing.BorderFactory;
 import heroquest.PeliController;
 import heroquest.Saavutus;
 /**
- *
+ * Pelaajan saavuttamat saavutukset (Achievement) esittävä paneeli.
+ * 
  * @author Merioksan Mikko
  */
 public class Saavutuspaneeli extends JPanel {

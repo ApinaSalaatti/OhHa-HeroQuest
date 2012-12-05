@@ -57,15 +57,12 @@ public class PeliController {
      * 
      * @param nimi pelaajan hahmon nimi
      * @param luokka pelaajan hahmon hahmoluokka
-     * @param kartanNimi pelaajan valitsema kartta
+     * @param kuva pelaajan kuvan tiedostonimi
      */
     public void aloitaPeli(String nimi, String luokka, String kuva) {
         tehdas = new PeliTehdas();
         this.peli = tehdas.luoPeli(nimi, luokka, kuva);
         this.koti = new KotiController(this);
-        
-        // Pelin alussa kopioidaan pelidata kuten karttojen ja pelaajan tiedot pelidata-kansioon.
-        Tiedostoapuri.kopioiData(peli, "");
         
         paivitaKali("Sijaintisi:\n" + peli.getPelaajanSijainti());
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
@@ -95,7 +92,7 @@ public class PeliController {
     /**
      * Pelaajan luolastoa komppaavaksi asettava metodi
      * 
-     * @param pala kohteena olevan luolaston aloituspala
+     * @param kartta kartan nimi, jolle pelaaja on siirtymässä. Kartta siis luodaan tämän nimisestä tiedostosta
      */
     public void pelaajaPoistuuKotoa(String kartta) {
         Kartta k = tehdas.luoLuolasto(kartta);
@@ -256,7 +253,7 @@ public class PeliController {
      * 
      * @param tiedostonimi tiedosto josta peli ladataan
      */
-    public void lataa(String tiedostonimi) {
+    public void lataa(String tiedostonimi) throws Exception {
         PeliTehdas pt = new PeliTehdas();
         this.peli = pt.lataaPeli(tiedostonimi, this);
         

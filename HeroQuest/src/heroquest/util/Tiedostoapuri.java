@@ -49,31 +49,23 @@ public class Tiedostoapuri {
      * @param polku tiedosto joka luetaan
      * @return Scanner-olio, johon tiedoston sisältö on luettu.
      */
-    public static Scanner tiedostoLukijaan(String polku) {
-        try {
-            File tiedosto = new File(polku);
-            Scanner lukija = new Scanner(tiedosto);
-            return lukija;
-        }
-        catch(Exception e) {
-            // jokin meni vikaan, sulkeudutaan :-(
-            System.out.println("Nyt ei tiedosto aukea!");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        return null;
+    public static Scanner tiedostoLukijaan(String polku) throws Exception {
+        File tiedosto = new File(polku);
+        Scanner lukija = new Scanner(tiedosto);
+        return lukija;
     }
     
     /**
      * Kirjoitettaa annetut tiedot annetun nimiseen tiedostoon. Tiedosto sijoitetaan tallennukset-kansioon.
      * 
-     * @param kirjoitettava pelidata joka tiedostoon kirjoitetaan
+     * @param pc PeliController, jonka antamat tiedot tulostetaan
      * @param tiedostonimi tallennettavan tiedoston nimi
      */
     public static void tallennaPeli(PeliController pc, String tiedostonimi) {
+        String turvallinen = turvallista(tiedostonimi);
         Peli peli = pc.getPeli();
         Kauppa kauppa = pc.getKoti().getKauppa();
-        String kohde = "tallennukset/" + tiedostonimi + "/";
+        String kohde = "tallennukset/" + turvallinen + "/";
         new File(kohde).mkdir();
         new File(kohde + "kartat/").mkdir();
         try {
@@ -102,6 +94,27 @@ public class Tiedostoapuri {
             System.out.println("Kammottava virhe!");
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Metodi, joka muokkaa annetun merkkijonon "turvalliseksi", eli poistaa siitä esim merkit joita ei voi käyttää kansion nimessä
+     * 
+     * @param str muokattava merkkijono
+     * @return muokattu merkkijono
+     */
+    public static String turvallista(String str) {
+        str = str.replace('!', '_');
+        str = str.replace('?', '_');
+        str = str.replace('<', '_');
+        str = str.replace('>', '_');
+        str = str.replace('"', '_');
+        str = str.replace('/', '_');
+        str = str.replace('\\', '_');
+        str = str.replace(':', '_');
+        str = str.replace('*', '_');
+        str = str.replace('|', '_');
+        
+        return str;
     }
     
     /**

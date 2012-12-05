@@ -48,7 +48,14 @@ public class Tavara {
     public Tavara(String tiedosto) {
         this.tiedosto = tiedosto;
         
-        Scanner lukija = Tiedostoapuri.tiedostoLukijaan("src/tavarat/" + tiedosto);
+        Scanner lukija = null;
+        try {
+            lukija = Tiedostoapuri.tiedostoLukijaan("src/tavarat/" + tiedosto);
+        }
+        catch(Exception e) {
+            System.out.println("Ongelma tavaraa luotaessa:");
+            e.printStackTrace();
+        }
         
         this.nimi = lukija.nextLine();
         this.arvo = Integer.parseInt(lukija.nextLine());
@@ -86,7 +93,7 @@ public class Tavara {
      * Tavarat voivat vaikuttaa mihin tahansa pelin elementtiin, minkä vuoksi metodille annetaan parametrina kontrolleri.
      * Tavaran aiheuttamat vaikutukset luetaan String-muuttujasta skriptinä.
      * 
-     * @param pc kontrolleri, johon tavara vaikuttaa
+     * @param p peli-luokka, johon tavara vaikuttaa
      * @return tavaran käytön seurauksia kuvaileva viesti
      */
     public String kayta(Peli p) {

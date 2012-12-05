@@ -9,11 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
 
 import heroquest.PeliController;
 import heroquest.domain.Karttapala;
-import heroquest.util.Kuvienkasittely;
 /**
  * JPanel luokan alaluokka, jolle kartta tulostetaan.
  * 

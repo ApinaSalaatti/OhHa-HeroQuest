@@ -55,7 +55,8 @@ public class Peli {
      * Lisätään kartalle yksi Monsteri annettuun Karttapalaan.
      * 
      * @param m lisättävä Monsteri
-     * @param pala Karttapala, johon monsteri lisätään
+     * @param y kartan y-koordinaatti, jolle Monsteri lisätään
+     * @param x kartan x-koordinaatti, jolle Monsteri lisätään
      */
     public void lisaaMonsteri(Monsteri m, int y, int x) {
         kartta.lisaaMonsteri(m, y, x);

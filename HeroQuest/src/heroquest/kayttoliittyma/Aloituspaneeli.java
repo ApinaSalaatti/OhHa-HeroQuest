@@ -7,7 +7,6 @@ package heroquest.kayttoliittyma;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,24 +15,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JDialog;
-
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
 
 import heroquest.PeliController;
-import heroquest.domain.Kartta;
-import heroquest.domain.Pelaaja;
 import heroquest.util.Tiedostoapuri;
-import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
 /**
- *
- * @author merioksa
+ * Pelin alkuvalikko.
+ * 
+ * @author Merioksan Mikko
  */
 public class Aloituspaneeli extends JPanel {
     private Container container;
@@ -113,8 +102,13 @@ public class Aloituspaneeli extends JPanel {
                     null
                 );
                 if(tiedostonimi != null && tiedostonimi.length() > 0) {
-                    controller.lataa(tiedostonimi);
-                    nakyma.show(container, "peli");
+                    try {
+                        controller.lataa(tiedostonimi);
+                        nakyma.show(container, "peli");
+                    }
+                    catch(Exception ex) {
+                        JOptionPane.showMessageDialog(frame, "Tallennuksen lataaminen epäonnistui. Yritä uudelleen!");
+                    }
                 }
             }
         });

@@ -6,30 +6,20 @@
 package heroquest.kayttoliittyma;
 
 import java.util.List;
-import java.util.HashMap;
 import javax.swing.JPanel;
-import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
-import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
 
 import heroquest.PeliController;
-import heroquest.KotiController;
 import heroquest.util.Tiedostoapuri;
-import heroquest.domain.kauppa.MyyntiTavara;
 /**
- *
+ * Pelaajan kodin käyttöliittymä. Sisältään esimerkiksi kaupan josta pelaaja voi ostaa tarvikkeita.
+ * 
  * @author Merioksan Mikko
  */
 public class Kotipaneeli extends JPanel {

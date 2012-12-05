@@ -53,7 +53,6 @@ public class Ansa {
      * Olento osuessa ansoitettuun ruutuun, ansa laukeaa ja olento ottaa vahinkoa.
      * 
      * @param o ansan laukaissut olento
-     * @param pc käytössä oleva controlleri
      */
     public String laukea(Olento o) {
         paljastu();
