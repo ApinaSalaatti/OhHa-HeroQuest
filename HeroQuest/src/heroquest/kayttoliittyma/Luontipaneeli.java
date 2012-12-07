@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package heroquest.kayttoliittyma;
 
 import java.awt.GridLayout;
@@ -16,15 +12,28 @@ import javax.swing.JComboBox;
 
 import heroquest.PeliController;
 import heroquest.kayttoliittyma.kuuntelijat.AloitusnappiKuuntelija;
+
 /**
  * Käyttöliittymä uuden hahmon luomiseen. Kysyy käyttäjältä hahmon luomiseksi vaaditut tiedot.
  * 
  * @author Merioksan Mikko
  */
 public class Luontipaneeli extends JPanel {
+    /**
+     * Valittavat hahmoluokat taulukossa.
+     */
     private static String[] luokat = { "Taikamaagi", "Miekkasoturi", "Konna", "Kekkeruusi" };
+    /**
+     * Peli-ikkunan Container.
+     */
     private Container container;
+    /**
+     * CardLayout, jossa pelin eri näkymät sijaitsevat.
+     */
     private CardLayout cards;
+    /**
+     * PeliController, jolle pelaajan antamat tiedot lähetetään.
+     */
     private PeliController controller;
     
     public Luontipaneeli(Container c, CardLayout layout, PeliController pc) {
@@ -34,6 +43,9 @@ public class Luontipaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(5, 1));
         

@@ -23,22 +23,12 @@ public class Inventaario {
     }
     
     /**
+     * Palautetaan kaikki inventaariossa olevat tavarat.
+     * 
      * @return tavarat List-rajapinnan toteuttavana listana
      */
     public List<Tavara> getTavarat() {
         return tavarat;
-    }
-    /**
-     * @return tavaroiden nimet String-taulukkona 
-     */
-    public String[] getTavaratTaulukkona() {
-        String[] palautus = new String[tavarat.size()];
-        int i = 0;
-        for(Tavara t : tavarat) {
-            palautus[i] = t.toString();
-            i++;
-        }
-        return palautus;
     }
     
     /**

@@ -19,6 +19,11 @@ public class MyyntiTavara {
         this.hintakerroin = h;
     }
     
+    /**
+     * Palautetaan olioon liittyvä tavara.
+     * 
+     * @return myytävä tavara
+     */
     public Tavara getTavara() {
         return tavara;
     }

@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package heroquest.domain;
 
 import heroquest.util.Nimilista;
@@ -49,28 +46,21 @@ public class Monsteri extends Olento {
         this.setExpArvo(arvo);
     }
     
+    /**
+     * Palautetaan Monsterin arvo expana.
+     * 
+     * @return Monsterin arvo.
+     */
     public int getExpArvo() {
         return expArvo;
     }
+    /**
+     * Asetetaan Monsterille arvo expana.
+     * 
+     * @param arvo uusi exp-arvo
+     */
     public void setExpArvo(int arvo) {
         expArvo = arvo;
-    }
-    
-    /**
-     * Monsteria yhden askeleen satunnaiseen suuntaan liikuttava metodi.
-     * Mikäli valittuun suuntaan ei voi liikkua, ei monsteri tee mitään.
-     */
-    public void liiku() {
-        Ilmansuunta suunta = Ilmansuunta.satunnainen();
-        Karttapala kohde = this.getSijainti().getNaapuri(suunta);
-        
-        if(kohde != null && !kohde.monsteriPaikalla()) {
-            Karttapala vanha = this.getSijainti();
-            if(this.setSijainti(kohde)) {
-                vanha.monsteriPoistuu();
-                kohde.monsteriSaapuu(this);
-            }
-        }
     }
     
     /**

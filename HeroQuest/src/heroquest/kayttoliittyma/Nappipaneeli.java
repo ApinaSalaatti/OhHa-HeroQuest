@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package heroquest.kayttoliittyma;
 
@@ -24,11 +20,29 @@ import heroquest.domain.kauppa.Tavara;
  * @author Merioksan Mikko
  */
 public class Nappipaneeli extends JPanel {
+    /**
+     * Kontrolleri, jonka metodeja napit ja näppäimet kutsuvat.
+     */
     PeliController controller;
+    /**
+     * Paneeli joka sisältää liikkumiseen tarvittavat näppäimet.
+     */
     private Liikenappipaneeli liikenappiPanel;
+    /**
+     * Pelaajan inventaarion sisältö JListinä.
+     */
     JList inventaario;
+    /**
+     * Nappi jolla inventaarion tavaroita käytetään.
+     */
     JButton inventaarionappi;
+    /**
+     * Nappi, jonka avulla inventaarion tavaroita voi myydä.
+     */
     JButton myyntinappi;
+    /**
+     * Nappi, jolla poimitaan kartan ruudusta tavarat.
+     */
     JButton poimintanappi;
     
     public Nappipaneeli(PeliController pc) {
@@ -36,15 +50,13 @@ public class Nappipaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(1, 2));
 
         poimintanappi = new JButton("Poimi tavarat ruudusta");
-        
-        inventaarionappi = new JButton("Käytä esinettä");
-        myyntinappi = new JButton("Myy esine");
-        inventaario = new JList();
-        inventaario.setPreferredSize(new Dimension(250, 110));
         
         poimintanappi.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +70,23 @@ public class Nappipaneeli extends JPanel {
         JPanel napitJaNopat = new JPanel(new GridLayout(2, 1));
         napitJaNopat.add(liikenappiPanel);
         napitJaNopat.add(poimintanappi);
+        
+        JPanel inventaariopaneeli = luoInventaariopaneeli();
+        
+        this.add(napitJaNopat);
+        this.add(inventaariopaneeli);
+    }
+    
+    /**
+     * Luodaan inventaarionäkymä.
+     * 
+     * @return valmis paneeli
+     */
+    public JPanel luoInventaariopaneeli (){
+        inventaarionappi = new JButton("Käytä esinettä");
+        myyntinappi = new JButton("Myy esine");
+        inventaario = new JList();
+        inventaario.setPreferredSize(new Dimension(250, 110));
         
         JPanel inventaariopaneeli = new JPanel();
         JPanel inventaarionappipaneeli = new JPanel(new GridLayout(1, 2));
@@ -81,11 +110,14 @@ public class Nappipaneeli extends JPanel {
            }
         });
         
-        this.add(napitJaNopat);
-        this.add(inventaariopaneeli);
+        return inventaariopaneeli;
     }
     
-    // enabloidaan/disabloidaan oikean nappulat ja namiskat käyttöliittymästä sen mukaan, missä tilassa peli on
+    /**
+     * enabloidaan/disabloidaan oikean nappulat ja namiskat käyttöliittymästä sen mukaan, missä tilassa peli on
+     * 
+     * @param tila tila, jossa peli on
+     */
     public void paivita(String tila) {
         liikenappiPanel.paivita(tila);
         

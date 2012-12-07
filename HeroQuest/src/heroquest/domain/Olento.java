@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package heroquest.domain;
 
 import heroquest.domain.kauppa.Tavara;
@@ -15,6 +11,9 @@ import heroquest.util.Nimilista;
  * @author Merioksan Mikko
  */
 public abstract class Olento {
+    /**
+     * Kuvunkin kokemustasoon tarvittava expan määrä. Taulukon indeksi on siis kyseinen kokemustaso.
+     */
     private static int[] tarvittavaExp = { 0, 300, 1000, 2000, 5000, 10000 };
     /**
      * Hahmon nimi
@@ -113,6 +112,8 @@ public abstract class Olento {
         }
     }
     /**
+     * Palautetaan hahmon nimi.
+     * 
      * @return hahmon nimi 
      */
     public String getNimi() {
@@ -133,6 +134,8 @@ public abstract class Olento {
         }
     }
     /**
+     * Palautetaan hahmon voima.
+     * 
      * @return hahmon voima
      */
     public int getVoima() {
@@ -153,6 +156,8 @@ public abstract class Olento {
         }
     }
     /**
+     * Palautetaan hahmon energia.
+     * 
      * @return hahmon energia
      */
     public int getEnergia() {
@@ -181,12 +186,19 @@ public abstract class Olento {
         }
     }
     /**
+     * Palautetaan hahmon nopeus.
+     * 
      * @return hahmon nopeus
      */
     public int getNopeus() {
         return nopeus;
     }
     
+    /**
+     * Palautetaan hahmon kokemustaso.
+     * 
+     * @return hahmon kokemustaso
+     */
     public int getTaso() {
         return taso;
     }
@@ -200,6 +212,11 @@ public abstract class Olento {
         nopeus++;
     }
     
+    /**
+     * Palautetaan hahmon keräämät kokemuspisteet.
+     * 
+     * @return hahmon kokemuspisteet
+     */
     public int getExp() {
         return exp;
     }
@@ -237,6 +254,8 @@ public abstract class Olento {
         return false;
     }
     /**
+     * Palautetaan hahmon sijainti.
+     * 
      * @return hahmon sijainti
      */
     public Karttapala getSijainti() {
@@ -244,20 +263,27 @@ public abstract class Olento {
     }
     
     /**
+     * Palautetaan hahmon inventaario-olio.
+     * 
      * @return hahmon inventaario
      */
     public Inventaario getInventaario() {
         return inventaario;
     }
+    /**
+     * Lisätään tavaraa hahmon inventaarioon.
+     * 
+     * @param tavarat lista lisättävistä tavaroista
+     */
     public void lisaaTavarat(List<Tavara> tavarat) {
         for(Tavara t : tavarat) {
             inventaario.lisaaTavara(t);
         }
     }
     /**
-     * Lisätään tavara hahmon inventaarioon
+     * Lisätään yksi tavara hahmon inventaarioon
      * 
-     * @param t 
+     * @param t lisättävä tavara
      */
     public void lisaaTavara(Tavara t) {
         inventaario.lisaaTavara(t);

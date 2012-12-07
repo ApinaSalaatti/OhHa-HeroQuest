@@ -35,8 +35,13 @@ public class TiedostoapuriTest {
     
     @Test
     public void tiedostonAvaus() {
+        try {
         Scanner lukija = Tiedostoapuri.tiedostoLukijaan("test/moi.txt");
         
         assertEquals(lukija.next(), "moi");
+        }
+        catch(Exception e) {
+            System.out.println("Tiedosto ei auennut!");
+        }
     }
 }

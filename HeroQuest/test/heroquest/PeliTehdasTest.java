@@ -17,6 +17,7 @@ import heroquest.domain.Karttapala;
 public class PeliTehdasTest {
     private PeliTehdas pt;
     private Peli peli;
+    private Kartta k;
     
     public PeliTehdasTest() {
     }
@@ -34,6 +35,14 @@ public class PeliTehdasTest {
         this.pt = new PeliTehdas();
         peli = null;
         peli = pt.luoPeli("Aarne", "Taikamaagi", "harri.png");
+        
+        k = null;
+        try {
+            k = pt.luoLuolasto("testikartta.hqm");
+        }
+        catch(Exception e){
+            System.out.println("Karttatiedosto ei aukea");
+        }
     }
     
     @After
@@ -58,20 +67,17 @@ public class PeliTehdasTest {
     
     @Test
     public void tehdasLuoKartan() {
-        Kartta k = pt.luoLuolasto("testikartta.hqm");
         assertNotNull(k);
     }
     
     @Test
     public void monsterienAsetus() {
-        Kartta k = pt.luoLuolasto("testikartta.hqm");
         Karttapala pala = k.getKarttapalat()[2][2];
         assertTrue(pala.monsteriPaikalla());
     }
     
     @Test
     public void aarteenAsetus() {
-        Kartta k = pt.luoLuolasto("testikartta.hqm");
         Karttapala pala = k.getKarttapalat()[3][3];
         assertTrue(pala.aarrePaikalla());
     }

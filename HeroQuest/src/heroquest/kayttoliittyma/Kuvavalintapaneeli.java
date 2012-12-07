@@ -33,18 +33,36 @@ public class Kuvavalintapaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
-        naamat = Tiedostoapuri.kansioTauluksi("src/kuvat/naamat");
+        naamat = Tiedostoapuri.kansioTauluksi("kuvat/naamat");
         valittu = 0;
         
         final CardLayout naamaLayout = new CardLayout(1, naamat.length);
         final JPanel naamaPanel = new JPanel(naamaLayout);
         
+        // luodaan jokaiselle nassulle oma JPanel, jotka sijaitsevat CardLayoutin eri korteilla.
         for(String naama : naamat) {
-            naamaPanel.add(new JLabel(new ImageIcon("src/kuvat/naamat/" + naama)), naama);
+            naamaPanel.add(new JLabel(new ImageIcon("kuvat/naamat/" + naama)), naama);
         }
         
-        // nappi, joka vaihtaa esitetyn kuvan sekä valitun kuvan indeksin.
+        JButton vaihtonappi = luoKuvanvaihtonappi(naamaLayout, naamaPanel);
+        
+        this.add(new JLabel("Valitse naama:"));
+        this.add(naamaPanel);
+        this.add(vaihtonappi);
+    }
+    
+    /**
+     * Luodaan nappi jolla vaihdetaan valittua pelaajahahmon pärstäkuvaa, eli naamat-taulukon indeksiä.
+     * 
+     * @param naamaLayout kaikki kuvat sijaitsevat tällä CardLayoutilla
+     * @param naamaPanel JPanel jolla naamat esitetään
+     * @return 
+     */
+    public JButton luoKuvanvaihtonappi(final CardLayout naamaLayout, final JPanel naamaPanel) {
         JButton vaihtonappi = new JButton("Seuraava kuva");
         vaihtonappi.addActionListener(new ActionListener() {
            @Override
@@ -57,11 +75,14 @@ public class Kuvavalintapaneeli extends JPanel {
            }
         });
         
-        this.add(new JLabel("Valitse naama:"));
-        this.add(naamaPanel);
-        this.add(vaihtonappi);
+        return vaihtonappi;
     }
     
+    /**
+     * Palautetaan valittu kuvatiedosto merkkijonona.
+     * 
+     * @return kuvatiedoston nimi merkkijonona
+     */
     public String getValittu() {
         return naamat[valittu];
     }

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest.domain;
 
 /**
@@ -48,6 +43,8 @@ public class Pelaaja extends Olento {
     }
     
     /**
+     * Asetetaan pelaajan luokka.
+     * 
      * @param luokka pelaajan valitsema luokka
      */
     private void setLuokka(String luokka) {
@@ -60,6 +57,8 @@ public class Pelaaja extends Olento {
         }
     }
     /**
+     * Palautetaan pelaajan hahmoluokka.
+     * 
      * @return hahmon hahmoluokka
      */
     public String getLuokka() {
@@ -67,12 +66,16 @@ public class Pelaaja extends Olento {
     }
     
     /**
+     * Asetetaan pelaajalle liikkeet.
+     * 
      * @param l pelaajan esim. nopanheitolla tienaamat liikkeet
      */
     public void setLiikkeet(int l) {
         liikkeet = l;
     }
     /**
+     * Palautetaan pelaajan jäljellä olevat likkeet.
+     * 
      * @return pelaajan jäljellä olevat liikkeet
      */
     public int getLiikkeet() {
@@ -94,7 +97,9 @@ public class Pelaaja extends Olento {
     }
     
     /**
-     * Lisää pelaajalle yhden tapon. Jes!
+     * Lisää pelaajalle tappoja. Jes!
+     * 
+     * @param t tappojen määrä
      */
     public void lisaaTapot(int t) {
         tapot += t;
@@ -103,13 +108,16 @@ public class Pelaaja extends Olento {
         }
     }
     /**
-     * @return pelaajan tappamien monsterien määrä
+     * Palautetaan pelaajan tappamien Monsterien määrä.
+     * 
+     * @return pelaajan tappamien Monsterien määrä
      */
     public int getTapot() {
         return tapot;
     }
     
     /**
+     * Asetetaan pelaajan varallisuus.
      * 
      * @param v summa joksi pelaajan rahamäärä muutetaan
      */
@@ -117,15 +125,27 @@ public class Pelaaja extends Olento {
         varat = v;
     }
     /**
+     * Palautetaan pelaajan varallisuus.
+     * 
      * @return pelaajan varakkuus
      */
     public int getVarat() {
         return varat;
     }
     
+    /**
+     * Asetetaan kuvatiedoston nimi, josta pelaajan kuva löytyy.
+     * 
+     * @param kuva kuvatiedoston nimi.
+     */
     public void setKuva(String kuva) {
         this.kuva = kuva;
     }
+    /**
+     * Palautetaan kuvatiedoston nimi, josta pelaajan kuva löytyy.
+     * 
+     * @return kuvatiedoston nimi
+     */
     public String getKuva() {
         return kuva;
     }

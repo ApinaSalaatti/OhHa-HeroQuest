@@ -18,14 +18,31 @@ import heroquest.PeliController;
  * @author Merioksan Mikko
  */
 public class Kayttoliittyma implements Runnable {
+    /**
+     * Pääikkuna
+     */
     private JFrame frame;
+    /**
+     * PeliController, jolta käyttöliittymäne monet näkymät tarvitsevat tietoja.
+     */
     private PeliController controller;
+    /**
+     * Paneeli joka näyttää varsinaiset pelin tapahtumat.
+     */
     private Pelipaneeli peliPanel;
+    /**
+     * Paneeli joka näytetään kun pelaaja kuolee.
+     */
     private Lopetuspaneeli lopetusPanel;
     
     public Kayttoliittyma() {
     }
     
+    /**
+     * Asetetaan käyttöliittymälle kontrolleri-olio.
+     * 
+     * @param p käytettävä PeliController
+     */
     public void setController(PeliController p) {
         this.controller = p;
     }
@@ -42,6 +59,11 @@ public class Kayttoliittyma implements Runnable {
         frame.setVisible(true);
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     * 
+     * @param container ikkunan Container, johon näkymät luodaan
+     */
     private void luoKomponentit(Container container) {
         CardLayout layout = new CardLayout(1, 5);
         container.setLayout(layout);
@@ -63,6 +85,11 @@ public class Kayttoliittyma implements Runnable {
         container.add(lopetusPanel, "lopetus");
     }
     
+    /**
+     * Päivitetään käyttöliittymä, eli kaikki sen näkymät.
+     * 
+     * @param tapahtuma viimeisimpiä tapahtumia kuvaava merkkijono
+     */
     public void paivita(String tapahtuma) {
         lopetusPanel.paivita();
         peliPanel.paivita(tapahtuma);

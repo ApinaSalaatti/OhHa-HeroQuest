@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package heroquest.domain;
 
 import java.util.List;
@@ -46,11 +43,18 @@ public class Kartta {
         monsterit = new ArrayList<Monsteri>();
     }
     
+    /**
+     * Palautetaan kartan tiedostonimi.
+     * 
+     * @return tiedosto josta kartta on luettu
+     */
     public String getNimi() {
         return nimi;
     }
     
     /**
+     * Palautetaan kartan aloituspala, eli koordinaatit (1, 1).
+     * 
      * @return pala josta peli aloitetaan. Aina vasen ylänurkka.
      */
     public Karttapala getAloituspala() {
@@ -58,6 +62,8 @@ public class Kartta {
     }
     
     /**
+     * Palautetaan kartta kaksiuloteisena Karttapala-taulukkona.
+     * 
      * @return kartta taulukkona
      */
     public Karttapala[][] getKarttapalat() {
@@ -65,6 +71,8 @@ public class Kartta {
     }
     
     /**
+     * Palautetaan kaikki palat jotka pelaaja on nähnyt.
+     * 
      * @return pelaajan löytämät palat taulukkona
      */
     public Karttapala[][] getNahdytPalat() {
@@ -79,21 +87,12 @@ public class Kartta {
     public List<Tavara> poimiTavarat(Karttapala pala) {
         return pala.poimiTavarat();
     }
-    /**
-     * @return kartalla jäljellä olevien aarteiden määrä
-     */
-    public int getAarteet() {
-        int lkm = 0;
-        for(int y = 0; y < kartta.length; y++) {
-            for(int x = 0; x < kartta.length; x++) {
-                if(kartta[y][x] != null && kartta[y][x].aarrePaikalla()) {
-                    lkm++;
-                }
-            }
-        }
-        return lkm;
-    }
     
+    /**
+     * Palautetaan kaikki kartalla majailevat Monsterit.
+     * 
+     * @return kartalla majailevat Monsterit List-kokoelmassa.
+     */
     public List<Monsteri> getMonsterit() {
         return monsterit;
     }
@@ -149,6 +148,13 @@ public class Kartta {
         }
     }
     
+    /**
+     * Metodi joka tarkastaa, onko annetusta karttapalasta annettuun ilmansuuntaanliikkuminen liike ulos kartalta.
+     * 
+     * @param pala pala jolta liikutaan
+     * @param suunta suunta johon liikutaan
+     * @return ollaanko liikkumassa pois kartalta vai ei
+     */
     public boolean ulosKartalta(Karttapala pala, Ilmansuunta suunta) {
         int uusiX = pala.getX() + suunta.xMuutos();
         int uusiY = pala.getY() + suunta.yMuutos();
@@ -209,7 +215,7 @@ public class Kartta {
     }
     
     /**
-     * Palautetaan kaikki karttadata tallentamista varten tiedostona.
+     * Palautetaan kaikki karttadata tallentamista varten merkkijonona.
      * 
      * @return karttadata String-muotoisena
      */
@@ -222,7 +228,6 @@ public class Kartta {
         sb.append(kartta.length + "\n");
         sb.append(kartta[0].length + "\n");
         
-        // itse karttapalat
         sb.append(tallennaData("karttapalat"));
         sb.append(tallennaData("monsterit"));
         sb.append(tallennaData("aarrekartta"));
@@ -231,6 +236,12 @@ public class Kartta {
         return sb.toString();
     }
     
+    /**
+     * Tallennetaan kartalta kaikki tarpeellinen tieto, eli karttapalojen sijainti, monsterien sijainnit, aarteiden ja tavaroiden sijainnit ja nähdyt palat.
+     * 
+     * @param data data jota ollaan tallentamassa, esim monsterit
+     * @return palautetaan pyydetty data merkkijonona
+     */
     public String tallennaData(String data) {
         StringBuilder sb = new StringBuilder();
         

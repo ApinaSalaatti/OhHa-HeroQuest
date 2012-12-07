@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest.kayttoliittyma;
 
 import javax.swing.JButton;
@@ -15,18 +10,40 @@ import heroquest.PeliController;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenappiKuuntelija;
 import heroquest.kayttoliittyma.kuuntelijat.LiikenoppaKuuntelija;
 import heroquest.kayttoliittyma.kuuntelijat.TaistelunoppaKuuntelija;
+
 /**
  * Liikenapit ja nopat liikkeeseen ja taisteluun sisältävä käyttöliittymäkomponentti.
  * 
  * @author Merioksan Mikko
  */
 public class Liikenappipaneeli extends JPanel {
+    /**
+     * Kontrolleri jonka liikkumis- ja muita metodeja kutsutaan
+     */
     private PeliController controller;
+    /**
+     * Nappi joka liikuttaa pelaajaa ylös.
+     */
     private JButton ylos;
+    /**
+     * Nappi joka liikuttaa pelaajaa alas.
+     */
     private JButton alas;
+    /**
+     * Nappi joka liikuttaa pelaajaa vasemmalle.
+     */
     private JButton vasen;
+    /**
+     * Nappi joka tekee arvatkaapa mitä.
+     */
     private JButton oikea;
+    /**
+     * Nappi josta "heitetään" liikenoppaa.
+     */
     private JButton liikenoppa;
+    /**
+     * Nappi josta "heitetään" taistelunoppaa
+     */
     private JButton taistelunoppa;
     
     public Liikenappipaneeli(PeliController pc) {
@@ -34,28 +51,20 @@ public class Liikenappipaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan käyttöliittymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(2, 1));
-        JPanel liikkumisnapit = new JPanel();
+        JPanel liikkumisnapit = luoLiikkumisnappipaneeli();
         JPanel nopat = new JPanel();
-        ylos = new JButton("^");
-        alas = new JButton("V");
-        vasen = new JButton("<");
-        oikea = new JButton(">");
+
         liikenoppa = new JButton("Liiku!");
         taistelunoppa = new JButton("Taistele!");
         
-        ylos.addActionListener(new LiikenappiKuuntelija(controller));
-        alas.addActionListener(new LiikenappiKuuntelija(controller));
-        vasen.addActionListener(new LiikenappiKuuntelija(controller));
-        oikea.addActionListener(new LiikenappiKuuntelija(controller));
         liikenoppa.addActionListener(new LiikenoppaKuuntelija(controller));
         taistelunoppa.addActionListener(new TaistelunoppaKuuntelija(controller));
-        
-        liikkumisnapit.add(ylos);
-        liikkumisnapit.add(alas);
-        liikkumisnapit.add(vasen);
-        liikkumisnapit.add(oikea);
+
         nopat.add(new JLabel("Heitä noppaa:"));
         nopat.add(liikenoppa);
         nopat.add(taistelunoppa);
@@ -64,6 +73,36 @@ public class Liikenappipaneeli extends JPanel {
         this.add(nopat);
     }
     
+    /**
+     * Luodaan paneeli jossa liikkumiseen tarvittavat napit sijaitsevat.
+     * 
+     * @return valmis paneeli
+     */
+    public JPanel luoLiikkumisnappipaneeli() {
+        JPanel liikkumisnapit = new JPanel();
+        ylos = new JButton("^");
+        alas = new JButton("V");
+        vasen = new JButton("<");
+        oikea = new JButton(">");
+        
+        ylos.addActionListener(new LiikenappiKuuntelija(controller));
+        alas.addActionListener(new LiikenappiKuuntelija(controller));
+        vasen.addActionListener(new LiikenappiKuuntelija(controller));
+        oikea.addActionListener(new LiikenappiKuuntelija(controller));
+        
+        liikkumisnapit.add(ylos);
+        liikkumisnapit.add(alas);
+        liikkumisnapit.add(vasen);
+        liikkumisnapit.add(oikea);
+        
+        return liikkumisnapit;
+    }
+    
+    /**
+     * Päivitetään näkymä, eli enabloidaan/disabloidaan tietyt napit
+     * 
+     * @param tila missä tilassa peli on
+     */
     public void paivita(String tila) {
         if(tila.equals("taistelu")) {
             liikeNapit(false);
@@ -87,6 +126,11 @@ public class Liikenappipaneeli extends JPanel {
         }
     }
     
+    /**
+     * Asetetaan liikenappien tila.
+     * 
+     * @param b enabloidaanko vai disabloidaanko
+     */
     private void liikeNapit(boolean b) {
         if(b) {
             ylos.setEnabled(true);

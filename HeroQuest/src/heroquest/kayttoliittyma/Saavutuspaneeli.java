@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package heroquest.kayttoliittyma;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -30,6 +25,9 @@ public class Saavutuspaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new BorderLayout());
         saavutukset = new JTextArea();
@@ -42,6 +40,9 @@ public class Saavutuspaneeli extends JPanel {
         this.add(saavutukset);
     }
     
+    /**
+     * Päivitetään näkymä pelaajan uusilla saavutuksilla.
+     */
     public void paivita() {
         Collection<Saavutus> saavutukset = controller.getSaavutukset();
         

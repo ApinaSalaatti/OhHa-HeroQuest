@@ -8,7 +8,6 @@ package heroquest;
 import java.util.List;
 
 import heroquest.domain.Kotikarttapala;
-import heroquest.domain.Karttapala;
 import heroquest.domain.kauppa.Kauppa;
 import heroquest.domain.kauppa.MyyntiTavara;
 import heroquest.domain.kauppa.Tavara;
@@ -32,9 +31,19 @@ public class KotiController {
         this.kauppa = new Kauppa();
     }
     
+    /**
+     * Palauttaa kotona sijaitsevan Kauppa-olion
+     * 
+     * @return kotona sijaitseva kauppa
+     */
     public Kauppa getKauppa() {
         return kauppa;
     }
+    /**
+     * Asettaa kotona sijaitsevan kaupan
+     * 
+     * @param k kauppa joka kotiin asetetaan
+     */
     public void setKauppa(Kauppa k) {
         kauppa = k;
     }

@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package heroquest.kayttoliittyma.kuuntelijat;
 
 import java.awt.event.ActionListener;

@@ -28,14 +28,17 @@ public class Saavutusmanageri {
     /**
      * PeliController-luokan olio josta tarkkaillaan monenlaisia tilastoja.
      */
-    private PeliController controller;
+    private Peli peli;
     
-    public Saavutusmanageri(PeliController pc) {
+    public Saavutusmanageri(Peli p) {
         saavutukset = new HashMap<String, Saavutus>();
-        controller = pc;
+        peli = p;
         alustaSaavutukset();
     }
     
+    /**
+     * Luodaan saavutukset.
+     */
     private void alustaSaavutukset() {
         saavutukset.put("Aloita peli", new Saavutus("Aloita peli"));
         saavutukset.put("Astu synkkään luolaan", new Saavutus("Astu synkkään luolaan"));
@@ -43,23 +46,34 @@ public class Saavutusmanageri {
         saavutukset.put("Kerää ensimmäinen aarteesi", new Saavutus("Kerää ensimmäinen aarteesi"));
     }
     
+    /**
+     * Palautetaan kaikki saavutukset
+     * 
+     * @return kaikki saavutukset
+     */
     public Collection<Saavutus> getSaavutukset() {
         return saavutukset.values();
     }
     
+    /**
+     * Tarkistetaan onko saavutettu uusia saavutuksia.
+     * 
+     * @param tapahtuma
+     * @return viesti saavutetuista saavutuksista
+     */
     public String tarkistaSaavutukset(String tapahtuma) {
         StringBuilder sb = new StringBuilder();
         
-        if(controller.getPeli().pelaajaKotona() && !saavutukset.get("Aloita peli").saavutettu()) {
+        if(peli.pelaajaKotona() && !saavutukset.get("Aloita peli").saavutettu()) {
             sb.append(saavutukset.get("Aloita peli").saavuta());
         }
-        if(!controller.getPeli().pelaajaKotona() && !saavutukset.get("Astu synkkään luolaan").saavutettu()) {
+        if(!peli.pelaajaKotona() && !saavutukset.get("Astu synkkään luolaan").saavutettu()) {
             sb.append(saavutukset.get("Astu synkkään luolaan").saavuta());
         }
         if(tapahtuma.contains("Osuma!") && !saavutukset.get("Murhaa kammottava hirviö").saavutettu()) {
             sb.append(saavutukset.get("Murhaa kammottava hirviö").saavuta());
         }
-        if(controller.getPeli().getPelaaja().getInventaario().getTavarat().contains(new Tavara("arvokasaarre.hqt")) && !saavutukset.get("Kerää ensimmäinen aarteesi").saavutettu()) {
+        if(peli.getPelaaja().getInventaario().getTavarat().contains(new Tavara("arvokasaarre.hqt")) && !saavutukset.get("Kerää ensimmäinen aarteesi").saavutettu()) {
             sb.append(saavutukset.get("Kerää ensimmäinen aarteesi").saavuta());
         }
         

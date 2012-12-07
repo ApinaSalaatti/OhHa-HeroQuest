@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest.domain.kauppa;
 
 import javax.script.ScriptEngineManager;
@@ -50,11 +45,10 @@ public class Tavara {
         
         Scanner lukija = null;
         try {
-            lukija = Tiedostoapuri.tiedostoLukijaan("src/tavarat/" + tiedosto);
+            lukija = Tiedostoapuri.tiedostoLukijaan("tavarat/" + tiedosto);
         }
         catch(Exception e) {
-            System.out.println("Ongelma tavaraa luotaessa:");
-            e.printStackTrace();
+            System.out.println("Ongelma tavaraa luotaessa!");
         }
         
         this.nimi = lukija.nextLine();
@@ -65,16 +59,36 @@ public class Tavara {
         kkayttoinen = Boolean.parseBoolean(lukija.nextLine());
     }
     
+    /**
+     * Palautetaan esineen arvo.
+     * 
+     * @return esineen arvo
+     */
     public int getArvo() {
         return arvo;
     }
+    /**
+     * Asetetaan esineelle arvo.
+     * 
+     * @param a uusi arvo
+     */
     public void setArvo(int a) {
         arvo = a;
     }
     
+    /**
+     * Palautetaan esineen nimi.
+     * 
+     * @return esineen nimi
+     */
     public String getNimi() {
         return nimi;
     }
+    /**
+     * Asetetaan esineelle uusi nimi.
+     * 
+     * @param n uusi nimi
+     */
     public void setNimi(String n) {
         nimi = n;
     }
@@ -90,8 +104,9 @@ public class Tavara {
     
     /**
      * Tavaran käyttämisen toteuttava metodi.
-     * Tavarat voivat vaikuttaa mihin tahansa pelin elementtiin, minkä vuoksi metodille annetaan parametrina kontrolleri.
-     * Tavaran aiheuttamat vaikutukset luetaan String-muuttujasta skriptinä.
+     * Tavarat voivat vaikuttaa mihin tahansa pelin elementtiin, minkä vuoksi metodille annetaan parametrina Peli-luokan olio.
+     * Tavaran aiheuttamat vaikutukset luetaan String-muuttujan sanelemasta tiedostosta skriptinä.
+     * Skriptille annetaan muuttujina myös eri illmansuunnat, jotta skriptit voivat vaikuttaa myös viereisiin karttapaloihin.
      * 
      * @param p peli-luokka, johon tavara vaikuttaa
      * @return tavaran käytön seurauksia kuvaileva viesti
@@ -101,7 +116,7 @@ public class Tavara {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         
         try {
-            // asetetaan scriptaus-moottorille muuttujia. Ilmansuunnat annetaan, jotta skriptit voivat vaikuttaa myös viereisiin ruutuihin.
+            // asetetaan skriptaus-moottorille muuttujia. Ilmansuunnat annetaan, jotta skriptit voivat vaikuttaa myös viereisiin ruutuihin.
             engine.put("etela", Ilmansuunta.ETELA);
             engine.put("pohjoinen", Ilmansuunta.POHJOINEN);
             engine.put("ita", Ilmansuunta.ITA);
@@ -109,13 +124,12 @@ public class Tavara {
             engine.put("peli", p);
             
             if(toiminto != null && !toiminto.equals("")) {
-                engine.eval(new java.io.FileReader(toiminto));
+                engine.eval(new java.io.FileReader("tavarat/" + toiminto));
             }
         }
         catch(Exception e) {
-            System.out.println("Oi ei, tuli virhe: ");
+            System.out.println("Oi ei, tuli virhe!");
             e.printStackTrace();
-            System.exit(-1); 
         }
         
         return palautus;

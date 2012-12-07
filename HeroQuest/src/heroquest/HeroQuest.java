@@ -1,7 +1,5 @@
 package heroquest;
 
-import java.util.Scanner;
-
 import javax.swing.SwingUtilities;
 
 import heroquest.kayttoliittyma.Kayttoliittyma;

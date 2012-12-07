@@ -6,8 +6,6 @@ package heroquest;
 
 import heroquest.domain.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import heroquest.domain.kauppa.Tavara;
@@ -87,12 +85,16 @@ public class Peli {
     }
     
     /**
+     * Palautetaan kullakin hetkellä seikkailun kohteena oleva luolasto.
+     * 
      * @return käytössä oleva Kartta
      */
     public Kartta getKartta() {
         return kartta;
     }
     /**
+     * Asetetaan luolasto, johon ollaan syöksymässä
+     * 
      * @param k luolasto, johon ollaan syöksymässä
      */
     public void setKartta(Kartta k) {
@@ -100,6 +102,8 @@ public class Peli {
     }
     
     /**
+     * Palautetaan pelaajaa tällä hetkellä kuvaava pelaaja-olio.
+     * 
      * @return pelaajan hahmo
      */
     public Pelaaja getPelaaja() {
@@ -200,7 +204,9 @@ public class Peli {
     }
     
     /**
-     * @return monsteri joka on samassa ruudussa pelaajan kanssa. Jos yksikään ei ole, return null
+     * Palauttaa pelaajan kanssa samassa ruudussa olevan Monsterin. Jos sellaista ei ole, palautetaan null.
+     * 
+     * @return monsteri joka on samassa ruudussa pelaajan kanssa.
      */
     public Monsteri getVastustaja() {
         Karttapala pelaajaSijainti = pelaaja.getSijainti();
@@ -227,6 +233,8 @@ public class Peli {
     }
     
     /**
+     * Palautetaan tieto siitä, ollaanko taistelussa.
+     * 
      * @return tieto siitä, ollaanko taistelussa
      */
     public boolean taistelunAika() {
@@ -258,12 +266,20 @@ public class Peli {
         pelaajaKotona = false;
     }
     /**
+     * Palautetaan tieto siitä, onko pelaaja kotona vai luolastossa.
+     * 
      * @return tieto siitä, onko pelaaja kotona vai luolastossa
      */
     public boolean pelaajaKotona() {
         return pelaajaKotona;
     }
     
+    /**
+     * Taistelumetodi. Ensin katsotaan kumpi on nopeampi, pelaaja vai Monsteri. Tämän jälkeen nopein lyö ensin ja hidas ottaa vahinkoa.
+     * Mikäli hitaampi Olento jäi henkiin, on sen vuoro iskeä.
+     * 
+     * @return tiedot taistelun kulusta
+     */
     public String taistele() {
         Olento aloittaja = null;
         Olento seuraaja = null;

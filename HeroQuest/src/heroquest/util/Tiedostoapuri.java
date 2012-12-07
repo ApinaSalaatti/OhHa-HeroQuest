@@ -25,6 +25,8 @@ import heroquest.domain.Karttapala;
 public class Tiedostoapuri {
     
     /**
+     * Luetaan tiedostot kansiosta ja palautetaan niiden nimet String-taulukkona.
+     * 
      * @param polku kansio jonka tiedostot halutaan tulostaa
      *
      * @return String-taulu joka sisältää kansion sisältämien tiedostojen nimet
@@ -146,9 +148,14 @@ public class Tiedostoapuri {
      */
     public static void kopioiData(Peli peli, String tallennus) {
         String kohde = "pelidata/";
+        
+        // varmistetaan että pelidata-kansio on olemassa
+        new File(kohde).mkdir();
+        new File(kohde + "kartat/");
+        
         String polku;
         if(tallennus.equals("")) {
-            polku = "src/kartat/";
+            polku = "kartat/";
         }
         else {
             polku = "tallennukset/" + tallennus + "/kartat/";

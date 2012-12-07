@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package heroquest.util;
 
 import java.util.ArrayList;
 
-import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
 /**
@@ -62,6 +57,8 @@ public class KarttaGeneraattori {
     }
     
     /**
+     * Palautetaan luodut karttapalat
+     * 
      * @return luodut karttapalat taulukkona 
      */
     public Karttapala[][] getKartta() {

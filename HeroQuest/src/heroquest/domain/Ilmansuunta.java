@@ -31,6 +31,8 @@ public enum Ilmansuunta {
     }
     
     /**
+     * Palautetaan ilmansuuntaan liittyvä numero
+     * 
      * @return ilmansuuntaa vastaava numero
      */
     public int getSuuntanro() {
@@ -38,6 +40,8 @@ public enum Ilmansuunta {
     }
     
     /**
+     * Palautetaan ilmansuunta, joka on kyseisen ilmansuuntaolion vastakohta.
+     * 
      * @return ilmansuunnan vastakohta, esim. lännellä itä.
      */
     public Ilmansuunta vastakohta() {
@@ -56,6 +60,8 @@ public enum Ilmansuunta {
     }
     
     /**
+     * Palautetaan tähän ilmansuuntaan liikuttaessa tapahtuva x-koordinaatin muutos.
+     * 
      * @return ilmansuuntaan liikkuessa aiheutuva x-koordinaatin muutos
      */
     public int xMuutos() {
@@ -72,6 +78,8 @@ public enum Ilmansuunta {
     }
     
     /**
+     * Palautetaan tähän ilmansuuntaan liikuttaessa tapahtuva y-koordinaatin muutos.
+     * 
      * @return ilmansuuntaan liikkuessa aiheutuva y-koordinaatin muutos
      */
     public int yMuutos() {
@@ -107,6 +115,8 @@ public enum Ilmansuunta {
     }
     
     /**
+     * Palautetaan yksi, satunnainen ilmansuunta.
+     * 
      * @return satunnainen ilmansuunta
      */
     public static Ilmansuunta satunnainen() {

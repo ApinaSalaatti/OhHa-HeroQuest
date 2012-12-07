@@ -1,11 +1,8 @@
 package heroquest;
 
-import java.util.Random;
 import java.util.Collection;
 
 import heroquest.util.Tiedostoapuri;
-import heroquest.domain.Olento;
-import heroquest.domain.Monsteri;
 import heroquest.domain.Kartta;
 import heroquest.domain.Karttapala;
 import heroquest.domain.Ilmansuunta;
@@ -18,10 +15,6 @@ import heroquest.kayttoliittyma.Kayttoliittyma;
  * @author Merioksan Mikko
  */
 public class PeliController {
-    /**
-     * Satunnaisuutta tarvittaessa.
-     */
-    private Random random;
     /**
      * Pelin ja karttojen luomiseen käytettävän apuluokan olio.
      */
@@ -44,11 +37,9 @@ public class PeliController {
     private Saavutusmanageri saavutusmanageri;
     
     public PeliController(Kayttoliittyma k) {
-        this.random = new Random();
         this.kali = k;
         this.koti = new KotiController(this);
         this.tehdas = new PeliTehdas();
-        this.saavutusmanageri = new Saavutusmanageri(this);
     }
     
     /**
@@ -64,11 +55,14 @@ public class PeliController {
         this.peli = tehdas.luoPeli(nimi, luokka, kuva);
         this.koti = new KotiController(this);
         
+        this.saavutusmanageri = new Saavutusmanageri(peli);
+        
         paivitaKali("Sijaintisi:\n" + peli.getPelaajanSijainti());
         paivitaKali("Tervetuloa, urhea sankari, tähän maanmainioon seikkailuun!\n");
     }
     
     /**
+     * Palautetaan käynnissä oleva peli.
      * 
      * @return Peli-luokan olio, joka on parhaillaan käytössä.
      */
@@ -77,6 +71,8 @@ public class PeliController {
     }
     
     /**
+     * Palautetaan parhaillaan kodin toimintoja hallinnoiva kontrolleri.
+     * 
      * @return KotiController joka on parhaillaan käytössä
      */
     public KotiController getKoti() {
@@ -94,7 +90,7 @@ public class PeliController {
      * 
      * @param kartta kartan nimi, jolle pelaaja on siirtymässä. Kartta siis luodaan tämän nimisestä tiedostosta
      */
-    public void pelaajaPoistuuKotoa(String kartta) {
+    public void pelaajaPoistuuKotoa(String kartta) throws Exception {
         Kartta k = tehdas.luoLuolasto(kartta);
         peli.setKartta(k);
         peli.pelaajaPoistuuKotoa(k.getAloituspala());
@@ -125,6 +121,7 @@ public class PeliController {
     }
     
     /**
+     * Palautetaan parhaillaan kompattava luolasto.
      * 
      * @return parhaillaan käytössä oleva kartta
      */
@@ -227,6 +224,8 @@ public class PeliController {
     }
     
     /**
+     * Palautetaan pelaajan saavuttamat ja saavuttamattoma saavutukset.
+     * 
      * @return lista kaikista saavutetetuista ja saavuttamattomista saavutuksista
      */
     public Collection<Saavutus> getSaavutukset() {

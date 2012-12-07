@@ -18,7 +18,13 @@ import heroquest.domain.Karttapala;
  * @author Merioksan Mikko
  */
 public class Karttapaneeli extends JPanel {
+    /**
+     * PeliController-olio, jolta haetaan piirrettävä kartta.
+     */
     private PeliController controller;
+    /**
+     * Kaikki erilaiset kartan karttapalaikonit taulukkona.
+     */
     private ImageIcon[] laatat;
     
     public Karttapaneeli(PeliController pc) {
@@ -26,16 +32,19 @@ public class Karttapaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodan näkymän komponentit.
+     */
     private void luoKomponentit() {
         // ladataan kartan piirtämiseen vaaditut kuvat
-        ImageIcon lattiaIcon = new ImageIcon("src/kuvat/lattia.png");
-        ImageIcon seinaIcon = new ImageIcon("src/kuvat/seina.png");
-        ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon("src/kuvat/lattiaPelaajaPaikalla.png");
-        ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon("src/kuvat/lattiaMonsteriPaikalla.png");
-        ImageIcon lattiaTaisteluIcon = new ImageIcon("src/kuvat/lattiaTaistelu.png");
-        ImageIcon lattiaAarrePaikallaIcon = new ImageIcon("src/kuvat/lattiaAarrePaikalla.png");
-        ImageIcon lattiaAnsaPaikallaIcon = new ImageIcon("src/kuvat/lattiaAnsaPaikalla.png");
-        ImageIcon lattiaTavaraaPaikallaIcon = new ImageIcon("src/kuvat/lattiaTavaraaPaikalla.png");
+        ImageIcon lattiaIcon = new ImageIcon("kuvat/lattia.png");
+        ImageIcon seinaIcon = new ImageIcon("kuvat/seina.png");
+        ImageIcon lattiaPelaajaPaikallaIcon = new ImageIcon("kuvat/lattiaPelaajaPaikalla.png");
+        ImageIcon lattiaMonsteriPaikallaIcon = new ImageIcon("kuvat/lattiaMonsteriPaikalla.png");
+        ImageIcon lattiaTaisteluIcon = new ImageIcon("kuvat/lattiaTaistelu.png");
+        ImageIcon lattiaAarrePaikallaIcon = new ImageIcon("kuvat/lattiaAarrePaikalla.png");
+        ImageIcon lattiaAnsaPaikallaIcon = new ImageIcon("kuvat/lattiaAnsaPaikalla.png");
+        ImageIcon lattiaTavaraaPaikallaIcon = new ImageIcon("kuvat/lattiaTavaraaPaikalla.png");
         
         laatat = new ImageIcon[8];
         laatat[0] = seinaIcon;

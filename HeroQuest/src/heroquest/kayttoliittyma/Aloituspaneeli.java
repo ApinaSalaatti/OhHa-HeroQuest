@@ -25,8 +25,17 @@ import heroquest.util.Tiedostoapuri;
  * @author Merioksan Mikko
  */
 public class Aloituspaneeli extends JPanel {
+    /**
+     * Container jossa paneeli sijaitsee. CardLayoutin näkymän vaihtamista varten.
+     */
     private Container container;
+    /**
+     * CardLayout, joka sisältää pelin eri näkymät.
+     */
     private CardLayout nakyma;
+    /**
+     * PeliController-olio, jota kutsutaan peliä aloitettaessa.
+     */
     private PeliController controller;
     
     public Aloituspaneeli(JFrame frame, CardLayout layout, PeliController pc) {
@@ -36,11 +45,16 @@ public class Aloituspaneeli extends JPanel {
         luoKomponentit(frame);
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     * 
+     * @param frame peli-ikkunan frame-olio
+     */
     private void luoKomponentit(JFrame frame) {
         this.setLayout(new GridLayout(4, 1));
         this.setBackground(Color.WHITE);
         
-        JLabel logo = new JLabel(new ImageIcon("src/kuvat/logo.png"));
+        JLabel logo = new JLabel(new ImageIcon("kuvat/logo.png"));
         
         JButton uusiPeli = luoUusiPeliNappi(frame);
         JPanel uusiPeliPanel = new JPanel();
@@ -63,8 +77,14 @@ public class Aloituspaneeli extends JPanel {
         this.add(poistuPanel);
     }
     
+    /**
+     * Luodaan näppäin uuden pelin aloitamiseen.
+     * 
+     * @param frame pelin ikkuna
+     * @return valmis "Uusi peli"-näppäin
+     */
     public JButton luoUusiPeliNappi(final JFrame frame) {
-        JButton uusiPeli = new JButton(new ImageIcon("src/kuvat/uusiPeli.png"));
+        JButton uusiPeli = new JButton(new ImageIcon("kuvat/uusiPeli.png"));
         
         uusiPeli.addActionListener(new ActionListener() {
            @Override
@@ -85,8 +105,14 @@ public class Aloituspaneeli extends JPanel {
         return uusiPeli;
     }
     
+    /**
+     * Luodaan uusi pelin lataamisen mahdollistava nappi.
+     * 
+     * @param frame peli-ikkuna
+     * @return valmis nappi
+     */
     public JButton luoLataaPeliNappi(final JFrame frame) {
-        JButton lataaPeli = new JButton(new ImageIcon("src/kuvat/lataaPeli.png"));
+        JButton lataaPeli = new JButton(new ImageIcon("kuvat/lataaPeli.png"));
         
         lataaPeli.addActionListener(new ActionListener() {
             @Override
@@ -119,8 +145,12 @@ public class Aloituspaneeli extends JPanel {
         return lataaPeli;
     }
     
+    /**
+     * Luodaan uusi pelistä poistumis -nappi.
+     * @return valmis nappi
+     */
     public JButton luoPoistuNappi() {
-        JButton poistu = new JButton(new ImageIcon("src/kuvat/poistu.png"));
+        JButton poistu = new JButton(new ImageIcon("kuvat/poistu.png"));
         
         poistu.addActionListener(new ActionListener() {
            @Override

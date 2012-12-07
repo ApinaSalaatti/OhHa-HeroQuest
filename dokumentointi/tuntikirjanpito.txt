@@ -60,3 +60,9 @@
 
 4.12.2012: 2 tuntia
  - viimeistelyä ja muuta mukavaa
+
+6.12.2012: 2 tuntia
+ - dokumentoinnin hiomista
+
+7.12.2012: 2 tuntia
+ - lisää dokumentoinnin hiomista

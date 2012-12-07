@@ -27,6 +27,8 @@ public class Nimilista {
     private static Random random = new Random();
     
     /**
+     * Palautetaan satunnainen hauska nimi.
+     * 
      * @return satunnainen hauska nimi
      */
     public static String getHauskaNimi() {
@@ -35,6 +37,8 @@ public class Nimilista {
     }
     
     /**
+     * Palautetaan satunnainen pelottava nimi.
+     * 
      * @return satunnainen pelottava nimi
      */
     public static String getPelottavaNimi() {

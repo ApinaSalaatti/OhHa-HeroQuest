@@ -17,9 +17,21 @@ import heroquest.PeliController;
  * @author Merioksan Mikko
  */
 public class Lopetuspaneeli extends JPanel {
+    /**
+     * Kontrolleri josta haetaan pelaajan tiedot.
+     */
     private PeliController controller;
+    /**
+     * JLabel johon tulostetaan pelaajan nimi.
+     */
     private JLabel nimi;
+    /**
+     * JLabel johon tulostetaan pelaajan tapot.
+     */
     private JLabel tapot;
+    /**
+     * JLabel johon tulostetaan ystävällinen viesti.
+     */
     private JLabel heihei;
     
     public Lopetuspaneeli(PeliController controller) {
@@ -27,6 +39,9 @@ public class Lopetuspaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(3, 1));
         nimi = new JLabel();
@@ -43,6 +58,9 @@ public class Lopetuspaneeli extends JPanel {
         this.add(heihei);
     }
     
+    /**
+     * Päivitetään näkymään pelaajan tiedot.
+     */
     public void paivita() {
         nimi.setText("Nimesi oli " + controller.getPeli().getPelaaja().getNimi());
         tapot.setText("Tienasit yhteensä " + controller.getPeli().getPelaaja().getExp() + " pistettä! Wowzers!");

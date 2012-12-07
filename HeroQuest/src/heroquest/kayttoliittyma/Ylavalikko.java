@@ -34,14 +34,41 @@ public class Ylavalikko extends JMenuBar {
         luoKomponentit(frame);
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     * 
+     * @param frame JFrame, jonka yläreunaan valikko laitetaan
+     */
     private void luoKomponentit(final JFrame frame) {
         JMenu tiedostoValikko = new JMenu("Tiedosto");
         
-        JMenuItem uusiPeli = new JMenuItem("Uusi peli");
-        JMenuItem tallenna = new JMenuItem("Tallenna peli");
-        JMenuItem lataa = new JMenuItem("Lataa peli");
-        JMenuItem poistu = new JMenuItem("Poistu");
+        JMenuItem uusiPeli = luoUusiPeliValinta(frame);
+        JMenuItem tallenna = luoTallennaValinta(frame);
+        JMenuItem lataa = luoLataaValinta(frame);
+        JMenuItem poistu = luoPoistuValinta(frame);
         
+        tiedostoValikko.add(uusiPeli);
+        tiedostoValikko.add(tallenna);
+        tiedostoValikko.add(lataa);
+        tiedostoValikko.addSeparator();
+        tiedostoValikko.add(poistu);
+        this.add(tiedostoValikko);
+    }
+    
+    public JMenuItem luoPoistuValinta(final JFrame frame) {
+        JMenuItem poistu = new JMenuItem("Poistu");
+        poistu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        
+        return poistu;
+    }
+    
+    public JMenuItem luoUusiPeliValinta(final JFrame frame) {
+        JMenuItem uusiPeli = new JMenuItem("Uusi peli");
         uusiPeli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,28 +76,15 @@ public class Ylavalikko extends JMenuBar {
             }
         });
         
-        tallenna.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String tiedostonimi = (String)JOptionPane.showInputDialog(
-                    frame,
-                    "Anna tallennuksen nimi",
-                    "Tallenna peli",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    "tallennus"
-                );
-                if(controller.getPeli() != null && tiedostonimi != null && tiedostonimi.length() > 0) {
-                    controller.tallenna(tiedostonimi);
-                }
-            }
-        });
-        
+        return uusiPeli;
+    }
+    
+    public JMenuItem luoLataaValinta(final JFrame frame) {
+        JMenuItem lataa = new JMenuItem("Lataa peli");
         lataa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] tallennukset = Tiedostoapuri.kansioTauluksi("tallennukset/");
+                String[] tallennukset = Tiedostoapuri.kansioTauluksi("../tallennukset/");
                 String tiedostonimi = (String)JOptionPane.showInputDialog(
                     frame,
                     "Valitse tallennus",
@@ -92,18 +106,35 @@ public class Ylavalikko extends JMenuBar {
             }
         });
         
-        poistu.addActionListener(new ActionListener() {
+        return lataa;
+    }
+    
+    public JMenuItem luoTallennaValinta(final JFrame frame) {
+        JMenuItem tallenna = new JMenuItem("Tallenna peli");
+        tallenna.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                String tiedostonimi = (String)JOptionPane.showInputDialog(
+                    frame,
+                    "Anna tallennuksen nimi",
+                    "Tallenna peli",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "tallennus"
+                );
+                if(controller.getPeli() == null) {
+                    JOptionPane.showMessageDialog(frame, "Et ole edes aloittanut peliä vielä!");
+                }
+                else if(tiedostonimi == null || tiedostonimi.length() <= 0) {
+                    JOptionPane.showMessageDialog(frame, "Et antanut nimeä tallennukselle!");
+                }
+                else {
+                    controller.tallenna(tiedostonimi);
+                }
             }
         });
         
-        tiedostoValikko.add(uusiPeli);
-        tiedostoValikko.add(tallenna);
-        tiedostoValikko.add(lataa);
-        tiedostoValikko.addSeparator();
-        tiedostoValikko.add(poistu);
-        this.add(tiedostoValikko);
+        return tallenna;
     }
 }

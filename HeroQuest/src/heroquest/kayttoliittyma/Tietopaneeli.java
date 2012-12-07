@@ -7,13 +7,9 @@ package heroquest.kayttoliittyma;
 
 import java.awt.GridLayout;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-import heroquest.Peli;
 import heroquest.PeliController;
-import heroquest.domain.Pelaaja;
-import javax.swing.JOptionPane;
 /**
  * Komponentti, jolla pelaajan tiedot ja kontrollinapit sijaitsevat.
  * 
@@ -33,6 +29,9 @@ public class Tietopaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(2, 1));
         tapahtumat.setEditable(false);
@@ -48,7 +47,11 @@ public class Tietopaneeli extends JPanel {
         this.add(tapahtumat);
     }
     
-    // päivittää kaikki käyttöliittymän näyttämät tiedot (pelaajan statuksen, tapahtumat-feedin ja nappulat)
+    /**
+     * päivittää kaikki käyttöliittymän näyttämät tiedot (pelaajan statuksen, tapahtumat-feedin ja nappulat)
+     * 
+     * @param tapahtuma viimeisimmät pelitapahtumat
+     */
     public void paivitaTiedot(String tapahtuma) {
         // päivitetään pelaajan status
         nimiJaLuokka.setText(controller.pelaajanStatus());
@@ -60,7 +63,11 @@ public class Tietopaneeli extends JPanel {
         nappiPanel.paivita(controller.getTila());
     }
     
-    // päivitetään tapahtumat-feediä. Uusin tapahtuma tulee alkuun
+    /**
+     * Päivitetään tapahtumat-feediä. Uusin tapahtuma tulee alkuun.
+     * 
+     * @param tapahtuma viimeisimmät tapahtumat
+     */
     public void paivitaTapahtumat(String tapahtuma) {
         String vanha = tapahtumat.getText();
         tapahtumat.setText(tapahtuma);

@@ -14,7 +14,7 @@ import heroquest.PeliController;
 
 /**
  * Luokka joka kuvaa yhden palan kartasta.
- * Yhdellä karttapalalla voi sijaita yksi aarre, yksi pelaaja ja yksi monsteri kerrallaan.
+ * Yhdellä karttapalalla voi sijaita tavaroita, yksi pelaaja ja yksi monsteri kerrallaan.
  * Karttapalalla on x- ja y-koordinaatit, sekä tiedot sen naapuripaloista. Tietyn karttapalan voi siis löytää joko koordinaattien tai naapureiden avulla.
  * 
  * @author Merioksan Mikko
@@ -68,12 +68,16 @@ public class Karttapala {
         this.y = y;
     }
     /**
+     * Palautetaan kartan x-koordinaatti.
+     * 
      * @return palan x-koordinaatti
      */
     public int getX() {
         return x;
     }
     /**
+     * Palautetaan kartan y-koordinaatti.
+     * 
      * @return kartan y-koordinaatti
      */
     public int getY() {
@@ -108,13 +112,15 @@ public class Karttapala {
         tavarat.add(t);
     }
     /**
+     * Palautetaan lista Karttapalan tavaroista. Tavaroita ei poisteta.
+     * 
      * @return Karttapalassa majailevat tavarat
      */
     public List<Tavara> getTavarat() {
         return tavarat;
     }
     /**
-     * Metodi joka poistuu aarteen ruudusta, esim. pelaajan poimiessa sen.
+     * Metodi joka poistuu tavarat ruudusta, esim. pelaajan poimiessa sen.
      */
     public List<Tavara> poimiTavarat() {
         List<Tavara> lista = new ArrayList<Tavara>();
@@ -140,6 +146,8 @@ public class Karttapala {
         pelaajaPaikalla = false;
     }
     /**
+     * Palautetaan tieto siitä, onko pelaaja paikalla.
+     * 
      * @return tieto siitä, onko pelaaja juuri kyseisessä ruudussa
      */
     public boolean pelaajaPaikalla() {
@@ -161,12 +169,16 @@ public class Karttapala {
         monsteri = null;
     }
     /**
+     * Palautetaan tieto siitä, onko ruudussa Monsteria.
+     * 
      * @return tieto siitä, onko ruudussa monsteria
      */
     public boolean monsteriPaikalla() {
         return monsteri != null;
     }
     /**
+     * Palautetaan palassa majaileva Monsteri.
+     * 
      * @return palassa majaileva monsteri
      */
     public Monsteri getMonsteri() {
@@ -181,12 +193,20 @@ public class Karttapala {
     public void viritaAnsa(Ansa a) {
         ansa = a;
     }
+    /**
+     * Laukaistaan ruudussa oleva ansa annetun Olennon naamalle.
+     * 
+     * @param o ansan laukaiseva olento
+     * @return ansan palauttama viesti
+     */
     public String laukaiseAnsa(Olento o) {
         String viesti = ansa.laukea(o);
         ansa = null;
         return viesti;
     }
     /** 
+     * Palautetaan tieto siitä, onko pelaaja nähnyt ruudussa sijaitsevan ansan.
+     * 
      * @return tieto siitä, onko pelaaja löytänyt ansan
      */
     public boolean ansaHavaittu() {
@@ -199,6 +219,8 @@ public class Karttapala {
         ansa.paljastu();
     }
     /**
+     * Palautetaan tieto siitä, onko ruudussa ansaa.
+     * 
      * @return tieto siitä, onko ruudussa ansa
      */
     public boolean ansaPaikalla() {
@@ -206,12 +228,16 @@ public class Karttapala {
     }
     
     /**
-     * @return tieto siitä, onko ruudussa tavaroita (mutta ei aarretta)
+     * Palautetaan tieto siitä, onko ruudussa tavaroita
+     * 
+     * @return tieto siitä, onko ruudussa tavaroita
      */
     public boolean tavaraaPaikalla() {
         return !tavarat.isEmpty();
     }
     /**
+     * Palautetaan tieto siitä, onko ruudussa aarre.
+     * z
      * @return tieto siitä, onko ruudussa aarre
      */
     public boolean aarrePaikalla() {

@@ -128,7 +128,8 @@ public class PeliTest {
     @Test
     public void tavaroidenPoiminta() {
         peli.getKartta().getAloituspala().addTavara(new Tavara("arvokasaarre.hqt"));
-        assertTrue(peli.tavaroidenPoiminta());
+        peli.tavaroidenPoiminta();
+        assertTrue(peli.getPelaaja().getInventaario().getTavarat().size() > 0);
     }
     
     @Test

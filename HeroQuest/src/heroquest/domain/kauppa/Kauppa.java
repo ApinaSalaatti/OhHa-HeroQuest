@@ -1,15 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package heroquest.domain.kauppa;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import heroquest.domain.Pelaaja;
-import heroquest.domain.kauppa.Tavara;
 import heroquest.domain.Inventaario;
 
 /**

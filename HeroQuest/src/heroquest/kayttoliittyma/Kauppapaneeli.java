@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package heroquest.kayttoliittyma;
 
@@ -27,7 +23,13 @@ import heroquest.KotiController;
  * @author Merioksan Mikko
  */
 public class Kauppapaneeli extends JPanel {
+    /**
+     * Kontrolleri, jolta haetaan kaupan tavarat.
+     */
     private PeliController controller;
+    /**
+     * JList jossa kaupan tavarat näytetään.
+     */
     private JList kaupanTavarat;
     
     public Kauppapaneeli(PeliController pc) {
@@ -35,6 +37,9 @@ public class Kauppapaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new BorderLayout());
         
@@ -57,6 +62,9 @@ public class Kauppapaneeli extends JPanel {
         this.add(ostamisnappi, BorderLayout.SOUTH);
     }
     
+    /**
+     * Päivitetään kaupan tavarat.
+     */
     public void paivita() {
         KotiController koti = controller.getKoti();
         List<MyyntiTavara> tavarat = koti.getKaupanTavarat();

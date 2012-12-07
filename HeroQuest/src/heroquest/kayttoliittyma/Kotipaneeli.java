@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -23,10 +24,25 @@ import heroquest.util.Tiedostoapuri;
  * @author Merioksan Mikko
  */
 public class Kotipaneeli extends JPanel {
+    /**
+     * PeliController, jota tarvitaan esim saavutusten ja kaupan tavaroiden päivittämiseen.
+     */
     private PeliController controller;
+    /**
+     * Kotona sijaitsevan kaupan käyttöliittymä.
+     */
     private Kauppapaneeli kauppaPanel;
+    /**
+     * Lista josta valitaan luolasto.
+     */
     private JComboBox kartat;
+    /**
+     * Paneeli jolla näytetään pelaajan kuva.
+     */
     private JPanel pelaajanKuva;
+    /**
+     * Paneeli joka näyttää pelaajan saavutukset.
+     */
     private Saavutuspaneeli saavutukset;
     
     public Kotipaneeli(PeliController pc) {
@@ -34,6 +50,9 @@ public class Kotipaneeli extends JPanel {
         luoKomponentit();
     }
     
+    /**
+     * Luodaan näkymän komponentit.
+     */
     private void luoKomponentit() {
         this.setLayout(new GridLayout(3, 1));
         JPanel ylapuoli = new JPanel(new GridLayout(1, 2));
@@ -48,16 +67,9 @@ public class Kotipaneeli extends JPanel {
        
         
         JPanel karttaPanel = new JPanel();
-        JButton kartanvalintanappi = new JButton("Syöksy seikkailuun!");
+        JButton kartanvalintanappi = luoKartanvalintanappi();
         
-        kartanvalintanappi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.pelaajaPoistuuKotoa(kartat.getSelectedItem().toString());
-            }
-        });
-        
-        kartat = new JComboBox(Tiedostoapuri.kansioTauluksi("src/kartat"));
+        kartat = new JComboBox(Tiedostoapuri.kansioTauluksi("kartat"));
         karttaPanel.add(new JLabel("Valitse luolasto:"));
         karttaPanel.add(kartat);
         karttaPanel.add(kartanvalintanappi);
@@ -66,9 +78,35 @@ public class Kotipaneeli extends JPanel {
         this.add(karttaPanel);
     }
     
+    /**
+     * Luodaan nappi kartan valintaa varten.
+     * 
+     * @return valmis nappi
+     */
+    public JButton luoKartanvalintanappi() {
+        JButton kartanvalintanappi = new JButton("Syöksy seikkailuun!");
+        
+        kartanvalintanappi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.pelaajaPoistuuKotoa(kartat.getSelectedItem().toString());
+                }
+                catch(Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Karttatiedoston lukeminen epäonnistui! Oletkohan sorkkinut sitä?");
+                }
+            }
+        });
+        
+        return kartanvalintanappi;
+    }
+    
+    /**
+     * Päivitetään näkymä, eli tarkastetaan tuleeko pelaajan kuvaa muuttaa ja päivitetään saavutukset ja kauppa.
+     */
     public void paivita() {
         pelaajanKuva.removeAll();
-        pelaajanKuva.add(new JLabel(new ImageIcon("src/kuvat/naamat/" + controller.getPeli().getPelaaja().getKuva())));
+        pelaajanKuva.add(new JLabel(new ImageIcon("kuvat/naamat/" + controller.getPeli().getPelaaja().getKuva())));
         kauppaPanel.paivita();
         saavutukset.paivita();
     }

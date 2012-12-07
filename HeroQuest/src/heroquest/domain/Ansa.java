@@ -12,7 +12,7 @@ import heroquest.PeliController;
  */
 public class Ansa {
     /**
-     * Ansan nimi/tyyppi
+     * Ansan nimi
      */
     private String nimi;
     /**
@@ -30,7 +30,15 @@ public class Ansa {
     
     public Ansa(String n, int v, String viesti) {
         this.nimi = n;
-        this.vahinko = v;
+        
+        // vahingon täytyy olla vähintään 1
+        if(v <= 0) {
+            this.vahinko = 1;
+        }
+        else {
+            this.vahinko = v;
+        }
+        
         this.viesti = viesti;
         havaittu = false;
     }
